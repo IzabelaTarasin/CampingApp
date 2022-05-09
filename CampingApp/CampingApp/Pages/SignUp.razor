@@ -1,7 +1,10 @@
 ﻿@page "/signup"
+@*
 @using Service
 @inject IUserService CustomUserService;
+*@
 
+<PageTitle>@title</PageTitle>
 <h3>Component1</h3>
 
 <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
@@ -11,6 +14,8 @@
 </EditForm>
 
 @code {
+    private string title = "CampApp Sign Up";
+
     private InputModel inputmodel = new InputModel();
 
     private class InputModel
@@ -22,7 +27,7 @@
     private async Task HandleValidSubmit()
     {
 
-        await CustomUserService.SaveAsync(inputmodel.Email, inputmodel.Password);
+        //await CustomUserService.SaveAsync(inputmodel.Email, inputmodel.Password);
     }
 
 }
