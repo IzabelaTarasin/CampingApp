@@ -5,16 +5,18 @@
 *@
 
 <PageTitle>@title</PageTitle>
-<h3>Component1</h3>
+<div class="text-center container">
+    <h3>Zarejestruj konto</h3>
 
-<EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-    <InputText id="emal" @bind-Value="inputmodel.Email" />
-    <InputText id="password" @bind-Value="inputmodel.Password" />
-    <button type="submit">Submit</button>
-</EditForm>
+    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+        <InputText id="emal" @bind-Value="inputmodel.Email" />
+        <InputText id="password" @bind-Value="inputmodel.Password" />
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
 
 @code {
-    private string title = "CampApp Sign Up";
+    private string title = "CampApp - be wild";
 
     private InputModel inputmodel = new InputModel();
 

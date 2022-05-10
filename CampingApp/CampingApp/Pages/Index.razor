@@ -1,10 +1,46 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>CampApp - be wild</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="text-center container">
+    <h1>Rozpocznij przygodę</h1>
+    <br />
+    <form>
+        <input type="text" placeholder="Dokąd się wybierasz?" />
+        <br />
+        <br />
+        <label for="dateFrom">Data od</label>
+        <br />
+        <input type="dateFrom" />
+        <br />
+        <label for="dateTo">Data do</label>
+        <br />
+        <input type="dateTo" />
+        <br />
+        <label for="personsSelect">Liczba osób</label>
+        <br />
+        <select id="personsSelect">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <br />
+        <button class="btn btn-primary mt-1" type="submit">Szukaj</button>
+    </form>
+</div>
 
-Welcome to your new app.
+@code {
+    private string title = "CampApp - be wild";
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+}
