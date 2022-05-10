@@ -22,16 +22,48 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGFzaGJvYXJkLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmV0Y2hEYXRhLnJhem9y
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Detail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGV0YWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Funds.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRnVuZHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/NewObject.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTmV3T2JqZWN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Offers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT2ZmZXJzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Reservation.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Reservations.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXRpb25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/SignIn.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2lnbkluLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/SignUp.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2lnblVwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Pages/Users.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/Shared/SurveyPrompt.razor]

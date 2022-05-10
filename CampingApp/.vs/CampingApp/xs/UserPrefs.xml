@@ -1,4 +1,51 @@
 ﻿<Properties StartupConfiguration="{94F1E325-6FB0-4CC5-9442-72B173AA4584}|Default">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.CampingApp PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CampingApp/Program.cs">
+    <Files>
+      <File FileName="CampingApp/Pages/SignUp.razor" Line="5" Column="1" />
+      <File FileName="CampingApp/Pages/SignIn.razor" Line="10" Column="1" />
+      <File FileName="CampingApp/Shared/NavMenu.razor" Line="23" Column="54" />
+      <File FileName="CampingApp/Data/User.cs" Line="9" Column="2" />
+      <File FileName="CampingApp/Data/Status.cs" Line="7" Column="41" />
+      <File FileName="CampingApp/Data/Place.cs" Line="16" Column="1" />
+      <File FileName="CampingApp/Data/Comment.cs" Line="13" Column="51" />
+      <File FileName="CampingApp/Data/Booking.cs" Line="12" Column="45" />
+      <File FileName="CampingApp/Data/Address.cs" Line="12" Column="44" />
+      <File FileName="CampingApp/App.razor" Line="13" Column="1" />
+      <File FileName="CampingApp/Properties/launchSettings.json" Line="2" Column="19" />
+      <File FileName="CampingApp/wwwroot/css/app.css" Line="1" Column="1" />
+      <File FileName="CampingApp/_Imports.razor" Line="1" Column="1" />
+      <File FileName="CampingApp/Program.cs" Line="18" Column="5" />
+      <File FileName="CampingApp/Data/ApplicationDbContext.cs" Line="9" Column="14" />
+      <File FileName="CampingApp/Data/CustomAuthenticationStateProvider.cs" Line="22" Column="1" />
+      <File FileName="CampingApp/Pages/FetchData.razor" Line="13" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CampingApp" expanded="True">
+            <Node name="CampingApp" expanded="True">
+              <Node name="Data" expanded="True" />
+              <Node name="Pages" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Shared" expanded="True" />
+              <Node name="wwwroot" expanded="True">
+                <Node name="css" expanded="True" />
+                <Node name="sample-data" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.CampingApp FirstBuild="True" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

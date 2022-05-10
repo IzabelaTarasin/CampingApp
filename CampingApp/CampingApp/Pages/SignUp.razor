@@ -1,0 +1,37 @@
+﻿@page "/signup"
+@*
+@using Service
+@inject IUserService CustomUserService;
+*@
+
+<PageTitle>@title</PageTitle>
+<div class="text-center container">
+    <h3>Zarejestruj konto</h3>
+
+    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+        <InputText id="emal" @bind-Value="inputmodel.Email" />
+        <InputText id="password" @bind-Value="inputmodel.Password" />
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    private string title = "CampApp - be wild";
+
+    private InputModel inputmodel = new InputModel();
+
+    private class InputModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+
+        //await CustomUserService.SaveAsync(inputmodel.Email, inputmodel.Password);
+    }
+
+}
+
+

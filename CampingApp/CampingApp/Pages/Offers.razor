@@ -1,0 +1,60 @@
+﻿@page "/offers"
+@using CampingApp.Domain;
+
+<PageTitle>@title</PageTitle>
+
+<div class="text-center container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nazwa
+                </th>
+                <th>
+                    Opis
+                </th>
+                <th>
+                    Cena za dobę
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var place in Places)
+            {
+                <tr>
+                    <td>
+                        @place.Name
+                    </td>
+                    <td>
+                        @place.Description
+                    </td>
+                    <td>
+                        @place.PricePerDay
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+@code {
+    private string title = "CampApp - be wild";
+
+    List<PlaceModel> Places = new List<PlaceModel>
+    {
+        new PlaceModel
+        {
+            Name = "Aro's areas",
+            Description = "cold and cool",
+            PricePerDay = 123.0
+        },
+        new PlaceModel
+        {
+            Name = "Iza's areas",
+            Description = "beautiful and colorful",
+            PricePerDay = 999.0
+        }
+    };
+
+}
+
