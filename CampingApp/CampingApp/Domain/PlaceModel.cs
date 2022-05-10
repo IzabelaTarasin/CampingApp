@@ -1,11 +1,11 @@
 ﻿using System;
-namespace CampingApp.Data
+namespace CampingApp.Domain
 {
-	public class Place
+	public class PlaceModel
 	{
 		public int Id { get; set; }
-        public User User { get; set; }
-        public Address Address { get; set; }
+		public UserModel UserModel { get; set; }
+		public AddressModel AddressModel { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string ImagePath { get; set; }
