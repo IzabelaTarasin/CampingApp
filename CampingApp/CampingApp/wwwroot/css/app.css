@@ -114,16 +114,15 @@ a, .btn-link {
 }
 
 .search-area {
-    margin: 200px 30px 200px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: rgb(255, 255, 255);
     color: rgba(0, 0, 0, 0.87);
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
     border-radius: 12px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
 .background-home {
@@ -138,6 +137,10 @@ a, .btn-link {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding-top: 350px;
+    padding-bottom: 350px;
+    padding-left: 250px;
+    padding-right: 250px;
 }
 
 .css-tzsjye { /*//dev dla elementu wyszkiwania*/
@@ -154,4 +157,13 @@ a, .btn-link {
 
 .inline-own {
     display: inline;
+}
+
+.space-own {
+    margin: 20px;
+}
+
+.title-home {
+    font-size: 3.75rem;
+    font-weight: 650;
 }
