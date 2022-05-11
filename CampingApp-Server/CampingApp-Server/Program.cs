@@ -1,7 +1,24 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
+using CampingApp_Server.Services;
+using CampingApp_Server.Database;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(defaultConnection));
+
+//potrzebne do ssetupu usera z rola
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 
 // Add services to the container.
-
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<IUserService, UserService>(); //mowi o tym ze do systemu zaleznosci zbudowanego przez micros. za kazdym razem gdy jest obiekt ktory korzysta z iuserservice to zostanie utworzony obiekt userservice
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -21,6 +38,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 
