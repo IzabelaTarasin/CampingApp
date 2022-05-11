@@ -1,16 +1,64 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <div>
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    Camping App
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="signup">
+                    Sign Up
+                </NavLink>
+            </div>
+                <NavLink class="nav-link" href="signin">
+                    Sign In
+                </NavLink>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="dashboard">
+                    Dashboard
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="detail">
+                    Detail
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="funds">
+                    Funds
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="newobject">
+                    New object
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="reservation">
+                    Reservation
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="reservations">
+                    Reservations
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="users">
+                    Users
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="offers">
+                    Offers
+                </NavLink>
+            </div>
         </div>
-
-        <article class="content px-4">
+        
+        <article class="content">
             @Body
         </article>
     </main>

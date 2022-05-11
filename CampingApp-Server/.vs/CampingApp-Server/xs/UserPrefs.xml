@@ -1,4 +1,33 @@
 ﻿<Properties StartupConfiguration="{42837DA4-0F76-4A93-AC1F-5440531960B9}|Default">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="CampingApp-Server/Controllers/WeatherForecastController.cs">
+    <Files>
+      <File FileName="CampingApp-Server/Program.cs" Line="1" Column="1" />
+      <File FileName="CampingApp-Server/Controllers/WeatherForecastController.cs" Line="23" Column="6" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CampingApp-Server" expanded="True">
+            <Node name="CampingApp-Server" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="WeatherForecastController.cs" selected="True" />
+              </Node>
+              <Node name="Properties" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.CampingApp-Server FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.CampingApp-Server PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

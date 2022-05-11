@@ -29,12 +29,15 @@
             {
                 var imagePath = "/images/camping.jpeg";
 
-                <div class="col-4 mb-5">
-                    <a class="pizza-img" asp-area="" asp-page="Detail">
-                        <img src="@imagePath" class="w-100" asp-append-version="true" />
-                    </a>
-                    <br />
-                </div>
+        <div class="col-4 mb-5">
+            <a class="pizza-img" asp-area="" asp-page="Detail">
+                <img src="@imagePath" class="w-100" asp-append-version="true" />
+            </a>
+            <br />
+            <p class="nameText">@place.Name</p>
+            <p class="smallTextOwn">@place.Description</p>
+            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+        </div>
             }
         </div>
     </div>
@@ -49,38 +52,49 @@
         new PlaceModel
         {
             Id = 1,
-            Name = "20/05/2022",
-            Description = "25/05/2022"
+            Name = "Zielony zakątek",
+            Description = "Woj. pomorskie",
+            PricePerDay = 123.00
         },
         new PlaceModel
         {
             Id = 2,
-            Name = "14/06/2022",
-            Description = "18/06/2022"
+            Name = "Gaj u Wacława",
+            Description = "Woj. małopolskie",
+            PricePerDay = 123.00
+
         },
         new PlaceModel
         {
             Id = 1,
-            Name = "20/05/2022",
-            Description = "25/05/2022"
+            Name = "Biedroneczka",
+            Description = "Woj. mazowieckie",
+            PricePerDay = 70.00
+
         },
         new PlaceModel
         {
             Id = 2,
-            Name = "14/06/2022",
-            Description = "18/06/2022"
+            Name = "Błękitna laguna",
+            Description = "Woj. śląskie",
+            PricePerDay = 98.00
+
         },
         new PlaceModel
         {
             Id = 1,
-            Name = "20/05/2022",
-            Description = "25/05/2022"
+            Name = "Agrourystyka u Krysi",
+            Description = "Woj. pomorske",
+            PricePerDay = 345.00
+
         },
         new PlaceModel
         {
             Id = 2,
-            Name = "14/06/2022",
-            Description = "18/06/2022"
+            Name = "Za ciupagą",
+            Description = "Woj. podkarpackie",
+            PricePerDay = 13.00
+
         }
     };
 
