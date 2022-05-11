@@ -3,40 +3,47 @@
 
 <PageTitle>@title</PageTitle>
 
-<div class="text-center container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Nazwa
-                </th>
-                <th>
-                    Opis
-                </th>
-                <th>
-                    Cena za dobę
-                </th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="text-center">
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Wybierz mejsce na swoją przygodę</h1>
+        <h4>Bądź bliżej natury</h4>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5 mt-5">
+                <div class="w-100 row makeYourOwnDiv">
+                    <div class="col-4">
+                        <img src="/images/camping.jpeg" class="w-100" />
+                    </div>
+                    <div class="col-8 alig-items-center">
+                        <div class="align-middle makeYourOwnText">
+                            <h3 style="text-align:left;">Stwórz własne wspomnienia</h3>
+                            <p style="text-align: left;">Wybierz, potwierdź i ciesz się przygodą</p>
+                            <a class="btn btn-primary" style="float: left" asp-area="" asp-page="Detail">Podgląd random pola</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @foreach (var place in Places)
             {
-                <tr>
-                    <td>
-                        @place.Name
-                    </td>
-                    <td>
-                        @place.Description
-                    </td>
-                    <td>
-                        @place.PricePerDay
-                    </td>
-                </tr>
-            }
-        </tbody>
+                var imagePath = "/images/camping.jpeg";
 
-    </table>
+                <div class="col-4 mb-5">
+                    <a class="pizza-img" asp-area="" asp-page="Detail">
+                        <img src="@imagePath" class="w-100" asp-append-version="true" />
+                    </a>
+                    <br />
+                    <p class="nameText">@place.Name</p>
+                    <p class="smallTextOwn">@place.Description</p>
+                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+
 @code {
     private string title = "CampApp - be wild";
 
@@ -44,17 +51,53 @@
     {
         new PlaceModel
         {
-            Name = "Aro's areas",
-            Description = "cold and cool",
-            PricePerDay = 123.0
+            Id = 1,
+            Name = "Zielony zakątek",
+            Description = "Woj. pomorskie",
+            PricePerDay = 123.00
         },
         new PlaceModel
         {
-            Name = "Iza's areas",
-            Description = "beautiful and colorful",
-            PricePerDay = 999.0
+            Id = 2,
+            Name = "Gaj u Wacława",
+            Description = "Woj. małopolskie",
+            PricePerDay = 123.00
+
+        },
+        new PlaceModel
+        {
+            Id = 1,
+            Name = "Biedroneczka",
+            Description = "Woj. mazowieckie",
+            PricePerDay = 70.00
+
+        },
+        new PlaceModel
+        {
+            Id = 2,
+            Name = "Błękitna laguna",
+            Description = "Woj. śląskie",
+            PricePerDay = 98.00
+
+        },
+        new PlaceModel
+        {
+            Id = 1,
+            Name = "Agrourystyka u Krysi",
+            Description = "Woj. pomorske",
+            PricePerDay = 345.00
+
+        },
+        new PlaceModel
+        {
+            Id = 2,
+            Name = "Za ciupagą",
+            Description = "Woj. podkarpackie",
+            PricePerDay = 13.00
+
         }
     };
+
 
 }
 

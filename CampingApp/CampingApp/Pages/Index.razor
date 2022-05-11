@@ -1,41 +1,60 @@
 ﻿@page "/"
+@using CampingApp.Domain;
 
 <PageTitle>CampApp - be wild</PageTitle>
 
-<div class="text-center container">
-    <h1>Rozpocznij przygodę</h1>
-    <br />
-    <form>
-        <input type="text" placeholder="Dokąd się wybierasz?" />
-        <br />
-        <br />
-        <label for="dateFrom">Data od</label>
-        <br />
-        <input type="dateFrom" />
-        <br />
-        <label for="dateTo">Data do</label>
-        <br />
-        <input type="dateTo" />
-        <br />
-        <label for="personsSelect">Liczba osób</label>
-        <br />
-        <select id="personsSelect">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-        <br />
-        <button class="btn btn-primary mt-1" type="submit">Szukaj</button>
-    </form>
-</div>
+<div class="text-center">
+    <div class="background-home">
+        <p class="title-home">Rozpocznij przygodę</p>
+        <div class="search-area">
+            <form>
+                <input type="text" placeholder="Dokąd się wybierasz?" />
+                <label for="dateFrom">Data od</label>
+                <input type="date" />
+                <label for="dateTo">Data do</label>
+                <input type="date" />
+                <label for="personsSelect">Liczba osób</label>
+                <select id="personsSelect">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <button class="btn btn-primary mt-1" type="submit">Szukaj</button>
+            </form>
+        </div>
+    </div>
+    <div class="space-own">
+        <p>Sprawdź oferty</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            @foreach (var place in Places)
+            {
+                var imagePath = "/images/tent.jpeg";
 
+                <div class="col-4 mb-5">
+                    <a class="pizza-img" asp-area="" asp-page="Detail">
+                        <img src="@imagePath" class="w-100" asp-append-version="true" />
+                    </a>
+                    <br />
+                    <p class="nameText">@place.Name</p>
+                    <p class="smallTextOwn">@place.Description</p>
+                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                </div>
+            }
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+</div>
 @code {
     private string title = "CampApp - be wild";
 
@@ -43,4 +62,31 @@
     {
         return base.OnInitializedAsync();
     }
+
+    List<PlaceModel> Places = new List<PlaceModel>
+    {
+        new PlaceModel
+        {
+            Id = 1,
+            Name = "Zielony zakątek",
+            Description = "Woj. pomorskie",
+            PricePerDay = 123.00
+        },
+        new PlaceModel
+        {
+            Id = 2,
+            Name = "Gaj u Wacława",
+            Description = "Woj. małopolskie",
+            PricePerDay = 123.00
+
+        },
+        new PlaceModel
+        {
+            Id = 1,
+            Name = "Biedroneczka",
+            Description = "Woj. mazowieckie",
+            PricePerDay = 70.00
+
+        }
+     };
 }
