@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "z2sCgtGt4TpXqT6gGU7DLp993XejJZD0F2Uf+JPlm+Yaq45PXzdPVFnfzlD58nKKJsGlOmisLa++6yc3PuzGWQ==",
+  "dgSpecHash": "FnZ6h12Khyo7dZftQ8365ytGb/TGGHXStSCHs1MtId3Eyhw726dpYtDuuRo6jKm0bhXxBwaJVhoWJdJAWPEqZw==",
   "success": true,
   "projectFilePath": "/Users/izabelatarasin/Projects/CampingApp/CampingApp/CampingApp/CampingApp.csproj",
   "expectedPackageFiles": [
@@ -16,9 +16,9 @@
     "/Users/izabelatarasin/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/6.0.4/microsoft.aspnetcore.cryptography.keyderivation.6.0.4.nupkg.sha512",
     "/Users/izabelatarasin/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/6.0.4/microsoft.aspnetcore.identity.entityframeworkcore.6.0.4.nupkg.sha512",
     "/Users/izabelatarasin/.nuget/packages/microsoft.aspnetcore.metadata/6.0.4/microsoft.aspnetcore.metadata.6.0.4.nupkg.sha512",
-    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore/6.0.4/microsoft.entityframeworkcore.6.0.4.nupkg.sha512",
-    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.4/microsoft.entityframeworkcore.abstractions.6.0.4.nupkg.sha512",
-    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore.analyzers/6.0.4/microsoft.entityframeworkcore.analyzers.6.0.4.nupkg.sha512",
+    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore/6.0.5/microsoft.entityframeworkcore.6.0.5.nupkg.sha512",
+    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.5/microsoft.entityframeworkcore.abstractions.6.0.5.nupkg.sha512",
+    "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore.analyzers/6.0.5/microsoft.entityframeworkcore.analyzers.6.0.5.nupkg.sha512",
     "/Users/izabelatarasin/.nuget/packages/microsoft.entityframeworkcore.relational/6.0.4/microsoft.entityframeworkcore.relational.6.0.4.nupkg.sha512",
     "/Users/izabelatarasin/.nuget/packages/microsoft.extensions.caching.abstractions/6.0.0/microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "/Users/izabelatarasin/.nuget/packages/microsoft.extensions.caching.memory/6.0.1/microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
