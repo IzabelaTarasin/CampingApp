@@ -9,19 +9,6 @@ namespace CampingApp.Services
 		public Task<bool> CreateUser(string email, string password);
 	}
 
-	//klasa ktora bedze sluzyc do pzresyłania danych w ciele POST metoda CreateUser, DTO DataTransferObject
-	public class CreateUserDTO
-	{
-		public string Email { get;}
-		public string Password { get;}
-
-		public CreateUserDTO(string email, string password)
-        {
-			Email = email;
-			Password = password;
-        }
-	}
-
 	public class UserService : IUserService
 	{
 		//dependency injection for httpclient from program.cs (dobra praktyka aby byly prywatne, czyli deklaracja zmiennej pod jaka bedzie przechpwywane i wstrzykniecie obektu jako parametr konsruktor a przypisane w konstruktorze do zmiennje
@@ -38,8 +25,6 @@ namespace CampingApp.Services
             //.AllowAnyHeader());
 
 		{
-			//CreateUserDTO createUserDTO = new CreateUserDTO(email, password);
-
 			//tworzymy slownik
 			var data = new Dictionary<string, string>
 			{
