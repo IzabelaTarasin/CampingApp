@@ -1,8 +1,6 @@
 ﻿@page "/signup"
-@*
-@using Service
+@using CampingApp.Services;
 @inject IUserService CustomUserService;
-*@
 
 <PageTitle>@title</PageTitle>
 <div class="text-center container">
@@ -29,7 +27,7 @@
     private async Task HandleValidSubmit()
     {
 
-        //await CustomUserService.SaveAsync(inputmodel.Email, inputmodel.Password);
+        await CustomUserService.CreateUser(inputmodel.Email, inputmodel.Password);
     }
 
 }

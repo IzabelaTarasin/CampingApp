@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using App_Camping.Data;
-using CampingApp.Data;
+using CampingApp.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -14,8 +14,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(
     sp => new HttpClient {
-        BaseAddress = new Uri("https://localhost:3001")
+        BaseAddress = new Uri("https://localhost:7026")
     });
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 await builder.Build().RunAsync();
 

@@ -14,7 +14,7 @@ namespace CampingApp_Server.Services
 	{
 		private UserManager<User> _userManager;
 
-		public UserService(UserManager<User> userManager)
+		public UserService(UserManager<User> userManager) //dependency - wstrzykiwany do konstruktora.
 		{
 			_userManager = userManager;
 		}
