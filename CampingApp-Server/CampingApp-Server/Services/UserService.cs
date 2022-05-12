@@ -7,7 +7,7 @@ namespace CampingApp_Server.Services
 	public interface IUserService
     {
 		public Task<bool> CreateUser(string email, string password);
-
+		public Task<User> GetUserByName(string name);
 	}
 
 	public class UserService : IUserService
@@ -35,7 +35,20 @@ namespace CampingApp_Server.Services
 
 			return false;
         }
+
+		public async Task<User> GetUserByName(string name) //bo name to email ktory jest unkalny wiec mozna szukac po name
+        {
+			User user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+				return null;
+			}
+
+			return user;
+		}
 	}
+
+	
 }
 //teraz dependencynjectons:
 //pamietac aby dodac do program.cs -> builder.Services.AddScoped<IUserService, UserService>();
