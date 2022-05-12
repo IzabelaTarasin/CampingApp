@@ -22,11 +22,13 @@
     <None Remove="Microsoft.AspNetCore.Components.Authorization" />
     <None Remove="Domain\" />
     <None Remove="Microsoft.EntityFrameworkCore" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Domain\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
