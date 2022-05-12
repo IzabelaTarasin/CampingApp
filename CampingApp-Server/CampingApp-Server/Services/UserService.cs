@@ -28,13 +28,22 @@ namespace CampingApp_Server.Services
 
 			var result = await _userManager.CreateAsync(user, password); //nastepuje tworzenie uzytkownika
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-				return true;
+				return false;
             }
 
-			return false;
-        }
+			//przypanie roli
+			var resultRole = await _userManager.AddToRoleAsync(user, "standard");
+
+			if (!resultRole.Succeeded)
+			{
+				return false;
+			}
+
+			return true;
+
+		}
 
 		public async Task<User> GetUserByName(string name) //bo name to email ktory jest unkalny wiec mozna szukac po name
         {

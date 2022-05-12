@@ -44,6 +44,13 @@ namespace CampingApp_Server.Database
 					Name = "Standard",
 					ConcurrencyStamp = "2",
 					NormalizedName = "STANDARD"
+				},
+				new IdentityRole
+				{
+					Id = "3",
+					Name = "Business",
+					ConcurrencyStamp = "3",
+					NormalizedName = "BUSINESS"
 				});
 
 		}
