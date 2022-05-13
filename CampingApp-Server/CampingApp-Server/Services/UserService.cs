@@ -8,6 +8,7 @@ namespace CampingApp_Server.Services
     {
 		public Task<bool> CreateUser(string email, string password);
 		public Task<User> GetUserByName(string name);
+		public Task<string> SignIn(string email, string password);
 	}
 
 	public class UserService : IUserService
@@ -54,6 +55,18 @@ namespace CampingApp_Server.Services
 			}
 
 			return user;
+		}
+
+		public async Task<string> SignIn(string email, string password)
+        {
+			//ma zwracac imie uzytkownika
+			User user = await _userManager.FindByNameAsync(email);
+			if (user == null)
+			{
+				return null;
+			}
+
+			return user.Email;
 		}
 	}
 

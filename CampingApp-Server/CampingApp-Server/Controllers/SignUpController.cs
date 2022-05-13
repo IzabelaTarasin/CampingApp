@@ -2,8 +2,6 @@
 using CampingApp_Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 namespace CampingApp_Server.Controllers
 {
 	public record SignUpDTO(string email, string password);
