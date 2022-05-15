@@ -13,6 +13,7 @@ namespace CampingApp_Server.Services
 		public Task<bool> CreateUser(string email, string password);
 		public Task<User> GetUserById(string id);
 		public Task<string> SignIn(string email, string password);
+		public Task<List<string>> GetRolesForUserId(string id);
 	}
 
 	public class UserService : IUserService
@@ -82,7 +83,7 @@ namespace CampingApp_Server.Services
 			}
 
 			//powyzsze kroki mowia ze mmay dobrego uzytkownika z haslem wiec teraz tworzymy tokken i go zwracamy
-			var token = CreateToken(user);
+			var token = await CreateToken(user);
             if(token == null)
             {
 				throw new Exception("Brak tokena");
@@ -90,14 +91,43 @@ namespace CampingApp_Server.Services
 			return token;
 		}
 
-		private string CreateToken(User user)
+		public async Task<List<string>> GetRolesForUserId(string id)
         {
+			var user = await GetUserById(id);
+			if(user == null)
+            {
+				throw new Exception("Brak uzytkownika o podanym id");
+            }
+
+			var roles = await _userManager.GetRolesAsync(user);
+			if(roles == null)
+            {
+				throw new Exception("nie utworzono listy roli");
+            }
+
+			return roles.ToList();
+        }
+
+		private async Task<string> CreateToken(User user)
+        {
+			
 			var claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.Id),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+				
 			};
+
+			//dodanie roli
+			var userRoles = await _userManager.GetRolesAsync(user); //roles bo moze miec kilka rol
+
+			foreach (var role in userRoles)
+			{
+				var claim = new Claim(ClaimTypes.Role, role);
+				claims.Add(claim); //nie mozna dodac tak jak wyzej bo tzreba role przekształccić na posszczególne wpisy (był blad)  wiec sobie wyciagamy poszczegolne role i dodajemy            }
+
+			}
 
 			//Jwt:Key -> tym kluczem są podpisywane tokeny jwt potrzebne do logowania, one sa haszowane i zapisywane pod smienna signInCredentials
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); //aby z tego korzystac trzebabylo wstrzyknac do konstruktora IConfigurstion bo ten obiektt zawiera daane z pliiku appsettings.json

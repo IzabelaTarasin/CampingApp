@@ -1,7 +1,13 @@
 ﻿@page "/"
 @using CampingApp.Domain;
+@using Microsoft.AspNetCore.Components.Authorization;
 
 <PageTitle>CampApp - be wild</PageTitle>
+
+@*temporary*@
+<AuthorizeView Roles="Business">
+    <p>Hey tu Biznes</p>
+</AuthorizeView>
 
 <div class="text-center">
     <div class="background-home">

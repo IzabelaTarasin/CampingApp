@@ -1,12 +1,34 @@
 ﻿@page "/signin"
+@using CampingApp.Services;
+@inject IUserService CustomUserService;
 
 <PageTitle>@title</PageTitle>
 
 <div class="text-center container">
-    <h3>Sign In</h3>
+    <h3>Zaloguj się</h3>
+
+    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+        <InputText id="emal" @bind-Value="inputmodel.Email" />
+        <InputText id="password" @bind-Value="inputmodel.Password" />
+        <button type="submit">Submit</button>
+    </EditForm>
 </div>
 
 @code {
     private string title = "CampApp - be wild";
+
+    private InputModel inputmodel = new InputModel();
+
+    private class InputModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+
+        await CustomUserService.SignInUser(inputmodel.Email, inputmodel.Password);
+    }
 }
 

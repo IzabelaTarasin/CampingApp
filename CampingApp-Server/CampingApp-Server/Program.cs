@@ -58,7 +58,6 @@ builder.Services.AddAuthentication(x =>
 
 
 // Add services to the container.
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<IUserService, UserService>(); //mowi o tym ze do systemu zaleznosci zbudowanego przez micros. za kazdym razem gdy jest obiekt ktory korzysta z iuserservice to zostanie utworzony obiekt userservice
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
