@@ -13,6 +13,7 @@ namespace CampingApp_Server.Services
 		public Task<bool> CreateUser(string email, string password);
 		public Task<User> GetUserById(string id);
 		public Task<string> SignIn(string email, string password);
+		public Task<List<string>> GetRolesForUserId(string id);
 	}
 
 	public class UserService : IUserService
@@ -89,6 +90,23 @@ namespace CampingApp_Server.Services
             }
 			return token;
 		}
+
+		public async Task<List<string>> GetRolesForUserId(string id)
+        {
+			var user = await GetUserById(id);
+			if(user == null)
+            {
+				throw new Exception("Brak uzytkownika o podanym id");
+            }
+
+			var roles = await _userManager.GetRolesAsync(user);
+			if(roles == null)
+            {
+				throw new Exception("nie utworzono listy roli");
+            }
+
+			return roles.ToList();
+        }
 
 		private async Task<string> CreateToken(User user)
         {

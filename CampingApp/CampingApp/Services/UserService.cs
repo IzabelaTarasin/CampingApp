@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using Blazored.LocalStorage;
 
 namespace CampingApp.Services
 {
+	//tworzymy rekod abysmy mogli pardsowac do niego odpowiedz z serwera
+	//odpowiedz z serwera to jest format json ktory zawiera email i id wiec
+	//zmienna rekord musi umozliwic zapisanie id i email
+	//potrzebne do metody getme
+	public record User(string Id, string Email, List<string> Roles);
+
 	public interface IUserService
 	{
 		public Task<bool> CreateUser(string email, string password);
 		public Task<bool> SignInUser(string email, string password);
+		public Task<User> GetMe();
 
 	}
 
@@ -95,6 +103,39 @@ namespace CampingApp.Services
 				Console.WriteLine(ex.Message);
 				return false;
 			}
+		}
+
+		public async Task<User> GetMe()
+        {
+			var request = new HttpRequestMessage(HttpMethod.Get, "/user/me");
+			var token = await _localStorage.GetItemAsync<string>("token");
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+				throw new Exception("Token is null");
+			}
+
+			Console.WriteLine("token" + token);
+
+			request.Headers.Add("Authorization", "Bearer " + token); //dodawanie naglowka od zapytania
+
+			//wykonanie zapytanie o me
+			var response = await _httpClient.SendAsync(request);
+
+            if(!response.IsSuccessStatusCode)
+			{
+				throw new Exception("Brak inf o aktualnie zalogowanym uzytkowniku");
+			}
+
+			//odczyta odp z serwera i sprobuje stworzyc obiekt user z polami id i email
+
+			var user = await response.Content.ReadFromJsonAsync<User>();
+			if(user == null)
+            {
+				throw new Exception("Brak uzytwkonika stworzonwego zJSONa");
+            }
+			return user;
+
 		}
 	}
 

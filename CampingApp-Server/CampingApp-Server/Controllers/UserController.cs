@@ -44,11 +44,15 @@ namespace CampingApp_Server.Controllers
             {
 				return BadRequest("Nie powiodło się pobieranie użytkownika");
 			}
+
+			var roles = await _userService.GetRolesForUserId(user.Id);
+
 			//zwracamy obiekt ananomowy - na razie
 			return Ok(new
 			{
 				Id = user.Id,
-				Email = user.Email
+				Email = user.Email,
+				Roles = roles //gdy ktos zpayta o me to serwer odpwoie id, email i role jakie ten zalogowany uzytkownik posiada
 			});
 		}
 
