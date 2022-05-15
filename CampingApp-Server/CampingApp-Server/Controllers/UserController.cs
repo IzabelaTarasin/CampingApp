@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using CampingApp_Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,28 @@ namespace CampingApp_Server.Controllers
 				return BadRequest("Nie powiodło się pobieranie użytkownika");
 			}
 			return Ok("Pobranie użytkownika przebiegło pomyślnie");
+		}
+
+		//metoda ktora zwroci aktualnie zalogowanego uzytkownika
+		[HttpGet("me")]
+		public async Task<IActionResult> GetMe()
+		{
+			//sprawdzamy czy istneije juz zalogowany uzytkownik
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			//probujemy wyciagnac z bazy danych uzytkownika
+			var user = await _userService.GetUserById(userId);
+
+			if(user == null)
+            {
+				return BadRequest("Nie powiodło się pobieranie użytkownika");
+			}
+			//zwracamy obiekt ananomowy - na razie
+			return Ok(new
+			{
+				Id = user.Id,
+				Email = user.Email
+			});
 		}
 
 	}
