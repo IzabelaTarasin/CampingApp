@@ -7,6 +7,8 @@ namespace CampingApp.Services
 	public interface IUserService
 	{
 		public Task<bool> CreateUser(string email, string password);
+		public Task<bool> SignInUser(string email, string password);
+
 	}
 
 	public class UserService : IUserService
@@ -25,7 +27,7 @@ namespace CampingApp.Services
             //.AllowAnyHeader());
 
 		{
-			//tworzymy slownik
+			//tworzymy slownik aby zrobic json
 			var data = new Dictionary<string, string>
 			{
 				{ "email", email },
@@ -46,13 +48,42 @@ namespace CampingApp.Services
 				Console.WriteLine("result: " + result);
 				return true;
 			}
-			catch (Exception ex)
+			catch(Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 				return false;
 			}
 
 
+		}
+
+		public async Task<bool> SignInUser(string email, string password)
+        {
+			var data = new Dictionary<string, string>
+			{
+				{ "email", email },
+				{ "password", password }
+			};
+
+			//zamiana na format json:
+			var json = JsonSerializer.Serialize(data);
+
+			var request = new HttpRequestMessage(HttpMethod.Post, "signin");
+			request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+			{
+				var result = await _httpClient.SendAsync(request);
+
+				Console.WriteLine("result: " + result);
+				return true;
+
+			}
+			catch(Exception ex)
+            {
+				Console.WriteLine(ex.Message);
+				return false;
+			}
 		}
 	}
 

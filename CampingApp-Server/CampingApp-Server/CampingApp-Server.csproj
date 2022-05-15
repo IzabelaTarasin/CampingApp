@@ -28,6 +28,7 @@
     <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Blazored.LocalStorage" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

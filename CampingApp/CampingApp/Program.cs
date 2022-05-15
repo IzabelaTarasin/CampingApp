@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using App_Camping.Data;
 using CampingApp.Services;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddScoped(
     });
 
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();
 

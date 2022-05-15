@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <None Remove="Domain\" />
     <None Remove="Microsoft.EntityFrameworkCore" />
     <None Remove="Services\" />
+    <None Remove="Blazored.LocalStorage" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
