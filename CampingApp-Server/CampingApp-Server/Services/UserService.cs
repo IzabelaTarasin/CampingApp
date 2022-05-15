@@ -1,23 +1,31 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using CampingApp_Server.Database;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CampingApp_Server.Services
 {
 	public interface IUserService
     {
 		public Task<bool> CreateUser(string email, string password);
-		public Task<User> GetUserByName(string name);
+		public Task<User> GetUserById(string id);
 		public Task<string> SignIn(string email, string password);
 	}
 
 	public class UserService : IUserService
 	{
+		public IConfiguration _configuration;
 		private UserManager<User> _userManager;
+		private SignInManager<User> _signInManager;
 
-		public UserService(UserManager<User> userManager) //dependency - wstrzykiwany do konstruktora.
+		public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration) //dependency - wstrzykiwany do konstruktora.
 		{
 			_userManager = userManager;
+			_signInManager = signInManager;
+			_configuration = configuration;
 		}
 
 		public async Task<bool> CreateUser(string email, string password)
@@ -46,9 +54,9 @@ namespace CampingApp_Server.Services
 
 		}
 
-		public async Task<User> GetUserByName(string name) //bo name to email ktory jest unkalny wiec mozna szukac po name
+		public async Task<User> GetUserById(string id) //bo name to email ktory jest unkalny wiec mozna szukac po name
         {
-			User user = await _userManager.FindByNameAsync(name);
+			User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
 				return null;
@@ -63,15 +71,55 @@ namespace CampingApp_Server.Services
 			User user = await _userManager.FindByNameAsync(email);
 			if (user == null)
 			{
-				return null;
+				throw new Exception("brak uzytkownika");
 			}
 
-			return user.Email;
+			//spr czy hasla sa poprawne
+			var check = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+            if (!check.Succeeded)
+            {
+				throw new Exception("niepoprawne haslo"); //pamietaj ze jak jest throow exce tto przy wywolaniu tej metody trzeba robic try catch
+			}
+
+			//powyzsze kroki mowia ze mmay dobrego uzytkownika z haslem wiec teraz tworzymy tokken i go zwracamy
+			var token = CreateToken(user);
+            if(token == null)
+            {
+				throw new Exception("Brak tokena");
+            }
+			return token;
+		}
+
+		private string CreateToken(User user)
+        {
+			var claims = new List<Claim>
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+			};
+
+			//Jwt:Key -> tym kluczem są podpisywane tokeny jwt potrzebne do logowania, one sa haszowane i zapisywane pod smienna signInCredentials
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); //aby z tego korzystac trzebabylo wstrzyknac do konstruktora IConfigurstion bo ten obiektt zawiera daane z pliiku appsettings.json
+			var signInCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+			//obiekt tokenDescrriptor bedzie zawierac dane jakie m amiec token
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(claims), //zawiera claimsy
+				Expires = DateTime.UtcNow.AddDays(1), //wygsa za 1 dzien
+				SigningCredentials = signInCredentials //musza zgadzac sie credentiale zahashowane
+			};
+
+			//obiekt tokenHandler do faaktycznego poddpisywania tokena
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+
+			return tokenHandler.WriteToken(token);
 		}
 	}
-
-	
 }
+
 //teraz dependencynjectons:
 //pamietac aby dodac do program.cs -> builder.Services.AddScoped<IUserService, UserService>();
 //i w signUpconttr. -> private IUserService _userService;

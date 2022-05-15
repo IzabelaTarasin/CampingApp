@@ -20,14 +20,18 @@ namespace CampingApp_Server.Controllers
 		[HttpPost]
 		public async Task<IActionResult> SignIn(SignInDTO dto)
 		{
-			//wywolanie metody do logowania uzytkownika
-			var result = await _userService.SignIn(dto.email, dto.password);
-			//korzystam z usermanager
-			if (result == null)
-			{
-				return BadRequest("Logowanie nie powiodło się");
+            try
+            {
+				//wywolanie metody do logowania uzytkownika
+				var resultToken = await _userService.SignIn(dto.email, dto.password);
+	
+				return Ok(resultToken);
+
 			}
-			return Ok("Logowanie przebiegło pomyślnie");
+            catch (Exception ex)
+            {
+				return BadRequest("Logowanie nie powiodło się" + ex.Message);
+			}
 
 		}
 	}
