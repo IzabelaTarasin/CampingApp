@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Text.Json;
+using Blazored.LocalStorage;
 
 namespace CampingApp.Services
 {
@@ -15,10 +16,12 @@ namespace CampingApp.Services
 	{
 		//dependency injection for httpclient from program.cs (dobra praktyka aby byly prywatne, czyli deklaracja zmiennej pod jaka bedzie przechpwywane i wstrzykniecie obektu jako parametr konsruktor a przypisane w konstruktorze do zmiennje
 		private HttpClient _httpClient;
+		private ILocalStorageService _localStorage;
 
-		public UserService(HttpClient httpClient)
+		public UserService(HttpClient httpClient, ILocalStorageService localStorage)
         {
 			_httpClient = httpClient;
+			_localStorage = localStorage;
         }
 
 		public async Task<bool> CreateUser(string email, string password) // trzeba tez dac do applcati backendowej program.cs odpowiedni kod app.UseCors(x => x
@@ -75,7 +78,15 @@ namespace CampingApp.Services
 			{
 				var result = await _httpClient.SendAsync(request);
 
-				Console.WriteLine("result: " + result);
+				var token = await result.Content.ReadAsStringAsync();
+                if (string.IsNullOrWhiteSpace(token))
+                {
+					throw new Exception("Token is null");
+				}
+
+				await _localStorage.SetItemAsync("token", token); //przekazanie tokena dla utrzymania "sesji", klucz wartosc - parametry
+
+				Console.WriteLine("result: " + token);
 				return true;
 
 			}
