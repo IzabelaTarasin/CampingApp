@@ -168,8 +168,60 @@ a, .btn-link {
     font-weight: 650;
 }
 
+.background-signin {
+    background-size: cover;
+    color: white;
+    position: relative;
+    /*    background-color: blue; */
+    background-image: url("/images/camp.jpeg");
+    /*    background: url(/wwwroot/images/camping.jpeg) center top;
+    background-size: cover;*/
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-.price {
-    color: green;
-    font-size: 15px;
+
+.login__container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    background-color: rgb(255, 255, 255);
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+    border-radius: 12px;
+}
+
+.logo__container {
+    margin-top: -30px;
+    margin-right: 50px;
+}
+
+.container_centered_background_image {
+    background-image: url("/images/forest-night-big.jpg");
+    background-position:center;
+    display: flex ;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+.own-space {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.own-space-2 {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.own-space-title {
+    padding-bottom: 20px;
 }
