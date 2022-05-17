@@ -1,19 +1,94 @@
 ﻿@page "/detail"
+@using CampingApp.Domain;
+@using Microsoft.AspNetCore.Components.Authorization;
 
 <PageTitle>@title</PageTitle>
 
-<div class="text-center container">
-    <h1>Pole</h1>
-    <br />
+<div class="text-center">
+    <h1>@Place.Name</h1>
+    <div>
+        <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
+    </div>
     <form>
-        <label>Nazwa</label>
-        <label>Lokalizacja</label>
-        <br />
+        <div>
+            <p class="nameText">@Place.Description</p>
+        </div>
+        <div>
+            <p class="nameText"> Cena @Place.PricePerDay zł / za dzień</p>
+        </div>
+        <div>
+            <div>
+                @if (Place.AnimalsAllowed)
+                {
+                    <span>Przyjazne zwierzętom</span>
+                }
+            </div>
+            <div>
+                @if (Place.ReceptionExist)
+                {
+                    <span>Całodzienna recepcja</span>
+                }
+            </div>
+            <div>
+                @if (Place.MedicExist)
+                {
+                    <span>Usługi medyczne</span>
+                }
+            </div>
+            <div>
+                @if (Place.RestaurantExist)
+                {
+                    <span>Restauracja</span>
+                }
+            </div>
+            <div>
+                @if (Place.GrillExist)
+                {
+                    <span>Miejsce na ognisko lub grilla</span>
+                }
+            </div>
+            <div>
+                @if (Place.WifiExist)
+                {
+                    <span>WiFi</span>
+                }
+            </div>
+            <div>
+                @if (Place.SwimmingpoolExist)
+                {
+                    <span>Basen</span>
+                }
+            </div>
+        </div>
+        <AuthorizeView>
+            <Authorized>
+                <button type="submit">Book</button>
+            </Authorized>
+            <NotAuthorized>
+                <p>Aby zarezerwować:</p>
+                <button type="submit">Zaloguj się</button>
+                <button type="submit">Załóż konto</button>
+            </NotAuthorized>
+        </AuthorizeView>
     </form>
 </div>
 
 @code {
     private string title = "CampApp";
 
+    PlaceModel Place = new PlaceModel
+    {
+        Id = 1,
+        Name = "Zielony zakątek",
+        Description = "Woj. pomorskie",
+        PricePerDay = 123.00,
+        AnimalsAllowed = true,
+        RestaurantExist = false,
+        ReceptionExist = true,
+        MedicExist = true,
+        GrillExist = false,
+        WifiExist = false,
+        SwimmingpoolExist = false
+    };
 }
 
