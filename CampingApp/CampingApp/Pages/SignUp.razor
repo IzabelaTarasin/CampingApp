@@ -3,15 +3,31 @@
 @inject IUserService CustomUserService;
 
 <PageTitle>@title</PageTitle>
-<div class="text-center container">
-    <h3>Zarejestruj konto</h3>
 
-    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-        <InputText id="emal" @bind-Value="inputmodel.Email" />
-        <InputText id="password" @bind-Value="inputmodel.Password" />
-        <button type="submit">Submit</button>
-    </EditForm>
-</div>
+<body>
+    <div class="container_centered_background_image">
+        <div class="login__container">
+            <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+                <div class="own-space-title">
+                    <h3>Zarejestruj konto</h3>
+                </div>
+                <div class="own-space">
+                    <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
+                </div>
+                <div class="own-space">
+                    <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
+                </div>
+                <div class="own-space-2">
+                    <button class="btn btn-primary mt-1" type="submit">Login</button>
+                </div>
+                <div class="own-space-2">
+                    <p>Posiadasz już konto?</p>
+                    <button class="btn btn-primary mt-1" type="submit">Zaloguj się</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</body>
 
 @code {
     private string title = "CampApp";
