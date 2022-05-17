@@ -1,18 +1,92 @@
 ﻿@page "/reservation"
+@using CampingApp.Domain;
 
 <PageTitle>@title</PageTitle>
 
-<div class="text-center container">
+<div class="text-center">
     <h1>Twoja rezerwacja</h1>
-    <br />
+    <div>
+        <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
+    </div>
     <form>
-        <label>Pole</label>
-        <br />
+        <input type="hidden" name="id">
+
+        <label for="start">Rezerwacja od:</label>
+        <input type="date" id="start-date-input" name="startDate">
+
+        <label for="end">do:</label>
+        <input type="date" id="end-date-input" name="endDate">
+
+        <div>
+            <div>
+                @if (Place.AnimalsAllowed)
+                {
+                    <span>Przyjazne zwierzętom</span>
+                }
+            </div>
+            <div>
+                @if (Place.ReceptionExist)
+                {
+                    <span>Całodzienna recepcja</span>
+                }
+            </div>
+            <div>
+                @if (Place.MedicExist)
+                {
+                    <span>Usługi medyczne</span>
+                }
+            </div>
+            <div>
+                @if (Place.RestaurantExist)
+                {
+                    <span>Restauracja</span>
+                }
+            </div>
+            <div>
+                @if (Place.GrillExist)
+                {
+                    <span>Miejsce na ognisko lub grilla</span>
+                }
+            </div>
+            <div>
+                @if (Place.WifiExist)
+                {
+                    <span>WiFi</span>
+                }
+            </div>
+            <div>
+                @if (Place.SwimmingpoolExist)
+                {
+                    <span>Basen</span>
+                }
+            </div>
+        </div>
+
+        <p id="info"></p>
+        <p>Total price is:</p>
+        <p class="price" id="total-price"></p>
+
+        <button type="submit">Book</button>
     </form>
 </div>
 
 @code {
-    private string title = "CampApp - be wild";
+    private string title = "CampApp";
+
+    PlaceModel Place = new PlaceModel
+    {
+        Id = 1,
+        Name = "Zielony zakątek",
+        Description = "Woj. pomorskie",
+        PricePerDay = 123.00,
+        AnimalsAllowed = true,
+        RestaurantExist = false,
+        ReceptionExist = true,
+        MedicExist = true,
+        GrillExist = false,
+        WifiExist = false,
+        SwimmingpoolExist = false
+    };
 
 }
 

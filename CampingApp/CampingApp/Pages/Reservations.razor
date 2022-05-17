@@ -1,17 +1,72 @@
 ﻿@page "/reservations"
+@using CampingApp.Domain;
 
 <PageTitle>@title</PageTitle>
 
-<div class="text-center container">
-    <h1>Zarządzaj rezerwacjami</h1>
-    <br />
-    <form>
-        <label>Nazwa</label>
-        <br />
-    </form>
+<div class="text-center">
+    <div class="container">
+        <h1>Zarządzaj rezerwacjami</h1>
+        <div>
+            @foreach (var bookingModel in BookingModels)
+                {
+                    <div class="col-4 mb-5">
+                        <br />
+                        <p class="nameText">Numer rezerwacji @bookingModel.Id</p>
+                        <p class="smallTextOwn">Termin pobytu: </p>
+                        <p class="smallTextOwn">od @bookingModel.StartDate do @bookingModel.EndDate</p>
+                        <button type="submit">Anuluj rezerwację</button>
+                    </div>
+                }
+            </div>
+    </div>
 </div>
-@code {
-    private string title = "CampApp - be wild";
+    @code {
+        private string title = "CampApp";
 
-}
+        List<BookingModel> BookingModels = new List<BookingModel>
+{
+        new BookingModel
+        {
+            Id = 1,
+            StartDate = "20-09-2019",
+            EndDate = "22-09-2019",
+            HasAnimals = true
+        },
+        new BookingModel
+        {
+            Id = 2,
+            StartDate = "20-10-2012",
+            EndDate = "09-11-2021",
+            HasAnimals = false
+        },
+        new BookingModel
+        {
+            Id = 3,
+            StartDate = "13-09-2019",
+            EndDate = "17-09-2019",
+            HasAnimals = true
+        },
+        new BookingModel
+        {
+            Id = 4,
+            StartDate = "20-09-2019",
+            EndDate = "22-09-2019",
+            HasAnimals = true
+        },
+        new BookingModel
+        {
+            Id = 3,
+            StartDate = "13-09-2019",
+            EndDate = "17-09-2019",
+            HasAnimals = true
+        },
+        new BookingModel
+        {
+            Id = 4,
+            StartDate = "20-09-2019",
+            EndDate = "22-09-2019",
+            HasAnimals = true
+        }
+    };
+    }
 
