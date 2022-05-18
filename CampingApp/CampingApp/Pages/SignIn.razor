@@ -5,28 +5,28 @@
 <PageTitle>@title</PageTitle>
 
 <body>
-    <div class="container_centered_background_image">
-        <div class="login__container">
-            <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-                <div class="own-space-title">
-                    <h3>Zaloguj się</h3>
-                </div>
-                <div class="own-space">
-                    <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail"/>
-                </div>
-                <div class="own-space">
-                    <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło"/>
-                </div>
-                <div class="own-space-2">
-                    <button class="btn btn-primary mt-1" type="submit">Login</button>
-                </div>
-                <div class="own-space-2">
-                    <p>Nie posiadasz konta?</p>
-                    <button class="btn btn-primary mt-1" type="submit">Załóż konto</button>
-                </div>
-            </EditForm>
-        </div>
-    </div>
+    <div class="container_centered_background_image2">
+         <div class="login__container">
+              <EditForm class="space-own-form" Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+                  <div class="own-space-title">
+                      <h3>Zaloguj się</h3>
+                  </div>
+                  <div class="own-space">
+                      <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
+                  </div>
+                  <div class="own-space">
+                      <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
+                  </div>
+                  <div class="own-space-2">
+                      <button class="own-button" type="submit">Login</button>
+                  </div>
+                  <div class="own-space-2">
+                      <p>Nie posiadasz konta?</p>
+                      <button class="own-button" type="submit">Załóż konto</button>
+                  </div>
+              </EditForm>
+         </div>
+    </div> 
 </body>
 
         @code {

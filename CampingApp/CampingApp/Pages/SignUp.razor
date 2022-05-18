@@ -5,11 +5,11 @@
 <PageTitle>@title</PageTitle>
 
 <body>
-    <div class="container_centered_background_image">
+    <div class="container_centered_background_image2">
         <div class="login__container">
-            <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+            <EditForm class="space-own-form" Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
                 <div class="own-space-title">
-                    <h3>Zarejestruj konto</h3>
+                    <h3>Załóż konto</h3>
                 </div>
                 <div class="own-space">
                     <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
@@ -18,11 +18,11 @@
                     <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
                 </div>
                 <div class="own-space-2">
-                    <button class="btn btn-primary mt-1" type="submit">Login</button>
+                    <button class="own-button" type="submit">Login</button>
                 </div>
                 <div class="own-space-2">
                     <p>Posiadasz już konto?</p>
-                    <button class="btn btn-primary mt-1" type="submit">Zaloguj się</button>
+                    <button class="own-button" type="submit">Zaloguj się</button>
                 </div>
             </EditForm>
         </div>

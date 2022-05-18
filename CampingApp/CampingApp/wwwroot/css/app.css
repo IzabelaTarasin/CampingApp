@@ -116,8 +116,12 @@ a, .btn-link {
 .search-area {
     margin-top: 50px;
     margin-bottom: 50px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-width: 1100px;
+    min-width: 550px;
     background-color: rgb(255, 255, 255);
     color: rgba(0, 0, 0, 0.87);
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -129,7 +133,7 @@ a, .btn-link {
     color: white;
     position: relative;
     /*    background-color: blue; */
-    background-image: url("/images/camp.jpeg");
+    background-image: url("/images/camp1.jpeg");
     /*    background: url(/wwwroot/images/camping.jpeg) center top;
     background-size: cover;*/
     height: 100%;
@@ -173,7 +177,7 @@ a, .btn-link {
     color: white;
     position: relative;
     /*    background-color: blue; */
-    background-image: url("/images/camp.jpeg");
+    background-image: url("/images/camp6.jpg");
     /*    background: url(/wwwroot/images/camping.jpeg) center top;
     background-size: cover;*/
     height: 100%;
@@ -189,13 +193,14 @@ a, .btn-link {
     justify-content: center;
     align-items: start;
     background-color: rgb(255, 255, 255);
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 100px;
-    padding-bottom: 100px;
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
     border-radius: 12px;
+    margin-left: 350px;
+    margin-top: 210px;
+    margin-bottom: 150px;
+    min-height: 620px;
+    max-height: 620px;
 }
 
 .logo__container {
@@ -203,25 +208,110 @@ a, .btn-link {
     margin-right: 50px;
 }
 
-.container_centered_background_image {
-    background-image: url("/images/forest-night-big.jpg");
-    background-position:center;
-    display: flex ;
+/*.container_centered_background_image {
+    background-image: url("/images/camp2.jpg");
+    background-position: center;
+    display: flex;
     justify-content: center;
     height: 100vh;
     align-items: center;
+    background-size: cover;
+}*/
+
+.container_centered_background_image2 {
+    background-image: url("/images/camp2.jpg");
+    background-position: center;
+    display: flex;
+    justify-content: left;
+    height: 100vh;
+    background-size: cover;
 }
 
 .own-space {
     padding-bottom: 10px;
     padding-top: 10px;
+    padding-left: 125px;
+    padding-right: 125px;
 }
 
 .own-space-2 {
     padding-bottom: 20px;
     padding-top: 20px;
+    padding-left: 125px;
+    padding-right: 125px;
 }
 
 .own-space-title {
+    padding-top: 20px;
     padding-bottom: 20px;
+    padding-left: 125px;
+    padding-right: 125px;
+}
+.space-own-form {
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+
+.own-button {
+    border-radius: 6px;
+    background-color: #366CBC;
+    border: none;
+    color: white;
+    padding: 8px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.test-div {
+    text-align: center;
+    padding-bottom: 2px;
+    padding-top: 10px;
+}
+
+.test-div-2 {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 50px;
+}
+
+.own-input-where {
+    height: 50px;
+    width: 250px;
+    justify-content: center;
+    border: 1px solid #ccc;
+}
+
+own-input {
+    height: 50px;
+    width: 150px;
+    justify-content: center;
+    border: 10px solid #ccc;
+}
+
+own-input-text {
+    height: 50px;
+    width: 50px;
+    justify-content: center;
+    border: none;
+}
+
+.own-button-search {
+    border-radius: 6px;
+    background-color: #366CBC;
+    border: none;
+    color: white;
+    padding: 8px 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    justify-content: center;
+    width: 170px;
 }
