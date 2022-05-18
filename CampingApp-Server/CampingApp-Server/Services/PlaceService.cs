@@ -6,7 +6,7 @@ namespace CampingApp_Server.Services
 {
 	public interface IPlaceService
 	{
-		public Task<bool> AddPlace(
+		public Task<Place> AddPlace(
 			string Name,
 			string Description,
 			string ImagePath,
@@ -21,18 +21,14 @@ namespace CampingApp_Server.Services
 	}
 		public class PlaceService : IPlaceService
 	{
-		public IConfiguration _configuration;
-		private UserService _userService;
 		private ApplicationDbContext _applicationDbContext;
 
-		public PlaceService(UserService userService, ApplicationDbContext applicationDbContext, IConfiguration configuration) //dependency - wstrzykiwany do konstruktora.
+		public PlaceService(ApplicationDbContext applicationDbContext) //dependency - wstrzykiwany do konstruktora.
 		{
-			_userService = userService;
 			_applicationDbContext = applicationDbContext;
-			_configuration = configuration;
 		}
 
-		public async Task<bool> AddPlace(
+		public async Task<Place> AddPlace(
 			string name,
 			string description,
 			string imagePath,
@@ -51,6 +47,7 @@ namespace CampingApp_Server.Services
 				Description = description,
 				ImagePath = imagePath,
 				PricePerDay = pricePerDay,
+				Address = new Address { City="Krakow", Country="Poland", HouseNumber="1", LocalNumber="3", Street="toko", PostalCode="1234"},
 				AnimalsAllowed = animalsAllowed,
 				RestaurantExist = restaurantExist,
 				ReceptionExist = receptionExist,
@@ -63,24 +60,21 @@ namespace CampingApp_Server.Services
 			//wstrzyknac do tego placeservice application db context
 			//app db context . places.addasync i przekazac obiekt place
 			//savecontect by zapisac do bazki
-			_userService.
+			await _applicationDbContext.Places.AddAsync(place);
 
-			var result = await _userManager.CreateAsync(user, password); //nastepuje tworzenie uzytkownika
+			//if (resultAdd == null) //przechwycony wyjatek bedzie w try catch (wyzej) wiec nie ma potzreby dawac  if-y
+			//{
+			//	return false;
+			//}
 
-			if (!result.Succeeded)
-			{
-				return false;
-			}
+			await _applicationDbContext.SaveChangesAsync();
 
-			//przypanie roli
-			var resultRole = await _userManager.AddToRoleAsync(user, "standard");
+    //        if (resultSave == null)
+    //        {
+				//return false;
+    //        }
 
-			if (!resultRole.Succeeded)
-			{
-				return false;
-			}
-
-			return true;
+			return place;
 
 		}
 	}

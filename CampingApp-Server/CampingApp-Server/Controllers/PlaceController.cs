@@ -2,22 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CampingApp_Server.Database;
+using CampingApp_Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace CampingApp_Server.Controllers
 {
+    public record PlaceDTO(string name,
+            string description,
+            string imagePath,
+            double pricePerDay,
+            bool animalsAllowed,
+            bool restaurantExist,
+            bool receptionExist,
+            bool medicExist,
+            bool grillExist,
+            bool wifiExist,
+            bool swimmingpoolExist);
+
     [Authorize(Roles = "Business")]
     [ApiController]
     [Route("[controller]")]
     public class PlaceController : ControllerBase
     {
+        private IPlaceService _placeService;
+
+        public PlaceController(IPlaceService placeService)
+        {
+            _placeService = placeService;
+        }
+
         [HttpPost]
-		public async Task<IActionResult> AddPlace()
+		public async Task<IActionResult> AddPlace(PlaceDTO dto)
 		{
-            return Ok("Dodano place");
-		}
+            try
+            {
+                var result = await _placeService.AddPlace(
+                    dto.name,
+                    dto.description,
+                    dto.imagePath,
+                    dto.pricePerDay,
+                    dto.animalsAllowed,
+                    dto.restaurantExist,
+                    dto.receptionExist,
+                    dto.medicExist,
+                    dto.grillExist,
+                    dto.wifiExist,
+                    dto.swimmingpoolExist);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Dodanie obiektu nie powiodło się" + ex.Message);
+            }
+        }
 
 	}
 }
