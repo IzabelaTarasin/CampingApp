@@ -36,8 +36,8 @@ namespace CampingApp_Server.Controllers
         }
 
         [HttpPost]
-		public async Task<IActionResult> AddPlace(PlaceDTO dto)
-		{
+        public async Task<IActionResult> AddPlace(PlaceDTO dto)
+        {
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -63,7 +63,22 @@ namespace CampingApp_Server.Controllers
                 return BadRequest("Dodanie obiektu nie powiodło się" + ex.Message);
             }
         }
+        [Route("/user/me/place")]
+        [HttpGet]
+        public async Task<IActionResult> MyGetAllPlaces()
+        {
+            try
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                List<Place> places = await _placeService.GetPlacesByUserId(userId);
 
-	}
+                return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Pobranie obiektów użytkownika nie powiodło się" + ex.Message);
+            }
+        }
+    }
 }
 

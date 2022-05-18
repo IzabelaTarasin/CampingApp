@@ -1,13 +1,14 @@
 ﻿using System;
 using CampingApp_Server.Database;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CampingApp_Server.Services
 {
 	public interface IPlaceService
 	{
-		public Task<Place> AddPlace(
-			string userId,
+		public Task<Place> AddPlace
+			(string userId,
 			string name,
 			string description,
 			string imagePath,
@@ -19,8 +20,10 @@ namespace CampingApp_Server.Services
 			bool grillExist,
 			bool wifiExist,
 			bool swimmingpoolExist);
+		public Task<List<Place>> GetPlacesByUserId(string userId);
+		public Task<List<Place>> GetAllPlaces();
 	}
-		public class PlaceService : IPlaceService
+	public class PlaceService : IPlaceService
 	{
 		private ApplicationDbContext _applicationDbContext;
 
@@ -80,6 +83,29 @@ namespace CampingApp_Server.Services
 			return place;
 
 		}
+
+		public async Task<List<Place>> GetPlacesByUserId(string userId)
+        {
+			List<Place> places;
+			//gdy pobieramy zbazy danaych to operujemy na pplicationDbContext obiekcie
+			places = await _applicationDbContext
+				.Places
+				.Where(c => c.UserId == userId)
+				.Include(c => c.Address) //zaciagamy adres bo bez tego adres byl null przy pobraniu choc w bazie byl
+				.ToListAsync();
+
+			return places;
+        }
+
+		public async Task<List<Place>> GetAllPlaces()
+		{
+			List<Place> places;
+			//gdy pobieramy zbazy danaych to operujemy na pplicationDbContext obiekcie
+			places = await _applicationDbContext.Places.ToListAsync();
+
+			return places;
+		}
+
 	}
 }
 
