@@ -36,5 +36,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
+    <Content Remove="wwwroot\images\camp1.jpeg" />
+    <Content Remove="wwwroot\images\camp10.jpg" />
+    <Content Remove="wwwroot\images\camp11.jpg" />
+    <Content Remove="wwwroot\images\camp12.jpeg" />
+    <Content Remove="wwwroot\images\camp13.jpg" />
+    <Content Remove="wwwroot\images\camp2.jpg" />
+    <Content Remove="wwwroot\images\camp3.jpg" />
+    <Content Remove="wwwroot\images\camp4.jpg" />
+    <Content Remove="wwwroot\images\camp5.jpg" />
+    <Content Remove="wwwroot\images\camp6.jpg" />
+    <Content Remove="wwwroot\images\camp7.jpg" />
+    <Content Remove="wwwroot\images\camp8.jpg" />
+    <Content Remove="wwwroot\images\camp9.jpg" />
   </ItemGroup>
 </Project>
