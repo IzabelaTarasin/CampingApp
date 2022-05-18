@@ -7,17 +7,18 @@ namespace CampingApp_Server.Services
 	public interface IPlaceService
 	{
 		public Task<Place> AddPlace(
-			string Name,
-			string Description,
-			string ImagePath,
-			double PricePerDay,
-			bool AnimalsAllowed,
-			bool RestaurantExist,
-			bool ReceptionExist,
-			bool MedicExist,
-			bool GrillExist,
-			bool WifiExist,
-			bool SwimmingpoolExist);
+			string userId,
+			string name,
+			string description,
+			string imagePath,
+			double pricePerDay,
+			bool animalsAllowed,
+			bool restaurantExist,
+			bool receptionExist,
+			bool medicExist,
+			bool grillExist,
+			bool wifiExist,
+			bool swimmingpoolExist);
 	}
 		public class PlaceService : IPlaceService
 	{
@@ -29,6 +30,7 @@ namespace CampingApp_Server.Services
 		}
 
 		public async Task<Place> AddPlace(
+			string userId,
 			string name,
 			string description,
 			string imagePath,
@@ -43,6 +45,7 @@ namespace CampingApp_Server.Services
 		{
 			Place place = new Place
 			{
+				UserId = userId,
 				Name = name,
 				Description = description,
 				ImagePath = imagePath,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CampingApp_Server.Database;
 using CampingApp_Server.Services;
@@ -39,7 +40,10 @@ namespace CampingApp_Server.Controllers
 		{
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 var result = await _placeService.AddPlace(
+                    userId, //przypisanie katualnie zalogowanego uzytkownika
                     dto.name,
                     dto.description,
                     dto.imagePath,
