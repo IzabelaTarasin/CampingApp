@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using Blazored.LocalStorage;
+using CampingApp.Domain;
 
 namespace CampingApp.Services
 {
@@ -19,7 +21,7 @@ namespace CampingApp.Services
 			bool GrillExist,
 			bool WifiExist,
 			bool SwimmingpoolExist);
-		public Task<bool> GetAllPlaces();
+		public Task<List<PlaceModel>> GetAllPlaces();
 	}
 
 	public class PlaceService : IPlaceService
@@ -66,7 +68,7 @@ namespace CampingApp.Services
 			var json = JsonSerializer.Serialize(data);
 
 			//tworze zapytana http restowe, potrzebuje klienta zapytan sieciowych http
-			var request = new HttpRequestMessage(HttpMethod.Post, "newobject");
+			var request = new HttpRequestMessage(HttpMethod.Post, "place");
 			request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{
@@ -82,9 +84,9 @@ namespace CampingApp.Services
 			}
 		}
 
-		public async Task<bool> GetAllPlaces()
+		public async Task<List<PlaceModel>> GetAllPlaces()
 		{
-			var request = new HttpRequestMessage(HttpMethod.Get, "/user/me");
+			var request = new HttpRequestMessage(HttpMethod.Get, "/user/me/place");
 			var token = await _localStorage.GetItemAsync<string>("token");
 
 			if (string.IsNullOrWhiteSpace(token))
@@ -92,25 +94,21 @@ namespace CampingApp.Services
 				throw new Exception("Token is null");
 			}
 
-			Console.WriteLine("token" + token);
-
 			request.Headers.Add("Authorization", "Bearer " + token); //dodawanie naglowka od zapytania
 
 
 			//wykonanie zapytanie o me
 			var response = await _httpClient.SendAsync(request);
 
+
 			if (!response.IsSuccessStatusCode)
 			{
 				throw new Exception("Brak inf o aktualnie zalogowanym uzytkowniku");
 			}
 
-			List<Place> place = await response.Content.ReadFromJsonAsync<User>();
-			if (place == null)
-			{
-				throw new Exception("Brak uzytwkonika stworzonwego zJSONa");
-			}
-			return place;
+            List<PlaceModel> placeModel = await response.Content.ReadFromJsonAsync<List<PlaceModel>>();
+			
+			return placeModel;
 		}
 	}
 
