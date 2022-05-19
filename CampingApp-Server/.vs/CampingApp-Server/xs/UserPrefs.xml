@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{42837DA4-0F76-4A93-AC1F-5440531960B9}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.CampingApp-Server PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="CampingApp-Server/Controllers/PlaceController.cs">
     <Files>
-      <File FileName="CampingApp-Server/Controllers/PlaceController.cs" Line="74" Column="1" />
+      <File FileName="CampingApp-Server/Controllers/PlaceController.cs" Line="77" Column="80" />
       <File FileName="CampingApp-Server/Controllers/SignInController.cs" Line="29" Column="1" />
       <File FileName="CampingApp-Server/Controllers/SignUpController.cs" Line="21" Column="55" />
       <File FileName="CampingApp-Server/Controllers/UserController.cs" Line="34" Column="17" />
@@ -14,9 +13,7 @@
         <State name="__root__">
           <Node name="CampingApp-Server" expanded="True">
             <Node name="CampingApp-Server" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="PlaceController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Database" expanded="True" />
               <Node name="Migrations" expanded="True" />
               <Node name="Properties" expanded="True" />
@@ -30,8 +27,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

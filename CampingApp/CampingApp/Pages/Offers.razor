@@ -1,5 +1,7 @@
 ﻿@page "/offers"
 @using CampingApp.Domain;
+@using CampingApp.Services;
+@inject IPlaceService placeService;
 
 <PageTitle>@title</PageTitle>
 
@@ -49,7 +51,19 @@
 
     List<PlaceModel> Places = new List<PlaceModel>();
 
-    //metoda 
+    protected override async Task OnInitializedAsync() //odpali sie gdy pierwszy raz odpali widok
+    {
+        //chcemy od razu zaladowac z bazy danych liste miec i dzieki temu ze ta metoda oninit uruch sie od razu to tak bedzie
+        try
+        {
+            Places = await placeService.GetPlaces();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex);
+        }
+    }
 
 
 }

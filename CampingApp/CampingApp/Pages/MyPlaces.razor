@@ -1,0 +1,57 @@
+﻿@page "/myplaces"
+@using CampingApp.Services;
+@using CampingApp.Domain;
+@inject IPlaceService placeService;
+
+<PageTitle>@title</PageTitle>
+
+<div class="text-center">
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Twoje obiekty</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @foreach (var place in Places)
+            {
+                var imagePath = "/images/camping.jpeg";
+
+            <div class="col-4 mb-5">
+                <a class="pizza-img" asp-area="" asp-page="Detail">
+                    <img src="@imagePath" class="w-100" asp-append-version="true" />
+                </a>
+                <br />
+                <p class="nameText">@place.Name</p>
+                <p class="smallTextOwn">@place.Description</p>
+                <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                <button class="own-button" type="submit">Usuń obiekt</button>
+                <button class="own-button" type="submit">Edytuj obiekt</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private string title = "CampApp";
+
+    List<PlaceModel> Places = new List<PlaceModel>();
+
+    protected override async Task OnInitializedAsync() //odpali sie gdy pierwszy raz odpali widok
+    {
+        //chcemy od razu zaladowac z bazy danych liste miec i dzieki temu ze ta metoda oninit uruch sie od razu to tak bedzie
+        try
+        {
+            Places = await placeService.GetMyPlaces();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex);
+        }
+    }
+
+
+}
+

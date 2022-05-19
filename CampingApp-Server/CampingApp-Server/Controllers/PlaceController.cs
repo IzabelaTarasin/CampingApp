@@ -72,11 +72,38 @@ namespace CampingApp_Server.Controllers
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 List<Place> places = await _placeService.GetPlacesByUserId(userId);
 
+                if (places.Count == 0)
+                {
+                    return Ok("Ten użytkownik nie dodał jeszcze żadnego obiektu");
+                }
+
                 return Ok(places);
             }
             catch (Exception ex)
             {
                 return BadRequest("Pobranie obiektów użytkownika nie powiodło się" + ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("/place")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPlaces()
+        {
+            try
+            {
+                List<Place> places = await _placeService.GetAllPlaces();
+
+                if (places.Count == 0)
+                {
+                    return Ok("Brak obiektów");
+                }
+
+                return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Pobranie obiektów nie powiodło się" + ex.Message);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace CampingApp.Services
 {
 	public interface IPlaceService
 	{
-		public Task<bool> AddPlace(int Id,
+		public Task<bool> AddPlace(
 			string Name,
 			string Description,
 			string ImagePath,
@@ -21,7 +21,8 @@ namespace CampingApp.Services
 			bool GrillExist,
 			bool WifiExist,
 			bool SwimmingpoolExist);
-		public Task<List<PlaceModel>> GetAllPlaces();
+		public Task<List<PlaceModel>> GetMyPlaces();
+		public Task<List<PlaceModel>> GetPlaces();
 	}
 
 	public class PlaceService : IPlaceService
@@ -35,7 +36,7 @@ namespace CampingApp.Services
 			_localStorage = localStorage;
 		}
 
-		public async Task<bool> AddPlace(int Id,
+		public async Task<bool> AddPlace(
 			string Name,
 			string Description,
 			string ImagePath,
@@ -50,7 +51,7 @@ namespace CampingApp.Services
 		{
 			//tworzymy slownik aby zrobic json
 			var data = new Dictionary<object, object>
-            {	
+			{
 				{ "Name", Name },
 				{ "Description", Description },
 				{ "ImagePath", ImagePath},
@@ -70,6 +71,16 @@ namespace CampingApp.Services
 			//tworze zapytana http restowe, potrzebuje klienta zapytan sieciowych http
 			var request = new HttpRequestMessage(HttpMethod.Post, "place");
 			request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+			var token = await _localStorage.GetItemAsync<string>("token");
+
+			if (string.IsNullOrWhiteSpace(token))
+			{
+				throw new Exception("Token is null");
+			}
+
+			request.Headers.Add("Authorization", "Bearer " + token); //dodawanie naglowka od zapytania
+
 			try
 			{
 				var result = await _httpClient.SendAsync(request);
@@ -84,7 +95,7 @@ namespace CampingApp.Services
 			}
 		}
 
-		public async Task<List<PlaceModel>> GetAllPlaces()
+		public async Task<List<PlaceModel>> GetMyPlaces()
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, "/user/me/place");
 			var token = await _localStorage.GetItemAsync<string>("token");
@@ -106,10 +117,26 @@ namespace CampingApp.Services
 				throw new Exception("Brak inf o aktualnie zalogowanym uzytkowniku");
 			}
 
-            List<PlaceModel> placeModel = await response.Content.ReadFromJsonAsync<List<PlaceModel>>();
-			
+			List<PlaceModel> placeModel = await response.Content.ReadFromJsonAsync<List<PlaceModel>>();
+
 			return placeModel;
 		}
-	}
 
+		public async Task<List<PlaceModel>> GetPlaces()
+		{
+			var request = new HttpRequestMessage(HttpMethod.Get, "/place");
+			var response = await _httpClient.SendAsync(request);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new Exception("Brak obiektów");
+			}
+
+			List<PlaceModel> placeModel = await response.Content.ReadFromJsonAsync<List<PlaceModel>>();
+
+			return placeModel;
+
+		}
+
+	}
 }

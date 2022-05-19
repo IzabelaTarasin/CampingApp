@@ -1,83 +1,133 @@
 ﻿@page "/newobject"
+@using CampingApp.Services;
+@inject IPlaceService PlaceService;
 
 <PageTitle>@title</PageTitle>
 
 <div class="text-center container">
-    <h1>Dodaj obiekt</h1>
-    <br />
-    <form>
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Dodaj obiekt</h1>
+    </div>
+    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
         <div>
-            <input name="name" type="text" placeholder="title">
+            <InputText id="name" @bind-Value="inputmodel.Name" placeholder="nazwa obiektu" />
         </div>
         <div>
-            <textarea name="description" rows="5" placeholder="description"></textarea>
+            <InputTextArea id="description" @bind-Value="inputmodel.Description" rows="5" maxlength="150" placeholder="opis" />
         </div>
-
-        <p>Address</p>
-        <input name="postal-code" type="text" placeholder="Postal code">
-        <input name="city" type="text" placeholder="City">
-        <input name="street" type="text" placeholder="Street">
-        <input name="number" type="text" placeholder="Number">
-
+        <div>
+            <label>Cena za dobę:</label>
+            <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay/>
+        </div>
+        @*<p>Address</p>
+        <InputText id="postal-code" @bind-Value="inputmodel." placeholder="Postal code" />
+        <InputText id="city" @bind-Value="inputmodel.Name" placeholder="City" />
+        <InputText id="street" @bind-Value="inputmodel.Name" placeholder="Street" />
+        <InputText id="number" @bind-Value="inputmodel.Name" placeholder="Number" />*@
         <div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="animals-allowed-checkbox" type="checkbox" name="animalsAllowed" value="No" />
+                    <InputCheckbox id="animals-allowed-checkbox" @bind-Value="inputmodel.AnimalsAllowed" />
                     <span class="slider round"></span>
                 </label>
                 <span>Przyjazne zwierzętom</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="reception-exists-checkbox" type="checkbox" name="receptionExist" value="No" />
+                    <InputCheckbox id="reception-exists-checkbox" @bind-Value="inputmodel.ReceptionExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Całodzienna recepcja</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="medic-exists-checkbox" type="checkbox" name="medicExist" value="No" />
+                    <InputCheckbox id="medic-exists-checkbox" @bind-Value="inputmodel.MedicExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Usługi medyczne</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="restaurant-exists-checkbox" type="checkbox" name="restauranExist" value="No" />
+                    <InputCheckbox id="restaurant-exists-checkbox" @bind-Value="inputmodel.RestaurantExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Restauracja</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="grill-exists-checkbox" type="checkbox" name="grillExist" value="No" />
+                    <InputCheckbox id="grill-exists-checkbox" @bind-Value="inputmodel.GrillExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Miejsce na ognisko lub grilla</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="wifi-exists-checkbox" type="checkbox" name="wifiExist" value="No" />
+                    <InputCheckbox id="wifi-exists-checkbox" @bind-Value="inputmodel.WifiExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>WiFi</span>
             </div>
             <div>
                 <label class="switch">
-                    <input class="checkbox" id="swimmingpool-exists-checkbox" type="checkbox" name="swimmingpoolExist" value="No" />
+                    <InputCheckbox id="swimmingpool-exists-checkbox" @bind-Value="inputmodel.SwimmingpoolExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Basen</span>
             </div>
         </div>
-        <input type="file" name="file">
+        @*<input type="file" name="file">*@
+            <InputText id="photo" @bind-Value="inputmodel.ImagePath" placeholder="dodaj zdjęcie" />
         <div>
             <button class="btn btn-primary mt-1" type="submit">Add</button>
         </div>
-    </form>
+</EditForm>
 </div>
 
 @code{
     private string title = "CampApp";
 
+    private InputModel inputmodel = new InputModel();
+    private InputModel inputModelAdress = new InputModel();
+
+
+    private class InputModel
+    {
+        //public AddressModel AddressModel { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string ImagePath { get; set; }
+        public double PricePerDay { get; set; }
+        public bool AnimalsAllowed { get; set; }
+        public bool RestaurantExist { get; set; }
+        public bool ReceptionExist { get; set; }
+        public bool MedicExist { get; set; }
+        public bool GrillExist { get; set; }
+        public bool WifiExist { get; set; }
+        public bool SwimmingpoolExist { get; set; }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var result = await PlaceService.AddPlace(
+                inputmodel.Name,
+                inputmodel.Description,
+                inputmodel.ImagePath,
+                inputmodel.PricePerDay,
+                inputmodel.AnimalsAllowed,
+                inputmodel.RestaurantExist,
+                inputmodel.ReceptionExist,
+                inputmodel.MedicExist,
+                inputmodel.GrillExist,
+                inputmodel.WifiExist,
+                inputmodel.SwimmingpoolExist);
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
 }
