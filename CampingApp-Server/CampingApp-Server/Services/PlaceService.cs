@@ -1,6 +1,5 @@
 ﻿using System;
 using CampingApp_Server.Database;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CampingApp_Server.Services
@@ -23,6 +22,7 @@ namespace CampingApp_Server.Services
 		public Task<List<Place>> GetPlacesByUserId(string userId);
 		public Task<List<Place>> GetAllPlaces();
 	}
+
 	public class PlaceService : IPlaceService
 	{
 		private ApplicationDbContext _applicationDbContext;

@@ -1,8 +1,8 @@
 ﻿using System;
 namespace CampingApp.Domain
 {
-	public class BookingModel
-	{
+	public class ReservationModel
+    {
         public int Id { get; set; }
         public int PlaceId { get; set; }
         public UserModel UserModel { get; set; } //nie uerId

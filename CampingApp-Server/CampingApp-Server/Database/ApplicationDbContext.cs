@@ -9,6 +9,7 @@ namespace CampingApp_Server.Database
 	public class ApplicationDbContext : IdentityDbContext<User> //IdentityDbContext odpowieada za dodanie uzytkownika
 	{
 		public DbSet<Place> Places { get; set; } //dzieki temu utworzy tabele i polaczenie
+		public DbSet<Reservation> Reservations { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
