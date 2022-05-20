@@ -13,6 +13,12 @@
                     <h3>Załóż konto</h3>
                 </div>
                 <div class="own-space">
+                    <InputText id="name" @bind-Value="inputmodel.Name" placeholder="Imię i nazwisko" />
+                </div>
+                <div class="own-space">
+                    <InputText id="phoneNumber" @bind-Value="inputmodel.PhoneNumber" placeholder="Numer telefonu" />
+                </div>
+                <div class="own-space">
                     <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
                 </div>
                 <div class="own-space">
@@ -37,6 +43,8 @@
 
     private class InputModel
     {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }
@@ -44,7 +52,7 @@
     private async Task HandleValidSubmit()
     {
 
-        await CustomUserService.CreateUser(inputmodel.Email, inputmodel.Password);
+        await CustomUserService.CreateUser(inputmodel.Name, inputmodel.PhoneNumber, inputmodel.Email, inputmodel.Password);
 
         //przeladowanie strony z nawigacja do strony glownej:
         NavigationManager.NavigateTo("/signin");

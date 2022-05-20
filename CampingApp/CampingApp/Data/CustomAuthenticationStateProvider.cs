@@ -22,7 +22,7 @@ namespace App_Camping.Data
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Name, user.UserName) //??
                 };
 
                 foreach (var role in user.Roles)
@@ -36,11 +36,12 @@ namespace App_Camping.Data
 
                 return new AuthenticationState(claimsPrincipal); //zwraca specjallny obiekt ktory opisj
             }
-            catch
+            catch(Exception ex)
             {
-
+                Console.WriteLine("error: " + ex);
                 //dla niezalogowaanego uzytkownikka/gdy cos sie nei uda:
-                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())); //zwraca pusty authenticatuion state co oznacza ze jest niezalogowany user
+
             }
             
         }

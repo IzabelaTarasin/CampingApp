@@ -1,32 +1,51 @@
 ﻿@page "/dashboard"
+@using CampingApp.Services;
+@inject IUserService UserService;
 
-<PageTitle>@title</PageTitle>
+<PageTitle>@Title</PageTitle>
 
 <div class="text-center container">
     <div class="mainText">
         <h1 class="display-4 text-capitalize text-black">Zarządzaj kontem</h1>
     </div>
-    <form>
-        <div>
-            <h2>Dane osobowe</h2>
+    <div>
+        <h2>Dane osobowe:</h2>
+    </div>
+    <div>
+        <p>Imię i nazwisko @Name</p>
         </div>
         <div>
-            <p>Imię</p>
+            <p>e-mail @Email</p>
         </div>
         <div>
-            <p>Nazwisko</p>
+            <p>numer telefonu @PhoneNumber</p>
         </div>
         <div>
-            <p>e-mail</p>
+            <p>typ konta @Type</p>
         </div>
         <div>
-            <p>phone number</p>
+            <button class="own-button">Usuń kono</button>
         </div>
-    </form>
 </div>
 
 @code {
-    private string title = "CampApp";
+    private string Title = "CampApp";
+    private string Name;
+    private string Email;
+    private string PhoneNumber;
+    private string Type;
+    //gddy wejdziemy na strone chcemy by automatycznie pobieral dane uzytkownika zalogowanego
+    protected override async Task OnInitializedAsync()
+    {
+        //metoda pyta o szczegoly uzytkownika ktoeych potrzebujemy
+        var user = await UserService.GetMe();
+        PhoneNumber = user.PhoneNumber;
+        Name = user.UserName;
+        Email = user.Email;
+        Type = String.Join(" ", user.Roles);
+        
+
+    }
 
 }
 

@@ -113,7 +113,7 @@
         var outState = await authenticationStateTask;
         //pobranie uzytkownika ktory zalogowany
         var user = outState.User;
-        userEmail = user.Identity.Name; //bo name to email :)
+        userEmail = user.Identity.Name;
     }
 
     private async Task onLogoutButtonClicked()
