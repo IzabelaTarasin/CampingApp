@@ -3,6 +3,9 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
+
+
+
 <div class="page">
     <main>
         <div class="top-row">
@@ -82,6 +85,9 @@
             </AuthorizeView>
             <AuthorizeView>
                 <Authorized>
+                    <div>
+                        <p>@userEmail</p>
+                    </div>
                     <div class="nav-item px-3">
                         <button class="own-button" @onclick="onLogoutButtonClicked">Wyloguj się</button>
                     </div>
@@ -96,6 +102,20 @@
 
 @code
 {
+    //INFO o zalogowanym uzytkowniku
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; } //odpala sie w momencie kiedy uruchomi sie strona po zalogowaniu wiec musimy nadpisac metode oninitialized async
+    private string userEmail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //bedzie pobierane stan zalogowania:
+        var outState = await authenticationStateTask;
+        //pobranie uzytkownika ktory zalogowany
+        var user = outState.User;
+        userEmail = user.Identity.Name; //bo name to email :)
+    }
+
     private async Task onLogoutButtonClicked()
     {
         //czyszczenie tokena i nawigujemy do strony glownej aby to uczycnic musimy wstrzyknac localStorage(odnosi sie do specjalnego miejsca po stronie klienta gdzie mozna keszowac rzeczy i sa w stanie przetwwac zamkniecie okna) i wstrzyknac navigation manager ktory pozwoli na nawigacje z poziomu kodu a nie z navlinka            
