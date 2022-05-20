@@ -1,5 +1,10 @@
 ﻿@inherits LayoutComponentBase
-@using Microsoft.AspNetCore.Components.Authorization;
+@using CampingApp.Services;
+@inject IUserService UserService;
+@inject NavigationManager NavigationManager;
+
+
+
 
 <div class="page">
     <main>
@@ -19,7 +24,6 @@
                     Detail
                 </NavLink>
             </div>
-            
             <AuthorizeView>
                 <Authorized>
                     <div>
@@ -30,11 +34,6 @@
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="reservation">
                             Twoja rezerwacja
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="reservation">
-                            Wyloguj się
                         </NavLink>
                     </div>
                 </Authorized>
@@ -76,18 +75,54 @@
                 </Authorized>
             </AuthorizeView>
             <AuthorizeView Roles="Admin">
-                <Authorize>
+                <Authorized>
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="users">
                             Users
                         </NavLink>
                     </div>
-                </Authorize>
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView>
+                <Authorized>
+                    <div>
+                        <p>Witaj @userEmail</p>
+                    </div>
+                    <div class="nav-item px-3">
+                        <button class="own-button" @onclick="onLogoutButtonClicked">Wyloguj się</button>
+                    </div>
+                </Authorized>
             </AuthorizeView>
         </div>
-
         <div>
             @Body
         </div>
     </main>
 </div>
+
+@code
+{
+    //INFO o zalogowanym uzytkowniku
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; } //odpala sie w momencie kiedy uruchomi sie strona po zalogowaniu wiec musimy nadpisac metode oninitialized async
+    private string userEmail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //bedzie pobierane stan zalogowania:
+        var outState = await authenticationStateTask;
+        //pobranie uzytkownika ktory zalogowany
+        var user = outState.User;
+        userEmail = user.Identity.Name; //bo name to email :)
+    }
+
+    private async Task onLogoutButtonClicked()
+    {
+        //czyszczenie tokena i nawigujemy do strony glownej aby to uczycnic musimy wstrzyknac localStorage(odnosi sie do specjalnego miejsca po stronie klienta gdzie mozna keszowac rzeczy i sa w stanie przetwwac zamkniecie okna) i wstrzyknac navigation manager ktory pozwoli na nawigacje z poziomu kodu a nie z navlinka            
+        //czyszczenie przez localstorage: rrobimy to w pliku userservice
+        await UserService.Logout();
+        //nawigacja do stony glownej:
+        //wstykniecie naav manager:
+        NavigationManager.NavigateTo("", true); //true spowoduje ze przeladuje cala strone, wymusi odswiezenie strony
+    }
+}

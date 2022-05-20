@@ -17,6 +17,7 @@ namespace CampingApp.Services
 		public Task<bool> CreateUser(string email, string password);
 		public Task<bool> SignInUser(string email, string password);
 		public Task<User> GetMe();
+		public Task Logout();
 
 	}
 
@@ -135,6 +136,14 @@ namespace CampingApp.Services
 				throw new Exception("Brak uzytwkonika stworzonwego zJSONa");
             }
 			return user;
+		}
+
+		public async Task Logout()
+		{
+			//czyszczenie tokena i nawigujemy do strony glownej aby to uczycnic musimy wstrzyknac localStorage(odnosi sie do specjalnego miejsca po stronie klienta gdzie mozna keszowac rzeczy i sa w stanie przetwwac zamkniecie okna) i wstrzyknac navigation manager ktory pozwoli na nawigacje z poziomu kodu a nie z navlinka            
+			//czyszczenie przez localstorage:
+			await _localStorage.RemoveItemAsync("token");
+
 		}
 	}
 

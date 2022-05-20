@@ -1,49 +1,55 @@
 ﻿@page "/signin"
 @using CampingApp.Services;
 @inject IUserService CustomUserService;
+@inject NavigationManager NavigationManager;
+
 
 <PageTitle>@title</PageTitle>
 
 <body>
     <div class="container_centered_background_image2">
-         <div class="login__container">
-              <EditForm class="space-own-form" Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-                  <div class="own-space-title">
-                      <h3>Zaloguj się</h3>
-                  </div>
-                  <div class="own-space">
-                      <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
-                  </div>
-                  <div class="own-space">
-                      <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
-                  </div>
-                  <div class="own-space-2">
-                      <button class="own-button" type="submit">Login</button>
-                  </div>
-                  <div class="own-space-2">
-                      <p>Nie posiadasz konta?</p>
-                      <button class="own-button" type="submit">Załóż konto</button>
-                  </div>
-              </EditForm>
-         </div>
-    </div> 
+        <div class="login__container">
+            <EditForm class="space-own-form" Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+                <div class="own-space-title">
+                    <h3>Zaloguj się</h3>
+                </div>
+                <div class="own-space">
+                    <InputText id="emal" @bind-Value="inputmodel.Email" placeholder="E-mail" />
+                </div>
+                <div class="own-space">
+                    <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
+                </div>
+                <div class="own-space-2">
+                    <button class="own-button" type="submit">Login</button>
+                </div>
+                <div class="own-space-2">
+                    <p>Nie posiadasz konta?</p>
+                    <button class="own-button" type="submit">Załóż konto</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
 </body>
 
-        @code {
-            private string title = "CampApp";
+@code {
+    private string title = "CampApp";
 
-            private InputModel inputmodel = new InputModel();
+    private InputModel inputmodel = new InputModel();
 
-            private class InputModel
-            {
-                public string Email { get; set; }
-                public string Password { get; set; }
-            }
+    private class InputModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
 
-            private async Task HandleValidSubmit()
-            {
+    private async Task HandleValidSubmit()
+    {
 
-                await CustomUserService.SignInUser(inputmodel.Email, inputmodel.Password);
-            }
-        }
+        await CustomUserService.SignInUser(inputmodel.Email, inputmodel.Password);
+
+        //przeladowanie strony z nawigacja do strony glownej:
+        NavigationManager.NavigateTo("", true);
+
+    }
+}
 
