@@ -10,7 +10,7 @@ namespace CampingApp_Server.Services
 {
 	public interface IUserService
     {
-		public Task<bool> CreateUser(string email, string password);
+		public Task<bool> CreateUser(string name, string phoneNumber, string email, string password);
 		public Task<User> GetUserById(string id);
 		public Task<string> SignIn(string email, string password);
 		public Task<List<string>> GetRolesForUserId(string id);
@@ -29,11 +29,12 @@ namespace CampingApp_Server.Services
 			_configuration = configuration;
 		}
 
-		public async Task<bool> CreateUser(string email, string password)
+		public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password)
         {
 			User user = new User {
-				Email = email,
-				UserName = email
+				UserName = name,
+				PhoneNumber = phoneNumber,
+				Email = email
 			};
 
 			var result = await _userManager.CreateAsync(user, password); //nastepuje tworzenie uzytkownika
@@ -69,7 +70,7 @@ namespace CampingApp_Server.Services
 		public async Task<string> SignIn(string email, string password)
         {
 			//ma zwracac imie uzytkownika
-			User user = await _userManager.FindByNameAsync(email);
+			User user = await _userManager.FindByEmailAsync(email);
 			if (user == null)
 			{
 				throw new Exception("brak uzytkownika");
@@ -115,7 +116,7 @@ namespace CampingApp_Server.Services
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.Id),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+				new Claim(JwtRegisteredClaimNames.Email, user.Email)
 				
 			};
 

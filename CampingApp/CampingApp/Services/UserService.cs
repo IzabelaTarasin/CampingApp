@@ -10,11 +10,16 @@ namespace CampingApp.Services
 	//odpowiedz z serwera to jest format json ktory zawiera email i id wiec
 	//zmienna rekord musi umozliwic zapisanie id i email
 	//potrzebne do metody getme
-	public record User(string Id, string Email, List<string> Roles);
+	public record User(
+		string Id,
+		string Email,
+		string UserName,
+		string PhoneNumber,
+		List<string> Roles);
 
 	public interface IUserService
 	{
-		public Task<bool> CreateUser(string email, string password);
+		public Task<bool> CreateUser(string name, string phoneNumber, string email, string password);
 		public Task<bool> SignInUser(string email, string password);
 		public Task<User> GetMe();
 		public Task Logout();
@@ -33,7 +38,7 @@ namespace CampingApp.Services
 			_localStorage = localStorage;
         }
 
-		public async Task<bool> CreateUser(string email, string password) // trzeba tez dac do applcati backendowej program.cs odpowiedni kod app.UseCors(x => x
+		public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password) // trzeba tez dac do applcati backendowej program.cs odpowiedni kod app.UseCors(x => x
             //.AllowAnyOrigin()
             //.AllowAnyMethod()
             //.AllowAnyHeader());
@@ -42,6 +47,8 @@ namespace CampingApp.Services
 			//tworzymy slownik aby zrobic json
 			var data = new Dictionary<string, string>
 			{
+				{ "name", name },
+				{ "phoneNumber", phoneNumber },
 				{ "email", email },
 				{ "password", password }
 			};
@@ -65,8 +72,6 @@ namespace CampingApp.Services
 				Console.WriteLine(ex.Message);
 				return false;
 			}
-
-
 		}
 
 		public async Task<bool> SignInUser(string email, string password)

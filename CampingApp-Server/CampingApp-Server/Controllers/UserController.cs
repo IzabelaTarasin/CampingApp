@@ -52,6 +52,8 @@ namespace CampingApp_Server.Controllers
 			{
 				Id = user.Id,
 				Email = user.Email,
+				UserName = user.UserName,
+				PhoneNumber = user.PhoneNumber,
 				Roles = roles //gdy ktos zpayta o me to serwer odpwoie id, email i role jakie ten zalogowany uzytkownik posiada
 			});
 		}
