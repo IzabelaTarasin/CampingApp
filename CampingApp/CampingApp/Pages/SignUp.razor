@@ -1,6 +1,7 @@
 ﻿@page "/signup"
 @using CampingApp.Services;
 @inject IUserService CustomUserService;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>@title</PageTitle>
 
@@ -44,6 +45,9 @@
     {
 
         await CustomUserService.CreateUser(inputmodel.Email, inputmodel.Password);
+
+        //przeladowanie strony z nawigacja do strony glownej:
+        NavigationManager.NavigateTo("/signin");
     }
 
 }
