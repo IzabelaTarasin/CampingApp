@@ -135,7 +135,6 @@ namespace CampingApp.Services
 				throw new Exception("Brak uzytwkonika stworzonwego zJSONa");
             }
 			return user;
-
 		}
 	}
 

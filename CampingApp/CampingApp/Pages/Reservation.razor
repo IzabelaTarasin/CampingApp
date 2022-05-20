@@ -4,7 +4,9 @@
 <PageTitle>@title</PageTitle>
 
 <div class="text-center">
-    <h1>Twoja rezerwacja</h1>
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Twoja rezerwacja</h1>
+    </div>
     <div>
         <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
     </div>

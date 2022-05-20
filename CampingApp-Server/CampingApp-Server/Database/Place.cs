@@ -4,7 +4,8 @@ namespace CampingApp_Server.Database
 	public class Place
 	{
 		public int Id { get; set; }
-        public User User { get; set; }
+		public string UserId { get; set; } //normanie id ale uzywany usera z biblioteki security wiec bedzie jako string
+		public User User { get; set; }
         public Address Address { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }

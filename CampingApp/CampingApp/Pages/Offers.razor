@@ -1,5 +1,7 @@
 ﻿@page "/offers"
 @using CampingApp.Domain;
+@using CampingApp.Services;
+@inject IPlaceService placeService;
 
 <PageTitle>@title</PageTitle>
 
@@ -47,56 +49,21 @@
 @code {
     private string title = "CampApp";
 
-    List<PlaceModel> Places = new List<PlaceModel>
+    List<PlaceModel> Places = new List<PlaceModel>();
+
+    protected override async Task OnInitializedAsync() //odpali sie gdy pierwszy raz odpali widok
     {
-        new PlaceModel
+        //chcemy od razu zaladowac z bazy danych liste miec i dzieki temu ze ta metoda oninit uruch sie od razu to tak bedzie
+        try
         {
-            Id = 1,
-            Name = "Zielony zakątek",
-            Description = "Woj. pomorskie",
-            PricePerDay = 123.00
-        },
-        new PlaceModel
-        {
-            Id = 2,
-            Name = "Gaj u Wacława",
-            Description = "Woj. małopolskie",
-            PricePerDay = 123.00
-
-        },
-        new PlaceModel
-        {
-            Id = 1,
-            Name = "Biedroneczka",
-            Description = "Woj. mazowieckie",
-            PricePerDay = 70.00
-
-        },
-        new PlaceModel
-        {
-            Id = 2,
-            Name = "Błękitna laguna",
-            Description = "Woj. śląskie",
-            PricePerDay = 98.00
-
-        },
-        new PlaceModel
-        {
-            Id = 1,
-            Name = "Agrourystyka u Krysi",
-            Description = "Woj. pomorske",
-            PricePerDay = 345.00
-
-        },
-        new PlaceModel
-        {
-            Id = 2,
-            Name = "Za ciupagą",
-            Description = "Woj. podkarpackie",
-            PricePerDay = 13.00
+            Places = await placeService.GetPlaces();
 
         }
-    };
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex);
+        }
+    }
 
 
 }
