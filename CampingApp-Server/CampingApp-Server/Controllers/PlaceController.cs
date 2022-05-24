@@ -86,7 +86,28 @@ namespace CampingApp_Server.Controllers
         }
 
         [AllowAnonymous]
-        [Route("/place")]
+        [HttpGet("{placeId}")]
+        public async Task<IActionResult> GetPlaceById(int placeId)
+        {
+            try
+            {
+                Place place = await _placeService.GetPlaceById(placeId);
+
+                if(place == null)
+                {
+                    throw new Exception("Brak obiektu o podanym id");
+                }
+
+                return Ok(place);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Pobranie obiektu nie powiodło się" + ex.Message);
+            }
+        }
+
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllPlaces()
         {

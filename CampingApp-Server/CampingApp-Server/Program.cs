@@ -13,6 +13,8 @@ var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnec
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(defaultConnection));
 
+AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
 //potrzebne do ssetupu usera z rola
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -60,6 +62,7 @@ builder.Services.AddAuthentication(x =>
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>(); //mowi o tym ze do systemu zaleznosci zbudowanego przez micros. za kazdym razem gdy jest obiekt ktory korzysta z iuserservice to zostanie utworzony obiekt userservice
 builder.Services.AddScoped<IPlaceService, PlaceService>();
+builder.Services.AddScoped<IReservtionService, ReservtionService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

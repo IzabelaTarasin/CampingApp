@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CampingApp_Server.Migrations
 {
-    public partial class initial : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,6 +40,19 @@ namespace CampingApp_Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StatusName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,12 +107,19 @@ namespace CampingApp_Server.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     AddressId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     ImagePath = table.Column<string>(type: "text", nullable: false),
-                    PricePerDay = table.Column<double>(type: "double precision", nullable: false)
+                    PricePerDay = table.Column<double>(type: "double precision", nullable: false),
+                    AnimalsAllowed = table.Column<bool>(type: "boolean", nullable: false),
+                    RestaurantExist = table.Column<bool>(type: "boolean", nullable: false),
+                    ReceptionExist = table.Column<bool>(type: "boolean", nullable: false),
+                    MedicExist = table.Column<bool>(type: "boolean", nullable: false),
+                    GrillExist = table.Column<bool>(type: "boolean", nullable: false),
+                    WifiExist = table.Column<bool>(type: "boolean", nullable: false),
+                    SwimmingpoolExist = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +134,8 @@ namespace CampingApp_Server.Migrations
                         name: "FK_Places_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,13 +223,59 @@ namespace CampingApp_Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PlaceId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    StatusId = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Status_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
                     { "1", "1", "Admin", "ADMIN" },
-                    { "2", "2", "Standard", "STANDARD" }
+                    { "2", "2", "Standard", "STANDARD" },
+                    { "3", "3", "Business", "BUSINESS" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "Id", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Aktywna" },
+                    { 2, "Anulowana" },
+                    { 3, "Zrealizowana" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -224,6 +291,21 @@ namespace CampingApp_Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Places_UserId",
                 table: "Places",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_PlaceId",
+                table: "Reservations",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_StatusId",
+                table: "Reservations",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -265,7 +347,7 @@ namespace CampingApp_Server.Migrations
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
-                name: "Places");
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -280,10 +362,16 @@ namespace CampingApp_Server.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Places");
+
+            migrationBuilder.DropTable(
+                name: "Status");
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Users");

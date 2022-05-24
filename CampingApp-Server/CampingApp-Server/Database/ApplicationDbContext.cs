@@ -9,6 +9,7 @@ namespace CampingApp_Server.Database
 	public class ApplicationDbContext : IdentityDbContext<User> //IdentityDbContext odpowieada za dodanie uzytkownika
 	{
 		public DbSet<Place> Places { get; set; } //dzieki temu utworzy tabele i polaczenie
+		public DbSet<Reservation> Reservations { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
@@ -33,7 +34,7 @@ namespace CampingApp_Server.Database
 				.HasData(
 				new IdentityRole
 				{
-					Id = "1",
+					Id = "1", //tu wyjatkowo id jest string
 					Name = "Admin",
 					ConcurrencyStamp = "1",
 					NormalizedName = "ADMIN"
@@ -53,6 +54,24 @@ namespace CampingApp_Server.Database
 					NormalizedName = "BUSINESS"
 				});
 
+			//tworzenie statusów  //predifiniowane w bazie
+			builder.Entity<Status>()
+				.HasData(
+				new Status
+                {
+					Id = 1,
+					StatusName = "Aktywna"
+                },
+				new Status
+                {
+					Id = 2,
+					StatusName = "Anulowana"
+				},
+				new Status {
+					Id = 3,
+					StatusName = "Zrealizowana"
+				}
+				);
 		}
 	}
 }

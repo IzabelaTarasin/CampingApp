@@ -1,4 +1,4 @@
-﻿@page "/reservations"
+﻿@*@page "/reservations"
 @using CampingApp.Domain;
 
 <PageTitle>@title</PageTitle>
@@ -25,50 +25,43 @@
     @code {
         private string title = "CampApp";
 
-        List<BookingModel> BookingModels = new List<BookingModel>
+        List<ReservationModel> BookingModels = new List<ReservationModel>
 {
-        new BookingModel
+        new ReservationModel
         {
             Id = 1,
             StartDate = "20-09-2019",
-            EndDate = "22-09-2019",
-            HasAnimals = true
+            EndDate = "22-09-2019"
         },
-        new BookingModel
+        new ReservationModel
         {
             Id = 2,
             StartDate = "20-10-2012",
-            EndDate = "09-11-2021",
-            HasAnimals = false
+            EndDate = "09-11-2021"
         },
-        new BookingModel
+        new ReservationModel
         {
             Id = 3,
             StartDate = "13-09-2019",
-            EndDate = "17-09-2019",
-            HasAnimals = true
+            EndDate = "17-09-2019"
         },
-        new BookingModel
+        new ReservationModel
         {
             Id = 4,
             StartDate = "20-09-2019",
-            EndDate = "22-09-2019",
-            HasAnimals = true
+            EndDate = "22-09-2019"
         },
-        new BookingModel
+        new ReservationModel
         {
             Id = 3,
             StartDate = "13-09-2019",
-            EndDate = "17-09-2019",
-            HasAnimals = true
-        },
-        new BookingModel
+            EndDate = "17-09-2019"        },
+        new ReservationModel
         {
             Id = 4,
             StartDate = "20-09-2019",
-            EndDate = "22-09-2019",
-            HasAnimals = true
+            EndDate = "22-09-2019"
         }
     };
-    }
+    }*@
 

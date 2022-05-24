@@ -23,6 +23,7 @@ namespace CampingApp.Services
 			bool SwimmingpoolExist);
 		public Task<List<PlaceModel>> GetMyPlaces();
 		public Task<List<PlaceModel>> GetPlaces();
+		public Task<PlaceModel> GetPlaceById(int placeId);
 	}
 
 	public class PlaceService : IPlaceService
@@ -137,6 +138,23 @@ namespace CampingApp.Services
 			return placeModel;
 
 		}
+
+		public async Task<PlaceModel> GetPlaceById(int placeId)
+        {
+			var request = new HttpRequestMessage(HttpMethod.Get, $"/place/{placeId}"); //interpolacja stringow
+			var response = await _httpClient.SendAsync(request);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new Exception("Brak obiektu");
+			}
+
+			PlaceModel placeModel = await response.Content.ReadFromJsonAsync<PlaceModel>();
+
+			return placeModel;
+
+		}
+
 
 	}
 }
