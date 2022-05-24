@@ -2,6 +2,7 @@
 @using CampingApp.Domain;
 @using CampingApp.Services;
 @inject IPlaceService placeService;
+@inject NavigationManager navigationManager;
 
 <PageTitle>@title</PageTitle>
 
@@ -28,18 +29,19 @@
                 </div>
             </div>
             @foreach (var place in Places)
-            {
-                var imagePath = "/images/camping.jpeg";
+                {
+                    var imagePath = "/images/camping.jpeg";
+                    var link = "detail/" + place.Id;
+        <div class="col-4 mb-5">
+            @*<NavLink class="pizza-img" href=@link>*@
+            <img src="@imagePath" class="w-100" asp-append-version="true" />
+            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
 
-                <div class="col-4 mb-5">
-                    <a class="pizza-img" asp-area="" asp-page="Detail">
-                        <img src="@imagePath" class="w-100" asp-append-version="true" />
-                    </a>
-                    <br />
-                    <p class="nameText">@place.Name</p>
-                    <p class="smallTextOwn">@place.Description</p>
-                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                </div>
+            <br />
+            <p class="nameText">@place.Name</p>
+            <p class="smallTextOwn">@place.Description</p>
+            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+        </div>
             }
         </div>
     </div>
@@ -63,6 +65,12 @@
         {
             Console.WriteLine("Error: " + ex);
         }
+    }
+
+    private void NavigateToDetails(PlaceModel placeModel)
+    {
+        Console.WriteLine("iza" + placeModel.Id);
+        navigationManager.NavigateTo($"detail/{placeModel.Id}");
     }
 
 

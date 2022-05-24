@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CampingApp_Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220512201518_add-new-role")]
-    partial class addnewrole
+    [Migration("20220523203623_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,13 +72,22 @@ namespace CampingApp_Server.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("AnimalsAllowed")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("GrillExist")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("MedicExist")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -87,8 +96,21 @@ namespace CampingApp_Server.Migrations
                     b.Property<double>("PricePerDay")
                         .HasColumnType("double precision");
 
+                    b.Property<bool>("ReceptionExist")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("RestaurantExist")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SwimmingpoolExist")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("WifiExist")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -97,6 +119,75 @@ namespace CampingApp_Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Places");
+                });
+
+            modelBuilder.Entity("CampingApp_Server.Database.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("CampingApp_Server.Database.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusName = "Aktywna"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "Anulowana"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Zrealizowana"
+                        });
                 });
 
             modelBuilder.Entity("CampingApp_Server.Database.User", b =>
@@ -328,9 +419,38 @@ namespace CampingApp_Server.Migrations
 
                     b.HasOne("CampingApp_Server.Database.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CampingApp_Server.Database.Reservation", b =>
+                {
+                    b.HasOne("CampingApp_Server.Database.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CampingApp_Server.Database.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CampingApp_Server.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Place");
+
+                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });

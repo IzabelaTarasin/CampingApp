@@ -127,16 +127,14 @@ namespace CampingApp_Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("EndDate")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PlaceId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("StartDate")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -146,6 +144,8 @@ namespace CampingApp_Server.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
 
                     b.HasIndex("StatusId");
 
@@ -169,6 +169,23 @@ namespace CampingApp_Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusName = "Aktywna"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "Anulowana"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Zrealizowana"
+                        });
                 });
 
             modelBuilder.Entity("CampingApp_Server.Database.User", b =>
@@ -411,6 +428,12 @@ namespace CampingApp_Server.Migrations
 
             modelBuilder.Entity("CampingApp_Server.Database.Reservation", b =>
                 {
+                    b.HasOne("CampingApp_Server.Database.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CampingApp_Server.Database.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -422,6 +445,8 @@ namespace CampingApp_Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Place");
 
                     b.Navigation("Status");
 

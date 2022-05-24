@@ -1,5 +1,7 @@
 ﻿@page "/reservation"
 @using CampingApp.Domain;
+@using CampingApp.Services;
+@inject IReservationService ReservationService;
 
 <PageTitle>@title</PageTitle>
 
@@ -10,14 +12,14 @@
     <div>
         <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
     </div>
-    <form>
+    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
         <input type="hidden" name="id">
 
         <label for="start">Rezerwacja od:</label>
-        <input type="date" id="start-date-input" name="startDate">
+        <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
 
         <label for="end">do:</label>
-        <input type="date" id="end-date-input" name="endDate">
+        <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
 
         <div>
             <div>
@@ -69,11 +71,14 @@
         <p class="price" id="total-price"></p>
 
         <button class="btn btn-primary mt-1" type="submit">Anuluj</button>
-    </form>
+    </EditForm>
 </div>
 
 @code {
     private string title = "CampApp";
+
+    private InputModel inputmodel = new InputModel();
+    private InputModel inputModelAdress = new InputModel();
 
     PlaceModel Place = new PlaceModel
     {
@@ -89,6 +94,30 @@
         WifiExist = false,
         SwimmingpoolExist = false
     };
+
+    private class InputModel
+    {
+        public int PlaceId { get; set; }
+        @*public UserModel UserModel { get; set; }*@
+        @*public StatusModel StatusModel { get; set; }*@
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var result = await ReservationService.AddReservation(
+                inputmodel.PlaceId = 1,
+                inputmodel.StartDate,
+                inputmodel.EndDate);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
 
 }
 

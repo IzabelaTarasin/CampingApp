@@ -13,6 +13,8 @@ var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnec
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(defaultConnection));
 
+AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
 //potrzebne do ssetupu usera z rola
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

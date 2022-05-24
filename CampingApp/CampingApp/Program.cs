@@ -23,6 +23,7 @@ builder.Services.AddScoped(
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPlaceService, PlaceService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 builder.Services.AddBlazoredLocalStorage();
 

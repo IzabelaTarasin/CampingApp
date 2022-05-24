@@ -20,6 +20,7 @@ namespace CampingApp_Server.Services
 			bool wifiExist,
 			bool swimmingpoolExist);
 		public Task<List<Place>> GetPlacesByUserId(string userId);
+		public Task<Place> GetPlaceById(int placeId);
 		public Task<List<Place>> GetAllPlaces();
 	}
 
@@ -96,6 +97,15 @@ namespace CampingApp_Server.Services
 
 			return places;
         }
+
+		public async Task<Place> GetPlaceById(int placeId)
+		{
+			//gdy pobieramy zbazy danaych to operujemy na pplicationDbContext obiekcie
+			return await _applicationDbContext
+				.Places
+				.Include(c => c.Address)
+				.SingleOrDefaultAsync(c => c.Id == placeId); //zaciagamy adres bo bez tego adres byl null przy pobraniu choc w bazie byl
+		}
 
 		public async Task<List<Place>> GetAllPlaces()
 		{
