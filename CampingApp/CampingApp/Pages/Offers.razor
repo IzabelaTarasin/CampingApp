@@ -25,26 +25,26 @@
                             <p style="text-align: left;">Wybierz, potwierdź i ciesz się przygodą</p>
                             @*<a class="btn btn-primary" style="float: left" asp-area="" asp-page="Detail/drawPlace">Podgląd random pola</a>*@
                             <button @onclick="NavigateToRandomDetails">
-                                    Losowe pole
+                                Losowe pole
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             @foreach (var place in Places)
-                {
-                    var imagePath = "/images/camping.jpeg";
-                    var link = "detail/" + place.Id;
-        <div class="col-4 mb-5">
-            @*<NavLink class="pizza-img" href=@link>*@
-            <img src="@imagePath" class="w-100" asp-append-version="true" />
-            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
+            {
+                var imagePath = "/images/camping.jpeg";
+                var link = "detail/" + place.Id;
+                <div class="col-4 mb-5">
+                    @*<NavLink class="pizza-img" href=@link>*@
+                    <img src="@imagePath" class="w-100" asp-append-version="true" />
+                    <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
 
-            <br />
-            <p class="nameText">@place.Name</p>
-            <p class="smallTextOwn">@place.Description</p>
-            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-        </div>
+                    <br />
+                    <p class="nameText">@place.Name</p>
+                    <p class="smallTextOwn">@place.Description</p>
+                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                </div>
             }
         </div>
     </div>

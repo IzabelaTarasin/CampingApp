@@ -13,25 +13,30 @@
 
     <div class="container">
         <div class="row">
-                @foreach (var reservation in myReservations)
-                {
-                @*var imagePath = "/images/camping.jpeg";*@
-
-                @*<div class="col-4 mb-5">*@
-                @*<a class="pizza-img" asp-area="" asp-page="Detail">
-                <img src="@imagePath" class="w-100" asp-append-version="true" />
-            </a>*@
-                @*<br />*@
-                @*<p class="nameText">@reservation.PlaceModel.Name</p>*@
-                @*<p class="smallTextOwn">@reservation.StartDate</p>*@
-                @*<p class="smallTextOwn">@reservation.EndDate</p>*@
-                @*<p class="smallTextOwn">@reservation.StatusModel</p>*@
-                @*@if (reservation.StatusModel.Id == 1)
+            @if (myReservations is not null)
             {
-                <button class="own-button" type="submit">Zarządzaj rezerwacją</button>
-            }*@
-                @*</div>*@
+                foreach (var reservation in myReservations)
+                {
+                    var imagePath = "/images/camping.jpeg";
+
+                    <div class="col-4 mb-5">
+                        <a class="pizza-img" asp-area="" asp-page="Detail">
+                            <img src="@imagePath" class="w-100" asp-append-version="true" />
+                        </a>
+                        <br />
+                        <p class="nameText">@reservation.Place.Name</p>
+                        <p class="smallTextOwn">od: @reservation.StartDate</p>
+                        <p class="smallTextOwn">do: @reservation.EndDate</p>
+                        <p class="smallTextOwn">status rezerwacji: @reservation.Status.StatusName</p>
+                        @if (reservation.Status.Id == 1)
+                        {
+                            @*//rzeba przechwycic id place i w tym celu musimy stworzyc anonimowa funckje ktora bedzie przechwytywac obiekt*@
+                            @*reservation i wywola handleButtonClick z tym obiektetm *@
+                            <button class="own-button" @onclick="@(()=>HandleButtonClick(reservation))">Zarządzaj rezerwacją</button>
+                        }
+                    </div>
                 }
+            }
         </div>
     </div>
 </div>
@@ -56,17 +61,16 @@
         }
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleButtonClick(ReservationModel reservationModel)
     {
         try
         {
             //przeladowanie strony z nawigacja do strony glownej:
-            NavigationManager.NavigateTo("/reservation", true);
+            NavigationManager.NavigateTo($"/reservation/{reservationModel.Id}");
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
     }
-
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 namespace CampingApp_Server.Database
 {
-	public class Address
-	{
+    public class Address
+    {
         public int Id { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
@@ -16,7 +16,7 @@ namespace CampingApp_Server.Database
         {
             var address = "";
 
-            if(!string.IsNullOrWhiteSpace(Street))
+            if (!string.IsNullOrWhiteSpace(Street))
             {
                 address += $"ul. {Street}";
             }

@@ -34,6 +34,7 @@
     <Folder Include="Domain\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
@@ -50,5 +51,6 @@
     <Content Remove="wwwroot\images\camp7.jpg" />
     <Content Remove="wwwroot\images\camp8.jpg" />
     <Content Remove="wwwroot\images\camp9.jpg" />
+    <Content Remove="wwwroot\js\" />
   </ItemGroup>
 </Project>

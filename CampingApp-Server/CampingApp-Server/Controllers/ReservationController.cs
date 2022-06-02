@@ -3,11 +3,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CampingApp_Server.Database;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp;
-using System.Collections;
-using System.Text;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace CampingApp_Server.Controllers
 {
@@ -25,12 +22,18 @@ namespace CampingApp_Server.Controllers
         private IReservtionService _reservtionService;
         private IPlaceService _placeService;
         private IPdfCreatorService _pdfCreatorService;
+        private ILogger<ReservationController> _logger;
 
-        public ReservationController(IReservtionService reservtionService, IPlaceService placeService, IPdfCreatorService pdfCreatorService)
+        public ReservationController(
+            IReservtionService reservtionService,
+            IPlaceService placeService,
+            IPdfCreatorService pdfCreatorService,
+            ILogger<ReservationController> logger)
         {
             _reservtionService = reservtionService;
             _placeService = placeService;
             _pdfCreatorService = pdfCreatorService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -68,7 +71,7 @@ namespace CampingApp_Server.Controllers
 
                 if (reservations.Count == 0)
                 {
-                    return Ok("Ten użytkownik nie posiada jeszcze żadnej rezerwacji");
+                    return BadRequest("Ten użytkownik nie posiada jeszcze żadnej rezerwacji");
                 }
 
                 return Ok(reservations);
@@ -115,21 +118,54 @@ namespace CampingApp_Server.Controllers
         {
             try
             {
-                var resevation = await _reservtionService.GetReservationsById(id);
+                var resevation = await _reservtionService.GetReservationById(id);
 
                 if (resevation is null)
                 {
                     throw new Exception("Nie ma rezerwacji o podanym id");
                 }
 
-                var path = _pdfCreatorService.CreatePdf(resevation);
-                
-                return Ok(path); //bo zwracamy przegladarce sciezke do pobraania pliku (w heaaderze powinno byc w pasku aadresu)
+                var bytes = _pdfCreatorService.CreatePdf(resevation);
+                return File(bytes, "application/pdf");
             }
             catch (Exception ex)
             {
                 return BadRequest("Pobranie pliku pdf nie powiodło się" + ex.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetReservationById(int id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Reservation reservation = await _reservtionService.GetReservationById(id);
+
+            if (reservation is null)
+            {
+                return BadRequest("Ten użytkownik nie posiada jeszcze żadnej rezerwacji");
+            }
+
+            return Ok(reservation);
+        }
     }
 }
+
+//public HttpResponseMessage GetFile(string id)
+//{
+//    if (String.IsNullOrEmpty(id))
+//        return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+//    string fileName;
+//    string localFilePath;
+//    int fileSize;
+
+//    localFilePath = getFileFromID(id, out fileName, out fileSize);
+
+//    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+//    response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+//    response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+//    response.Content.Headers.ContentDisposition.FileName = fileName;
+//    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+
+//    return response;
+//}

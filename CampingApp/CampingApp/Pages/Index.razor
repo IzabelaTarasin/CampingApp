@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Components.Authorization;
 @inject NavigationManager NavigationManager;
 
-
 <PageTitle>CampApp - be wild</PageTitle>
 
 @*temporary*@
@@ -167,7 +166,7 @@
         {
             Console.WriteLine("Ok");
             //przeladowanie strony z nawigacja:
-            NavigationManager.NavigateTo("/offers", true);
+            NavigationManager.NavigateTo("/offers");
         }
         catch (Exception ex)
         {

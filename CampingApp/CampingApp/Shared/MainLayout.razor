@@ -118,7 +118,7 @@
 
     private async Task onLogoutButtonClicked()
     {
-        //czyszczenie tokena i nawigujemy do strony glownej aby to uczycnic musimy wstrzyknac localStorage(odnosi sie do specjalnego miejsca po stronie klienta gdzie mozna keszowac rzeczy i sa w stanie przetwwac zamkniecie okna) i wstrzyknac navigation manager ktory pozwoli na nawigacje z poziomu kodu a nie z navlinka            
+        //czyszczenie tokena i nawigujemy do strony glownej aby to uczycnic musimy wstrzyknac localStorage(odnosi sie do specjalnego miejsca po stronie klienta gdzie mozna keszowac rzeczy i sa w stanie przetwwac zamkniecie okna) i wstrzyknac navigation manager ktory pozwoli na nawigacje z poziomu kodu a nie z navlinka
         //czyszczenie przez localstorage: rrobimy to w pliku userservice
         await UserService.Logout();
         //nawigacja do stony glownej:

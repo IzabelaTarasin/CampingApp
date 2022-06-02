@@ -5,21 +5,23 @@ using iTextSharp;
 using System.Collections;
 using System.Text;
 using CampingApp_Server.Database;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace CampingApp_Server.Services
 {
-	public interface IPdfCreatorService
+    public interface IPdfCreatorService
     {
-        string CreatePdf(Reservation reservation);
+        byte[] CreatePdf(Reservation reservation);
     }
 
     public class PdfCreatorService : IPdfCreatorService
-	{
-		public PdfCreatorService()
-		{
-		}
+    {
+        public PdfCreatorService()
+        {
+        }
 
-        public string CreatePdf(Reservation reservation)
+        public byte[] CreatePdf(Reservation reservation)
         {
             var path = Directory.GetCurrentDirectory();
             var pdfPath = $"{path}/confirm.pdf";
@@ -38,7 +40,8 @@ namespace CampingApp_Server.Services
             var fontBold = new Font(baseFontAnandaBold, 12, Font.NORMAL);
             var fontMainBold = new Font(baseFontAnandaBold, 15, Font.NORMAL);
 
-            var stream = new FileStream(pdfPath, FileMode.Create);
+            var stream = new MemoryStream();
+            //var stream = new FileStream(pdfPath, FileMode.Create);
 
             // step 1
             var document = new Document();
@@ -122,18 +125,20 @@ namespace CampingApp_Server.Services
             Phrase numberOfPeopleTitle = new Phrase("Zarezerwowane dla: ", fontBold);
             cell = new PdfPCell(numberOfPeopleTitle) { MinimumHeight = 36f };
             table.AddCell(cell);
-            if(reservation.NumberOfPeople == 1)
+            if (reservation.NumberOfPeople == 1)
             {
                 Phrase one = new Phrase($"{reservation.NumberOfPeople} osoby", fontRegular);
                 cell = new PdfPCell(one) { MinimumHeight = 36f };
                 table.AddCell(cell);
-            } else
+            }
+            else
             {
                 Phrase more = new Phrase($"{reservation.NumberOfPeople} osób", fontRegular);
                 cell = new PdfPCell(more) { MinimumHeight = 36f };
                 table.AddCell(cell);
             }
-            if(reservation.Status.Id == 1){
+            if (reservation.Status.Id == 1)
+            {
                 Phrase sumForActiveStatusTitle = new Phrase("Kwota do zapłaty: ", fontBold);
                 cell = new PdfPCell(sumForActiveStatusTitle) { MinimumHeight = 36f };
                 table.AddCell(cell);
@@ -141,7 +146,7 @@ namespace CampingApp_Server.Services
                 cell = new PdfPCell(sumForActiveStatus) { MinimumHeight = 36f };
                 table.AddCell(cell);
             }
-            else if(reservation.Status.Id == 3)
+            else if (reservation.Status.Id == 3)
             {
                 Phrase sumForDoneStatusTitle = new Phrase("Status rezerwacji: ", fontBold);
                 cell = new PdfPCell(sumForDoneStatusTitle) { MinimumHeight = 36f };
@@ -159,8 +164,8 @@ namespace CampingApp_Server.Services
                 cell = new PdfPCell(sumForCancelStatus) { MinimumHeight = 36f };
                 table.AddCell(cell);
             }
-            
-            
+
+
             cb.SaveState();
 
             //create backkground
@@ -204,10 +209,15 @@ namespace CampingApp_Server.Services
             cb.EndText();
 
             document.Close();
+
+            var bytes = stream.ToArray();
+
             stream.Dispose();
 
-            return pdfPath;
+            return bytes;
         }
+
+
 
         private string GetFacilities(Place place)
         {
@@ -250,6 +260,6 @@ namespace CampingApp_Server.Services
 
             return facilities;
         }
-	}
+    }
 }
 
