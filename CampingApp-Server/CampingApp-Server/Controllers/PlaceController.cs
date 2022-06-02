@@ -21,7 +21,15 @@ namespace CampingApp_Server.Controllers
             bool medicExist,
             bool grillExist,
             bool wifiExist,
-            bool swimmingpoolExist);
+            bool swimmingpoolExist,
+            string postalCode,
+            string city,
+            string houseNumber,
+            string localNumber,
+            string street,
+            string voivodeship,
+            string country
+        );
 
     [Authorize(Roles = "Business")]
     [ApiController]
@@ -54,7 +62,15 @@ namespace CampingApp_Server.Controllers
                     dto.medicExist,
                     dto.grillExist,
                     dto.wifiExist,
-                    dto.swimmingpoolExist);
+                    dto.swimmingpoolExist,
+                    dto.postalCode,
+                    dto.city,
+                    dto.houseNumber,
+                    dto.localNumber,
+                    dto.street,
+                    dto.voivodeship,
+                    dto.country
+                );
 
                 return Ok(result);
             }

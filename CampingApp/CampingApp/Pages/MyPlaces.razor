@@ -2,6 +2,8 @@
 @using CampingApp.Services;
 @using CampingApp.Domain;
 @inject IPlaceService placeService;
+@inject NavigationManager NavigationManager;
+
 
 <PageTitle>@title</PageTitle>
 
@@ -16,17 +18,17 @@
             {
                 var imagePath = "/images/camping.jpeg";
 
-            <div class="col-4 mb-5">
-                <a class="pizza-img" asp-area="" asp-page="Detail">
-                    <img src="@imagePath" class="w-100" asp-append-version="true" />
-                </a>
-                <br />
-                <p class="nameText">@place.Name</p>
-                <p class="smallTextOwn">@place.Description</p>
-                <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                <button class="own-button" type="submit">Usuń obiekt</button>
-                <button class="own-button" type="submit">Edytuj obiekt</button>
-            </div>
+                <div class="col-4 mb-5">
+                    <a class="pizza-img" asp-area="" asp-page="Detail">
+                        <img src="@imagePath" class="w-100" asp-append-version="true" />
+                    </a>
+                    <br />
+                    <p class="nameText">@place.Name</p>
+                    <p class="smallTextOwn">@place.Description</p>
+                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                    <button class="own-button" type="submit">Usuń obiekt</button>
+                    <button class="own-button" type="submit">Edytuj obiekt</button>
+                </div>
             }
         </div>
     </div>

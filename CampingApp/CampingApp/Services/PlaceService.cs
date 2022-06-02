@@ -20,7 +20,14 @@ namespace CampingApp.Services
 			bool MedicExist,
 			bool GrillExist,
 			bool WifiExist,
-			bool SwimmingpoolExist);
+			bool SwimmingpoolExist,
+			string PostalCode,
+			string City,
+			string HouseNumber,
+			string LocalNumber,
+			string Street,
+			string Voivodeship,
+			string Country);
 		public Task<List<PlaceModel>> GetMyPlaces();
 		public Task<List<PlaceModel>> GetPlaces();
 		public Task<PlaceModel> GetPlaceById(int placeId);
@@ -48,7 +55,14 @@ namespace CampingApp.Services
 			bool MedicExist,
 			bool GrillExist,
 			bool WifiExist,
-			bool SwimmingpoolExist)
+			bool SwimmingpoolExist,
+			string PostalCode,
+			string City,
+			string HouseNumber,
+			string LocalNumber,
+			string Street,
+			string Voivodeship,
+			string Country)
 		{
 			//tworzymy slownik aby zrobic json
 			var data = new Dictionary<object, object>
@@ -63,8 +77,20 @@ namespace CampingApp.Services
 				{ "MedicExist", MedicExist},
 				{ "GrillExist", GrillExist},
 				{ "WifiExist", WifiExist},
-				{ "SwimmingpoolExist", SwimmingpoolExist}
+				{ "SwimmingpoolExist", SwimmingpoolExist},
+				{ "PostalCode", PostalCode },
+				{ "City", City },
+				{ "HouseNumber", HouseNumber},
+				{ "LocalNumber", LocalNumber},
+				{ "Street", Street},
+				{ "Voivodeship", Voivodeship},
+				{ "Country", Country}
 			};
+
+			foreach (var pair in data)
+            {
+				Console.WriteLine($"{pair.Key} {pair.Value}");
+            }
 
 			//zamiana na format json:
 			var json = JsonSerializer.Serialize(data);

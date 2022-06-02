@@ -4,103 +4,121 @@
 @using CampingApp.Services;
 @inject IReservationService ReservationService;
 @inject IPlaceService PlaceService;
-
+@inject NavigationManager NavigationManager;
 
 <PageTitle>@title</PageTitle>
-@if(placeModel is not null){
-<div class="text-center">
-    <div class="mainText">
-        <h1 class="display-4 text-capitalize text-black">Obiekt @placeModel.Name</h1>
-    </div>
-    <div>
-        <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
-    </div>
-    <div>
-        <div>
-            <p class="nameText">@placeModel.Description</p>
+@if (placeModel is not null)
+{
+    <div class="text-center">
+        <div class="mainText">
+            <h1 class="display-4 text-capitalize text-black">Obiekt @placeModel.Name</h1>
         </div>
         <div>
-            <p class="nameText"> Cena @placeModel.PricePerDay zł / za dzień</p>
+            <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
         </div>
         <div>
             <div>
-                @if (placeModel.AnimalsAllowed)
-                {
-                    <span>Przyjazne zwierzętom</span>
-                }
+                <p class="nameText">@placeModel.Description</p>
             </div>
             <div>
-                @if (placeModel.ReceptionExist)
-                {
-                    <span>Całodzienna recepcja</span>
-                }
+                <p class="nameText"> Cena @placeModel.PricePerDay zł / za dzień</p>
             </div>
             <div>
-                @if (placeModel.MedicExist)
-                {
-                    <span>Usługi medyczne</span>
-                }
-            </div>
-            <div>
-                @if (placeModel.RestaurantExist)
-                {
-                    <span>Restauracja</span>
-                }
-            </div>
-            <div>
-                @if (placeModel.GrillExist)
-                {
-                    <span>Miejsce na ognisko lub grilla</span>
-                }
-            </div>
-            <div>
-                @if (placeModel.WifiExist)
-                {
-                    <span>WiFi</span>
-                }
-            </div>
-            <div>
-                @if (placeModel.SwimmingpoolExist)
-                {
-                    <span>Basen</span>
-                }
+                <div>
+                    @if (placeModel.AnimalsAllowed)
+                    {
+                        <span>Przyjazne zwierzętom</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.ReceptionExist)
+                    {
+                        <span>Całodzienna recepcja</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.MedicExist)
+                    {
+                        <span>Usługi medyczne</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.RestaurantExist)
+                    {
+                        <span>Restauracja</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.GrillExist)
+                    {
+                        <span>Miejsce na ognisko lub grilla</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.WifiExist)
+                    {
+                        <span>WiFi</span>
+                    }
+                </div>
+                <div>
+                    @if (placeModel.SwimmingpoolExist)
+                    {
+                        <span>Basen</span>
+                    }
+                </div>
             </div>
         </div>
+        <AuthorizeView>
+            <Authorized Context="auth">
+                <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+                    <p>Rezerwuj obiekt @placeModel.Name</p>
+
+                    <label for="start">Rezerwacja od:</label>
+                    <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
+
+                    <label for="end">do:</label>
+                    <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
+
+                    <label for="numberOfPeople">Liczba osób:</label>
+                    <InputSelect @bind-Value=inputmodel.NumberOfPeople>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </InputSelect>
+
+                    <p id="info"></p>
+                    <p>Total price is:</p>
+                    <p class="price" id="total-price"></p>
+
+                    <button class="own-button" type="submit">Zarezerwuj</button>
+                </EditForm>
+            </Authorized>
+            <NotAuthorized Context="NotAuh">
+                <p>Aby zarezerwować:</p>
+                <button class="own-button" type="submit">Zaloguj się</button>
+                <button class="own-button" type="submit">Załóż konto</button>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
-    <AuthorizeView>
-        <Authorized Context="auth">
-            <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-                <p>Rezerwuj obiekt @placeModel.Name</p>
-
-                <label for="start">Rezerwacja od:</label>
-                <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
-
-                <label for="end">do:</label>
-                <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
-
-                <p id="info"></p>
-                <p>Total price is:</p>
-                <p class="price" id="total-price"></p>
-
-                <button class="own-button" type="submit">Zarezerwuj</button>
-            </EditForm>
-        </Authorized>
-        <NotAuthorized Context="NotAuh">
-            <p>Aby zarezerwować:</p>
-            <button class="own-button" type="submit">Zaloguj się</button>
-            <button class="own-button" type="submit">Załóż konto</button>
-        </NotAuthorized>
-    </AuthorizeView>
-</div>
 }
 
 
 @code {
     private string title = "CampApp";
+
     //to co zwroci getplacebyid tzreba przypisac do pola i pptem wyswietlic bo chcemy wyswietlic detale tego place
     private PlaceModel placeModel;
+
     [Parameter]
     public int PlaceId { get; set; } //podczas otwerania strony jest przekazywane id place, chcemy wyciagnac caly place z bazy:
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -120,6 +138,7 @@
         public int PlaceId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int NumberOfPeople { get; set; }
     }
 
     private async Task HandleValidSubmit()
@@ -129,7 +148,11 @@
             var result = await ReservationService.AddReservation(
                 PlaceId,
                 inputmodel.StartDate,
-                inputmodel.EndDate);
+                inputmodel.EndDate,
+                inputmodel.NumberOfPeople);
+
+            //przeladowanie strony z nawigacja do strony glownej:
+            NavigationManager.NavigateTo("/myreservations", true);
         }
         catch (Exception ex)
         {

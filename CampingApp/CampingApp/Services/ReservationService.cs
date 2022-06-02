@@ -14,8 +14,9 @@ namespace CampingApp.Services
 			//UserModel UserModel,
 			//StatusModel StatusModel,
 			DateTime StartDate,
-			DateTime EndDate);
-
+			DateTime EndDate,
+			int NumberOfPeople);
+		public Task<List<ReservationModel>> GetMyReservation();
 	}
 
 	public class ReservationService : IReservationService
@@ -34,14 +35,16 @@ namespace CampingApp.Services
 			//UserModel UserModel,
 			//StatusModel StatusModel,
 			DateTime StartDate,
-			DateTime EndDate)
+			DateTime EndDate,
+			int NumberOfPeople)
 		{
 			//tworzymy slownik aby zrobic json
 			var data = new Dictionary<object, object>
 			{
 				{ "PlaceId", PlaceId },
 				{ "StartDate", StartDate },
-				{ "EndDate", EndDate}
+				{ "EndDate", EndDate},
+				{ "NumberOfPeople", NumberOfPeople}
 			};
 
 			//zamiana na format json:

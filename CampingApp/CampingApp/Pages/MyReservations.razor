@@ -1,0 +1,72 @@
+﻿@page "/myreservations"
+@using CampingApp.Domain;
+@using CampingApp.Services;
+@inject IReservationService ReservationService;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>@title</PageTitle>
+
+<div class="text-center">
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Twoje rezerwacje</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+                @foreach (var reservation in myReservations)
+                {
+                @*var imagePath = "/images/camping.jpeg";*@
+
+                @*<div class="col-4 mb-5">*@
+                @*<a class="pizza-img" asp-area="" asp-page="Detail">
+                <img src="@imagePath" class="w-100" asp-append-version="true" />
+            </a>*@
+                @*<br />*@
+                @*<p class="nameText">@reservation.PlaceModel.Name</p>*@
+                @*<p class="smallTextOwn">@reservation.StartDate</p>*@
+                @*<p class="smallTextOwn">@reservation.EndDate</p>*@
+                @*<p class="smallTextOwn">@reservation.StatusModel</p>*@
+                @*@if (reservation.StatusModel.Id == 1)
+            {
+                <button class="own-button" type="submit">Zarządzaj rezerwacją</button>
+            }*@
+                @*</div>*@
+                }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string title = "CampApp";
+
+    private List<ReservationModel> myReservations;
+
+    [Parameter]
+    public int ReservationId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            myReservations = await ReservationService.GetMyReservation();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            //przeladowanie strony z nawigacja do strony glownej:
+            NavigationManager.NavigateTo("/reservation", true);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+}

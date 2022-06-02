@@ -10,8 +10,10 @@ namespace CampingApp_Server.Services
             int placeId,
             string userId,
             DateTime startDate,
-            DateTime endDate);
+            DateTime endDate,
+            int NumberOfPeople);
         public Task<List<Reservation>> GetReservationsByUserId(string userId);
+        public Task<Reservation?> GetReservationsById(int id);
     }
     public class ReservtionService : IReservtionService
     {
@@ -26,7 +28,8 @@ namespace CampingApp_Server.Services
             int placeId,
             string userId,
             DateTime startDate,
-            DateTime endDate)
+            DateTime endDate,
+            int numberOfPeople)
         {
             Reservation reservation = new Reservation
             {
@@ -34,7 +37,8 @@ namespace CampingApp_Server.Services
                 StatusId = Status.StatusActive, //nie przekazujemy przy tworzeniu rezerwacji tylko z palca ja ustawiamy
                 UserId = userId,
                 StartDate = startDate.ToUniversalTime(),
-                EndDate = endDate.ToUniversalTime()
+                EndDate = endDate.ToUniversalTime(),
+                NumberOfPeople = numberOfPeople
             };
 
             //zapis do bazy danych:
@@ -52,7 +56,13 @@ namespace CampingApp_Server.Services
             reservations = await _applicationDbContext
                 .Reservations
                 .Where(c => c.UserId == userId)
+                .Include(r => r.Place)
+                .ThenInclude(p => p.Address)
+                .Include(r => r.Status)
                 .ToListAsync();
+
+            Console.WriteLine("iza" + reservations[0].EndDate);
+            Console.WriteLine("iza" + reservations[0].NumberOfPeople);
 
             return reservations;
         }
@@ -63,8 +73,18 @@ namespace CampingApp_Server.Services
 
         //    List<Reservation> reservations;
         //    reservations = await _applicationDbContext.Reservations.Where( c => c.PlaceId exsist in places ).groupby(placesId).to list;
-            
-        //}
 
+        //}
+        public async Task<Reservation?> GetReservationsById(int id)
+        {
+            //gdy pobieramy zbazy danaych to operujemy na pplicationDbContext obiekcie
+            return await _applicationDbContext
+                .Reservations
+                .Include(r => r.Place) //zaciagamy place bo bez tego adres byl null przy pobraniu choc w bazie byl
+                .ThenInclude(p => p.Address)
+                .Include(r => r.User)
+                .Include(r => r.Status)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }

@@ -27,6 +27,7 @@
     <None Remove="Services\" />
     <None Remove="Blazored.LocalStorage" />
     <None Remove="Microsoft.AspNetCore.WebUtilities" />
+    <None Remove="iTextSharp.LGPLv2.Core" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
