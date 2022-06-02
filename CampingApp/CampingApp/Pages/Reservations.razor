@@ -1,5 +1,9 @@
-﻿@*@page "/reservations"
+﻿@page "/reservations"
 @using CampingApp.Domain;
+@using System.IO
+@using CampingApp.Services;
+@inject IJSRuntime JS
+@inject IReservationService ReservationService;
 
 <PageTitle>@title</PageTitle>
 
@@ -9,59 +13,47 @@
     </div>
     <div class="container">
         <div>
-            @foreach (var bookingModel in BookingModels)
-                {
-                    <div class="col-4 mb-5">
-                        <br />
-                        <p class="nameText">Numer rezerwacji @bookingModel.Id</p>
-                        <p class="smallTextOwn">Termin pobytu: </p>
-                        <p class="smallTextOwn">od @bookingModel.StartDate do @bookingModel.EndDate</p>
-                        <button class="btn btn-primary mt-1" type="submit">Anuluj rezerwację</button>
-                    </div>
-                }
+            @foreach (var reservationModel in reservationsModel)
+            {
+            <div class="col-4 mb-5">
+                <br />
+                <p class="nameText">Numer rezerwacji @reservationModel.Id</p>
+                <p class="smallTextOwn">Termin pobytu: </p>
+                <p class="smallTextOwn">od @reservationModel.StartDate do @reservationModel.EndDate</p>
+                <button class="btn btn-primary mt-1" type="submit">Pobierz potwierdzenie rezerwacji</button>
+                <button class="btn btn-primary mt-1" type="submit">Anuluj rezerwację</button>
+
             </div>
+            }
+        </div>
     </div>
 </div>
-    @code {
-        private string title = "CampApp";
 
-        List<ReservationModel> BookingModels = new List<ReservationModel>
-{
-        new ReservationModel
+@code {
+    private string title = "CampApp";
+
+    private List<ReservationModel> reservationsModel;
+
+    [Parameter]
+    public int ReservationId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
         {
-            Id = 1,
-            StartDate = "20-09-2019",
-            EndDate = "22-09-2019"
-        },
-        new ReservationModel
-        {
-            Id = 2,
-            StartDate = "20-10-2012",
-            EndDate = "09-11-2021"
-        },
-        new ReservationModel
-        {
-            Id = 3,
-            StartDate = "13-09-2019",
-            EndDate = "17-09-2019"
-        },
-        new ReservationModel
-        {
-            Id = 4,
-            StartDate = "20-09-2019",
-            EndDate = "22-09-2019"
-        },
-        new ReservationModel
-        {
-            Id = 3,
-            StartDate = "13-09-2019",
-            EndDate = "17-09-2019"        },
-        new ReservationModel
-        {
-            Id = 4,
-            StartDate = "20-09-2019",
-            EndDate = "22-09-2019"
+            reservationsModel = await ReservationService.GetMyReservation();
         }
-    };
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex);
+        }
+    }
+
+    @*private async Task DownloadFileFromURL()
+    {
+        var fileURL = $"https://localhost:7026/reservation/{Reservation.Id}/pdf";
+        var fileName = "{confirm}";
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
     }*@
 
+}

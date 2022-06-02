@@ -12,6 +12,7 @@ namespace CampingApp_Server.Database
         public Status Status { get; set; }//nie status id bo nie musimy dzieki temy robic dodatkowego zpaytaania do bazy danych
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int NumberOfPeople { get; set; }
     }
 }
 

@@ -1,6 +1,7 @@
-﻿@page "/newobject"
+﻿@page "/newplace"
 @using CampingApp.Services;
 @inject IPlaceService PlaceService;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>@title</PageTitle>
 
@@ -17,14 +18,50 @@
         </div>
         <div>
             <label>Cena za dobę:</label>
-            <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay/>
+            <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay />
         </div>
-        @*<p>Address</p>
-        <InputText id="postal-code" @bind-Value="inputmodel." placeholder="Postal code" />
-        <InputText id="city" @bind-Value="inputmodel.Name" placeholder="City" />
-        <InputText id="street" @bind-Value="inputmodel.Name" placeholder="Street" />
-        <InputText id="number" @bind-Value="inputmodel.Name" placeholder="Number" />*@
         <div>
+            <p>Adres:</p>
+        </div>
+        <div>
+            <InputText id="street" @bind-Value="inputmodel.Street" placeholder="ulica / osiedle" />
+        </div>
+        <div>
+            <InputText id="house-number" @bind-Value="inputmodel.HouseNumber" placeholder="numer domu" />
+            <InputText id="local-number" @bind-Value="inputmodel.LocalNumber" placeholder="numer mieszkania" />
+        </div>
+        <div>
+            <InputText id="postal-code" @bind-Value="inputmodel.PostalCode" placeholder="kod poczowy" />
+            <InputText id="city" @bind-Value="inputmodel.City" placeholder="miasto" />
+        </div>
+        <div>
+            <label for="voivodeship">województwo:</label>
+            <InputSelect @bind-Value=inputmodel.Voivodeship>
+                <option value="dolnośląskie">dolnośląskie</option>
+                <option value="kujawsko-pomorskie">kujawsko-pomorskie</option>
+                <option value="lubelskie">lubelskie</option>
+                <option value="lubuskie">lubuskie</option>
+                <option value="łódzkie">łódzkie</option>
+                <option value="małopolskie">małopolskie</option>
+                <option value="mazowieckie">mazowieckie</option>
+                <option value="opolskie">opolskie</option>
+                <option value="podkarpackie">podkarpackie</option>
+                <option value="podlaskie">podlaskie</option>
+                <option value="pomorskie">pomorskie</option>
+                <option value="śląskie">śląskie</option>
+                <option value="świętokrzyskie">świętokrzyskie</option>
+                <option value="warmińsko-mazurskie">warmińsko-mazurskie</option>
+                <option value="wielkopolskie">wielkopolskie</option>
+                <option value="zachodniopomorskie">zachodniopomorskie</option>
+            </InputSelect>
+        </div>
+        <div>
+            <InputText id="country" @bind-Value="inputmodel.Country" placeholder="kraj" />
+        </div>
+        <div>
+            <div>
+                <p>Udogodnienia:</p>
+            </div>
             <div>
                 <label class="switch">
                     <InputCheckbox id="animals-allowed-checkbox" @bind-Value="inputmodel.AnimalsAllowed" />
@@ -76,26 +113,23 @@
             </div>
         </div>
         @*<input type="file" name="file">*@
-            <InputText id="photo" @bind-Value="inputmodel.ImagePath" placeholder="dodaj zdjęcie" />
+        <InputText id="photo" @bind-Value="inputmodel.ImagePath" placeholder="dodaj zdjęcie" />
         <div>
             <button class="btn btn-primary mt-1" type="submit">Add</button>
         </div>
-</EditForm>
+    </EditForm>
 </div>
 
 @code{
     private string title = "CampApp";
 
     private InputModel inputmodel = new InputModel();
-    private InputModel inputModelAdress = new InputModel();
-
 
     private class InputModel
     {
-        //public AddressModel AddressModel { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = "imgpath";
         public double PricePerDay { get; set; }
         public bool AnimalsAllowed { get; set; }
         public bool RestaurantExist { get; set; }
@@ -104,6 +138,14 @@
         public bool GrillExist { get; set; }
         public bool WifiExist { get; set; }
         public bool SwimmingpoolExist { get; set; }
+        //address
+        public string PostalCode { get; set; }
+        public string City { get; set; }
+        public string HouseNumber { get; set; }
+        public string LocalNumber { get; set; }
+        public string Street { get; set; }
+        public string Voivodeship { get; set; } = "dolnośląskie";
+        public string Country { get; set; }
     }
 
     private async Task HandleValidSubmit()
@@ -121,9 +163,17 @@
                 inputmodel.MedicExist,
                 inputmodel.GrillExist,
                 inputmodel.WifiExist,
-                inputmodel.SwimmingpoolExist);
+                inputmodel.SwimmingpoolExist,
+                inputmodel.PostalCode,
+                inputmodel.City,
+                inputmodel.HouseNumber,
+                inputmodel.LocalNumber,
+                inputmodel.Street,
+                inputmodel.Voivodeship,
+                inputmodel.Country);
 
-
+            //przeladowanie strony z nawigacja do strony glownej:
+            NavigationManager.NavigateTo("/myplaces", true);
         }
         catch (Exception ex)
         {

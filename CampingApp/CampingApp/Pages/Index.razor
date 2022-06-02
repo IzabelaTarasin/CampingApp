@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using CampingApp.Domain;
 @using Microsoft.AspNetCore.Components.Authorization;
+@inject NavigationManager NavigationManager;
+
 
 <PageTitle>CampApp - be wild</PageTitle>
 
@@ -13,7 +15,60 @@
     <div class="background-home">
         <p class="title-home">Rozpocznij przygodę</p>
         <div class="search-area">
-            <form>
+            <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+                <div class="test-div">
+                    <div class="test-div-2">
+                        <label for="voivodeship">województwo:</label>
+                        <InputSelect @bind-Value=inputmodel.Voivodeship>
+                            <option value="dolnośląskie">dolnośląskie</option>
+                            <option value="kujawsko-pomorskie">kujawsko-pomorskie</option>
+                            <option value="lubelskie">lubelskie</option>
+                            <option value="lubuskie">lubuskie</option>
+                            <option value="łódzkie">łódzkie</option>
+                            <option value="małopolskie">małopolskie</option>
+                            <option value="mazowieckie">mazowieckie</option>
+                            <option value="opolskie">opolskie</option>
+                            <option value="podkarpackie">podkarpackie</option>
+                            <option value="podlaskie">podlaskie</option>
+                            <option value="pomorskie">pomorskie</option>
+                            <option value="śląskie">śląskie</option>
+                            <option value="świętokrzyskie">świętokrzyskie</option>
+                            <option value="warmińsko-mazurskie">warmińsko-mazurskie</option>
+                            <option value="wielkopolskie">wielkopolskie</option>
+                            <option value="zachodniopomorskie">zachodniopomorskie</option>
+                        </InputSelect>
+                    </div>
+                    <div class="test-div-2">
+                        <label for="start">Rezerwacja od:</label>
+                        <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
+                    </div>
+                    <div class="test-div-2">
+                        <label for="end">do:</label>
+                        <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
+                    </div>
+                    <div class="test-div-2">
+                        <label for="numberOfPeople">Liczba osób:</label>
+                        <InputSelect @bind-Value=inputmodel.NumberOfPeople>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </InputSelect>
+                    </div>
+                    <div class="test-div-2">
+                        <button class="own-button-search" type="submit">Szukaj</button>
+                    </div>
+                </div>
+            </EditForm>
+
+
+            <!--<form>
                 <div class="test-div">
                     <div class="test-div-2">
                         <input class="own-input-where" type="text" placeholder="Dokąd się wybierasz?" />
@@ -29,29 +84,29 @@
                     </div>
                     <div class="test-div-2">
                         <input class="own-input" type="date" />
-                    </div>
-                    <div class="test-div-2">
-                        <label class="own-input-text" for="personsSelect">Liczba osób</label>
-                    </div>
-                    <div class="test-div-2">
-                        <select class="own-input" id="personsSelect">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-                    <div class="test-div-2">
+                    </div>-->
+            @*<div class="test-div-2">
+                    <label class="own-input-text" for="personsSelect">Liczba osób</label>
+                </div>
+                <div class="test-div-2">
+                    <select class="own-input" id="personsSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>*@
+            <!--<div class="test-div-2">
                         <button class="own-button-search" type="submit">Szukaj</button>
                     </div>
                 </div>
-            </form>
+            </form>-->
         </div>
     </div>
     <div class="space-own">
@@ -76,19 +131,54 @@
         </div>
     </div>
     <footer>
-
     </footer>
 </div>
 @code {
     private string title = "CampApp";
+
+    private InputModel inputmodel = new InputModel();
+
+    private class InputModel
+    {
+        public int PlaceId { get; set; }
+        @*public UserModel UserModel { get; set; }*@
+        @*public StatusModel StatusModel { get; set; }*@
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int NumberOfPeople { get; set; }
+        //address
+        public string PostalCode { get; set; }
+        public string City { get; set; }
+        public string HouseNumber { get; set; }
+        public string LocalNumber { get; set; }
+        public string Street { get; set; }
+        public string Voivodeship { get; set; }
+        public string Country { get; set; }
+    }
 
     protected override Task OnInitializedAsync()
     {
         return base.OnInitializedAsync();
     }
 
-    List<PlaceModel> Places = new List<PlaceModel>
+    private async Task HandleValidSubmit()
     {
+        try
+        {
+            Console.WriteLine("Ok");
+            //przeladowanie strony z nawigacja:
+            NavigationManager.NavigateTo("/offers", true);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+        }
+    }
+
+
+    List<PlaceModel> Places = new List<PlaceModel>
+{
         new PlaceModel
         {
             Id = 1,
@@ -114,3 +204,5 @@
         }
      };
 }
+
+

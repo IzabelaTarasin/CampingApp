@@ -3,13 +3,19 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CampingApp_Server.Database;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp;
+using System.Collections;
+using System.Text;
 
 namespace CampingApp_Server.Controllers
 {
     public record ReservationDTO( //nie przekazujemy usera bo jest przzekazywany "w locie" w metodzie
         int placeId,
         DateTime startDate,
-        DateTime endDate);
+        DateTime endDate,
+        int NumberOfPeople);
 
     [Authorize]
     [ApiController]
@@ -18,11 +24,13 @@ namespace CampingApp_Server.Controllers
     {
         private IReservtionService _reservtionService;
         private IPlaceService _placeService;
+        private IPdfCreatorService _pdfCreatorService;
 
-        public ReservationController(IReservtionService reservtionService, IPlaceService placeService)
+        public ReservationController(IReservtionService reservtionService, IPlaceService placeService, IPdfCreatorService pdfCreatorService)
         {
             _reservtionService = reservtionService;
             _placeService = placeService;
+            _pdfCreatorService = pdfCreatorService;
         }
 
         [HttpPost]
@@ -36,9 +44,10 @@ namespace CampingApp_Server.Controllers
                 var result = await _reservtionService.AddReservation(
                     dto.placeId,
                     userId, //przypisanie aktualnie zalogowanego uzytkownika
-                    //dto.status,
+                            //dto.status,
                     dto.startDate,
-                    dto.endDate);
+                    dto.endDate,
+                    dto.NumberOfPeople);
 
                 return Ok();
             }
@@ -99,6 +108,28 @@ namespace CampingApp_Server.Controllers
         //        return BadRequest("Pobranie rezerwacji dla Twoich obiektów nie powiodło się" + ex.Message);
         //    }
         //}
+
+        [AllowAnonymous]
+        [HttpGet("{id}/pdf")]
+        public async Task<IActionResult> GeneratePdf(int id)
+        {
+            try
+            {
+                var resevation = await _reservtionService.GetReservationsById(id);
+
+                if (resevation is null)
+                {
+                    throw new Exception("Nie ma rezerwacji o podanym id");
+                }
+
+                var path = _pdfCreatorService.CreatePdf(resevation);
+                
+                return Ok(path); //bo zwracamy przegladarce sciezke do pobraania pliku (w heaaderze powinno byc w pasku aadresu)
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Pobranie pliku pdf nie powiodło się" + ex.Message);
+            }
+        }
     }
 }
-

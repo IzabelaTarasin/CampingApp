@@ -23,7 +23,10 @@
                         <div class="align-middle makeYourOwnText">
                             <h3 style="text-align:left;">Stwórz własne wspomnienia</h3>
                             <p style="text-align: left;">Wybierz, potwierdź i ciesz się przygodą</p>
-                            <a class="btn btn-primary" style="float: left" asp-area="" asp-page="Detail">Podgląd random pola</a>
+                            @*<a class="btn btn-primary" style="float: left" asp-area="" asp-page="Detail/drawPlace">Podgląd random pola</a>*@
+                            <button @onclick="NavigateToRandomDetails">
+                                    Losowe pole
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -73,6 +76,24 @@
         navigationManager.NavigateTo($"detail/{placeModel.Id}");
     }
 
+    private void NavigateToRandomDetails()
+    {
+        PlaceModel placeModel = new PlaceModel();
+        var sizePlacesList = Places.Count();
 
+        Console.WriteLine("iza sizeplacelist " + sizePlacesList);
+
+        Random rd = new Random();
+
+        int rand_num = rd.Next(1, sizePlacesList);
+        var id = Places[rand_num].Id;
+
+
+        Console.WriteLine("iza rand_num " + rand_num);
+
+
+        Console.WriteLine("iza" + id);
+        navigationManager.NavigateTo($"detail/{id}");
+    }
 }
 

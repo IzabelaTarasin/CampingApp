@@ -3,7 +3,87 @@
 @using CampingApp.Services;
 @inject IReservationService ReservationService;
 
+
 <PageTitle>@title</PageTitle>
+
+<div class="text-center">
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Twoja rezerwacja</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @foreach (var reservation in myReservations)
+            {
+                var imagePath = "/images/camping.jpeg";
+
+            <div class="col-4 mb-5">
+                <a class="pizza-img" asp-area="" asp-page="Detail">
+                    <img src="@imagePath" class="w-100" asp-append-version="true" />
+                </a>
+                <br />
+                <p class="nameText">@reservation.PlaceModel.Name</p>
+                <p class="smallTextOwn">@reservation.PlaceModel.Description</p>
+                <p class="smallTextOwn">@reservation.PlaceModel.PricePerDay</p>
+                <p class="smallTextOwn">@reservation.EndDate</p>
+                <p class="smallTextOwn">@reservation.StatusModel</p>
+                <p class="smallTextOwn">@reservation.PlaceModel.AddressModel.ToString()</p>
+                <p class="smallTextOwn">Udogodnienia:</p>
+                <div>
+                    <div>
+                        @if (reservation.PlaceModel.AnimalsAllowed)
+                        {
+                            <span>Przyjazne zwierzętom</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.ReceptionExist)
+                        {
+                            <span>Całodzienna recepcja</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.MedicExist)
+                        {
+                            <span>Usługi medyczne</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.RestaurantExist)
+                        {
+                            <span>Restauracja</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.GrillExist)
+                        {
+                            <span>Miejsce na ognisko lub grilla</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.WifiExist)
+                        {
+                            <span>WiFi</span>
+                        }
+                    </div>
+                    <div>
+                        @if (reservation.PlaceModel.SwimmingpoolExist)
+                        {
+                            <span>Basen</span>
+                        }
+                    </div>
+                </div>
+                <button class="own-button" type="submit">Pobierz potwierdzenie rezerwacji</button>
+                <button class="own-button" type="submit">Anuluj rezerwację</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@*<PageTitle>@title</PageTitle>
 
 <div class="text-center">
     <div class="mainText">
@@ -20,6 +100,9 @@
 
         <label for="end">do:</label>
         <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
+
+        <label for="start">Ilość osób:</label>
+        <InputNumber @bind-Value="inputmodel.NumberOfPeople" id="number-of-people" />
 
         <div>
             <div>
@@ -72,46 +155,19 @@
 
         <button class="btn btn-primary mt-1" type="submit">Anuluj</button>
     </EditForm>
-</div>
+</div>*@
+
 
 @code {
     private string title = "CampApp";
 
-    private InputModel inputmodel = new InputModel();
-    private InputModel inputModelAdress = new InputModel();
-
-    PlaceModel Place = new PlaceModel
-    {
-        Id = 1,
-        Name = "Zielony zakątek",
-        Description = "Woj. pomorskie",
-        PricePerDay = 123.00,
-        AnimalsAllowed = true,
-        RestaurantExist = false,
-        ReceptionExist = true,
-        MedicExist = true,
-        GrillExist = false,
-        WifiExist = false,
-        SwimmingpoolExist = false
-    };
-
-    private class InputModel
-    {
-        public int PlaceId { get; set; }
-        @*public UserModel UserModel { get; set; }*@
-        @*public StatusModel StatusModel { get; set; }*@
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-    }
+    private List<ReservationModel> myReservations = new List<ReservationModel>();
 
     private async Task HandleValidSubmit()
     {
         try
         {
-            var result = await ReservationService.AddReservation(
-                inputmodel.PlaceId = 1,
-                inputmodel.StartDate,
-                inputmodel.EndDate);
+            myReservations = await ReservationService.GetMyReservation();
         }
         catch (Exception ex)
         {

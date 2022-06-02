@@ -18,7 +18,15 @@ namespace CampingApp_Server.Services
 			bool medicExist,
 			bool grillExist,
 			bool wifiExist,
-			bool swimmingpoolExist);
+			bool swimmingpoolExist,
+			string postalCode,
+			string city,
+			string houseNumber,
+			string localNumber,
+			string street,
+			string voivodeship,
+			string country
+		);
 		public Task<List<Place>> GetPlacesByUserId(string userId);
 		public Task<Place> GetPlaceById(int placeId);
 		public Task<List<Place>> GetAllPlaces();
@@ -45,8 +53,26 @@ namespace CampingApp_Server.Services
 			bool medicExist,
 			bool grillExist,
 			bool wifiExist,
-			bool swimmingpoolExist)
+			bool swimmingpoolExist,
+			string postalCode,
+			string city,
+			string houseNumber,
+			string localNumber,
+			string street,
+			string voivodeship,
+			string country)
 		{
+			Address address = new Address
+			{
+				City = city,
+				Country = country,
+				HouseNumber = houseNumber,
+				LocalNumber = localNumber,
+				Street = street,
+				PostalCode = postalCode,
+				Voivodeship = voivodeship
+			};
+
 			Place place = new Place
 			{
 				UserId = userId,
@@ -54,7 +80,7 @@ namespace CampingApp_Server.Services
 				Description = description,
 				ImagePath = imagePath,
 				PricePerDay = pricePerDay,
-				Address = new Address { City="Krakow", Country="Poland", HouseNumber="1", LocalNumber="3", Street="toko", PostalCode="1234"},
+				Address = address,
 				AnimalsAllowed = animalsAllowed,
 				RestaurantExist = restaurantExist,
 				ReceptionExist = receptionExist,

@@ -7,7 +7,7 @@ namespace CampingApp_Server.Database
 		public string UserId { get; set; } //normanie id ale uzywany usera z biblioteki security wiec bedzie jako string
 		public User User { get; set; }
 		public int AddressId { get; set; }
-        public Address Address { get; set; }
+		public Address Address { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string ImagePath { get; set; }
@@ -21,4 +21,3 @@ namespace CampingApp_Server.Database
 		public bool SwimmingpoolExist { get; set; }
 	}
 }
-
