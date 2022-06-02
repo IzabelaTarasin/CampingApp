@@ -13,7 +13,7 @@ namespace CampingApp_Server.Services
             DateTime endDate,
             int NumberOfPeople);
         public Task<List<Reservation>> GetReservationsByUserId(string userId);
-        public Task<Reservation?> GetReservationsById(int id);
+        public Task<Reservation?> GetReservationById(int id);
     }
     public class ReservtionService : IReservtionService
     {
@@ -75,7 +75,7 @@ namespace CampingApp_Server.Services
         //    reservations = await _applicationDbContext.Reservations.Where( c => c.PlaceId exsist in places ).groupby(placesId).to list;
 
         //}
-        public async Task<Reservation?> GetReservationsById(int id)
+        public async Task<Reservation?> GetReservationById(int id)
         {
             //gdy pobieramy zbazy danaych to operujemy na pplicationDbContext obiekcie
             return await _applicationDbContext

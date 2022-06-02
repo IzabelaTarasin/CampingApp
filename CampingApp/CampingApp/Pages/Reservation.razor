@@ -1,7 +1,8 @@
-﻿@page "/reservation"
+﻿@page "/reservation/{ReservationId:int}"
 @using CampingApp.Domain;
 @using CampingApp.Services;
 @inject IReservationService ReservationService;
+@inject IJSRuntime JSRuntime;
 
 
 <PageTitle>@title</PageTitle>
@@ -10,164 +11,274 @@
     <div class="mainText">
         <h1 class="display-4 text-capitalize text-black">Twoja rezerwacja</h1>
     </div>
-
     <div class="container">
         <div class="row">
-            @foreach (var reservation in myReservations)
+            @if (myReservation is not null)
             {
                 var imagePath = "/images/camping.jpeg";
-
-            <div class="col-4 mb-5">
-                <a class="pizza-img" asp-area="" asp-page="Detail">
-                    <img src="@imagePath" class="w-100" asp-append-version="true" />
-                </a>
-                <br />
-                <p class="nameText">@reservation.PlaceModel.Name</p>
-                <p class="smallTextOwn">@reservation.PlaceModel.Description</p>
-                <p class="smallTextOwn">@reservation.PlaceModel.PricePerDay</p>
-                <p class="smallTextOwn">@reservation.EndDate</p>
-                <p class="smallTextOwn">@reservation.StatusModel</p>
-                <p class="smallTextOwn">@reservation.PlaceModel.AddressModel.ToString()</p>
-                <p class="smallTextOwn">Udogodnienia:</p>
-                <div>
-                    <div>
-                        @if (reservation.PlaceModel.AnimalsAllowed)
-                        {
-                            <span>Przyjazne zwierzętom</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.ReceptionExist)
-                        {
-                            <span>Całodzienna recepcja</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.MedicExist)
-                        {
-                            <span>Usługi medyczne</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.RestaurantExist)
-                        {
-                            <span>Restauracja</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.GrillExist)
-                        {
-                            <span>Miejsce na ognisko lub grilla</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.WifiExist)
-                        {
-                            <span>WiFi</span>
-                        }
-                    </div>
-                    <div>
-                        @if (reservation.PlaceModel.SwimmingpoolExist)
-                        {
-                            <span>Basen</span>
-                        }
+                <div class="col-12 mb-5 mt-5">
+                    <div class="w-100 row makeYourOwnDiv">
+                        <div class="col-4">
+                            <img src="/images/camping.jpeg" class="w-100" />
+                        </div>
+                        <div class="col-8 alig-items-center">
+                            <div class="align-middle makeYourOwnText">
+                                <br />
+                                <p class="nameText">@myReservation.Place.Name</p>
+                                <p class="smallTextOwn">@myReservation.Place.Description</p>
+                                <p class="smallTextOwn">@myReservation.Place.PricePerDay</p>
+                                <p class="smallTextOwn">@myReservation.EndDate</p>
+                                <p class="smallTextOwn">@myReservation.Status.StatusName</p>
+                                <p class="smallTextOwn">@myReservation.Place.Address.ToString()</p>
+                                <p class="smallTextOwn">Udogodnienia:</p>
+                                <div>
+                                    <div>
+                                        @if (myReservation.Place.AnimalsAllowed)
+                                        {
+                                            <span>Przyjazne zwierzętom</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.ReceptionExist)
+                                        {
+                                            <span>Całodzienna recepcja</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.MedicExist)
+                                        {
+                                            <span>Usługi medyczne</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.RestaurantExist)
+                                        {
+                                            <span>Restauracja</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.GrillExist)
+                                        {
+                                            <span>Miejsce na ognisko lub grilla</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.WifiExist)
+                                        {
+                                            <span>WiFi</span>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (myReservation.Place.SwimmingpoolExist)
+                                        {
+                                            <span>Basen</span>
+                                        }
+                                    </div>
+                                </div>
+                                <button class="own-button" @onclick="HandlePdfButtonClick">Pobierz potwierdzenie rezerwacji</button>
+                                <button class="own-button" @onclick="HandleCancelButtonClick">Anuluj rezerwację</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button class="own-button" type="submit">Pobierz potwierdzenie rezerwacji</button>
-                <button class="own-button" type="submit">Anuluj rezerwację</button>
-            </div>
             }
         </div>
     </div>
 </div>
 
 
+@*<div class="container">
+            <div class="row">
 
-@*<PageTitle>@title</PageTitle>
 
-<div class="text-center">
-    <div class="mainText">
-        <h1 class="display-4 text-capitalize text-black">Twoja rezerwacja</h1>
-    </div>
-    <div>
-        <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
-    </div>
-    <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-        <input type="hidden" name="id">
-
-        <label for="start">Rezerwacja od:</label>
-        <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
-
-        <label for="end">do:</label>
-        <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
-
-        <label for="start">Ilość osób:</label>
-        <InputNumber @bind-Value="inputmodel.NumberOfPeople" id="number-of-people" />
-
-        <div>
-            <div>
-                @if (Place.AnimalsAllowed)
-                {
-                    <span>Przyjazne zwierzętom</span>
-                }
-            </div>
-            <div>
-                @if (Place.ReceptionExist)
-                {
-                    <span>Całodzienna recepcja</span>
-                }
-            </div>
-            <div>
-                @if (Place.MedicExist)
-                {
-                    <span>Usługi medyczne</span>
-                }
-            </div>
-            <div>
-                @if (Place.RestaurantExist)
-                {
-                    <span>Restauracja</span>
-                }
-            </div>
-            <div>
-                @if (Place.GrillExist)
-                {
-                    <span>Miejsce na ognisko lub grilla</span>
-                }
-            </div>
-            <div>
-                @if (Place.WifiExist)
-                {
-                    <span>WiFi</span>
-                }
-            </div>
-            <div>
-                @if (Place.SwimmingpoolExist)
-                {
-                    <span>Basen</span>
+                    <div class="col-8 mb-5">
+                        <a class="pizza-img" asp-area="" asp-page="Detail">
+                            <img src="@imagePath" class="w-100" asp-append-version="true" />
+                        </a>
+                        <br />
+                        <p class="nameText">@myReservation.Place.Name</p>
+                        <p class="smallTextOwn">@myReservation.Place.Description</p>
+                        <p class="smallTextOwn">@myReservation.Place.PricePerDay</p>
+                        <p class="smallTextOwn">@myReservation.EndDate</p>
+                        <p class="smallTextOwn">@myReservation.Status.StatusName</p>
+                        <p class="smallTextOwn">@myReservation.Place.Address.ToString()</p>
+                        <p class="smallTextOwn">Udogodnienia:</p>
+                        <div>
+                            <div>
+                                @if (myReservation.Place.AnimalsAllowed)
+                                {
+                                    <span>Przyjazne zwierzętom</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.ReceptionExist)
+                                {
+                                    <span>Całodzienna recepcja</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.MedicExist)
+                                {
+                                    <span>Usługi medyczne</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.RestaurantExist)
+                                {
+                                    <span>Restauracja</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.GrillExist)
+                                {
+                                    <span>Miejsce na ognisko lub grilla</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.WifiExist)
+                                {
+                                    <span>WiFi</span>
+                                }
+                            </div>
+                            <div>
+                                @if (myReservation.Place.SwimmingpoolExist)
+                                {
+                                    <span>Basen</span>
+                                }
+                            </div>
+                        </div>
+                        <button class="own-button" @onclick="HandlePdfButtonClick">Pobierz potwierdzenie rezerwacji</button>
+                        <button class="own-button" @onclick="HandleCancelButtonClick">Anuluj rezerwację</button>
+                    </div>
                 }
             </div>
         </div>
+    </div>*@
 
-        <p id="info"></p>
-        <p>Total price is:</p>
-        <p class="price" id="total-price"></p>
 
-        <button class="btn btn-primary mt-1" type="submit">Anuluj</button>
-    </EditForm>
-</div>*@
+
+@*<PageTitle>@title</PageTitle>
+
+    <div class="text-center">
+        <div class="mainText">
+            <h1 class="display-4 text-capitalize text-black">Twoja rezerwacja</h1>
+        </div>
+        <div>
+            <img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">
+        </div>
+        <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
+            <input type="hidden" name="id">
+
+            <label for="start">Rezerwacja od:</label>
+            <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
+
+            <label for="end">do:</label>
+            <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
+
+            <label for="start">Ilość osób:</label>
+            <InputNumber @bind-Value="inputmodel.NumberOfPeople" id="number-of-people" />
+
+            <div>
+                <div>
+                    @if (Place.AnimalsAllowed)
+                    {
+                        <span>Przyjazne zwierzętom</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.ReceptionExist)
+                    {
+                        <span>Całodzienna recepcja</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.MedicExist)
+                    {
+                        <span>Usługi medyczne</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.RestaurantExist)
+                    {
+                        <span>Restauracja</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.GrillExist)
+                    {
+                        <span>Miejsce na ognisko lub grilla</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.WifiExist)
+                    {
+                        <span>WiFi</span>
+                    }
+                </div>
+                <div>
+                    @if (Place.SwimmingpoolExist)
+                    {
+                        <span>Basen</span>
+                    }
+                </div>
+            </div>
+
+            <p id="info"></p>
+            <p>Total price is:</p>
+            <p class="price" id="total-price"></p>
+
+            <button class="btn btn-primary mt-1" type="submit">Anuluj</button>
+        </EditForm>
+    </div>*@
 
 
 @code {
+    [Parameter]
+    public int ReservationId { get; set; }
+
     private string title = "CampApp";
 
-    private List<ReservationModel> myReservations = new List<ReservationModel>();
+    private ReservationModel myReservation;
 
-    private async Task HandleValidSubmit()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            myReservations = await ReservationService.GetMyReservation();
+            myReservation = await ReservationService.GetReservationById(ReservationId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandleCancelButtonClick()
+    {
+        try
+        {
+            Console.WriteLine("Anulowano rezerwacje");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandlePdfButtonClick()
+    {
+        try
+        {
+            //przeladowanie strony z nawigacja do strony glownej:
+            var pdfBytes = await ReservationService.GetReservationPdfById(myReservation.Id);
+            await JSRuntime.InvokeVoidAsync(
+            "downloadFromByteArray",
+            new
+            {
+                ByteArray = pdfBytes,
+                FileName = $"confirmation-{myReservation.Id}.pdf",
+                ContentType = "application/pdf"
+            });
+
         }
         catch (Exception ex)
         {

@@ -109,7 +109,7 @@ namespace CampingApp_Server.Controllers
             {
                 Place place = await _placeService.GetPlaceById(placeId);
 
-                if(place == null)
+                if (place == null)
                 {
                     throw new Exception("Brak obiektu o podanym id");
                 }

@@ -15,15 +15,15 @@
         <div>
             @foreach (var reservationModel in reservationsModel)
             {
-            <div class="col-4 mb-5">
-                <br />
-                <p class="nameText">Numer rezerwacji @reservationModel.Id</p>
-                <p class="smallTextOwn">Termin pobytu: </p>
-                <p class="smallTextOwn">od @reservationModel.StartDate do @reservationModel.EndDate</p>
-                <button class="btn btn-primary mt-1" type="submit">Pobierz potwierdzenie rezerwacji</button>
-                <button class="btn btn-primary mt-1" type="submit">Anuluj rezerwację</button>
+                <div class="col-4 mb-5">
+                    <br />
+                    <p class="nameText">Numer rezerwacji @reservationModel.Id</p>
+                    <p class="smallTextOwn">Termin pobytu: </p>
+                    <p class="smallTextOwn">od @reservationModel.StartDate do @reservationModel.EndDate</p>
+                    <button class="btn btn-primary mt-1" type="submit">Pobierz potwierdzenie rezerwacji</button>
+                    <button class="btn btn-primary mt-1" type="submit">Anuluj rezerwację</button>
 
-            </div>
+                </div>
             }
         </div>
     </div>
@@ -50,10 +50,10 @@
     }
 
     @*private async Task DownloadFileFromURL()
-    {
-        var fileURL = $"https://localhost:7026/reservation/{Reservation.Id}/pdf";
-        var fileName = "{confirm}";
-        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
-    }*@
+        {
+            var fileURL = $"https://localhost:7026/reservation/{Reservation.Id}/pdf";
+            var fileName = "{confirm}";
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+        }*@
 
 }
