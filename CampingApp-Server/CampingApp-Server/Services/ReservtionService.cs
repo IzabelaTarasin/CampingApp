@@ -61,9 +61,6 @@ namespace CampingApp_Server.Services
                 .Include(r => r.Status)
                 .ToListAsync();
 
-            Console.WriteLine("iza" + reservations[0].EndDate);
-            Console.WriteLine("iza" + reservations[0].NumberOfPeople);
-
             return reservations;
         }
 

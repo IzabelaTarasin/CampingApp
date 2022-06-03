@@ -26,10 +26,9 @@
                                 <br />
                                 <p class="nameText">@myReservation.Place.Name</p>
                                 <p class="smallTextOwn">@myReservation.Place.Description</p>
-                                <p class="smallTextOwn">@myReservation.Place.PricePerDay</p>
-                                <p class="smallTextOwn">@myReservation.EndDate</p>
-                                <p class="smallTextOwn">@myReservation.Status.StatusName</p>
-                                <p class="smallTextOwn">@myReservation.Place.Address.ToString()</p>
+                                <p class="smallTextOwn">cena za dobę: @myReservation.Place.PricePerDay zł</p>
+                                <p class="smallTextOwn">od @myReservation.StartDate do @myReservation.EndDate</p>
+                                <p class="smallTextOwn">Adres: @myReservation.Place.Address.ToString()</p>
                                 <p class="smallTextOwn">Udogodnienia:</p>
                                 <div>
                                     <div>
@@ -268,7 +267,6 @@
     {
         try
         {
-            //przeladowanie strony z nawigacja do strony glownej:
             var pdfBytes = await ReservationService.GetReservationPdfById(myReservation.Id);
             await JSRuntime.InvokeVoidAsync(
             "downloadFromByteArray",
@@ -285,6 +283,5 @@
             Console.WriteLine(ex.Message);
         }
     }
-
 }
 

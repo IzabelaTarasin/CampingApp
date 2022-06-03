@@ -147,9 +147,8 @@ namespace CampingApp.Services
 
 
             //wykonanie zapytanie
-            return await _httpClient.GetByteArrayAsync($"reservation/{id}/pdf");
-            
 
+            return await _httpClient.GetByteArrayAsync($"reservation/{id}/pdf");
         }
     }
 }

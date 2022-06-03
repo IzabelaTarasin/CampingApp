@@ -1,12 +1,6 @@
-﻿using System;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp;
-using System.Collections;
-using System.Text;
 using CampingApp_Server.Database;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace CampingApp_Server.Services
 {
@@ -23,11 +17,14 @@ namespace CampingApp_Server.Services
 
         public byte[] CreatePdf(Reservation reservation)
         {
-            var path = Directory.GetCurrentDirectory();
-            var pdfPath = $"{path}/confirm.pdf";
-            var imagePath = $"{path}/Images/logo.png";
-            var days = (reservation.EndDate - reservation.StartDate).Days;
-            var totalPrice = days * reservation.Place.PricePerDay * reservation.NumberOfPeople;
+            // step 1
+            var document = new Document();
+            document.SetPageSize(PageSize.A4);
+            var stream = new MemoryStream();
+
+            // step 2
+            PdfWriter writer = PdfWriter.GetInstance(document, stream);
+            writer.PdfVersion = PdfWriter.VERSION_1_5;
 
             //create fonts
             var anandaRegular = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "Andada-Regular.otf");
@@ -40,15 +37,12 @@ namespace CampingApp_Server.Services
             var fontBold = new Font(baseFontAnandaBold, 12, Font.NORMAL);
             var fontMainBold = new Font(baseFontAnandaBold, 15, Font.NORMAL);
 
-            var stream = new MemoryStream();
-            //var stream = new FileStream(pdfPath, FileMode.Create);
+            //create logo
+            var path = Directory.GetCurrentDirectory();
+            var imagePath = $"{path}/Images/logo.png";
+            var days = (reservation.EndDate - reservation.StartDate).Days;
+            var totalPrice = days * reservation.Place.PricePerDay * reservation.NumberOfPeople;
 
-            // step 1
-            var document = new Document();
-            document.SetPageSize(PageSize.A4);
-            // step 2
-            PdfWriter writer = PdfWriter.GetInstance(document, stream);
-            writer.PdfVersion = PdfWriter.VERSION_1_5;
             // step 3
             document.AddAuthor("CampApp");
             document.Open();
@@ -164,22 +158,12 @@ namespace CampingApp_Server.Services
                 cell = new PdfPCell(sumForCancelStatus) { MinimumHeight = 36f };
                 table.AddCell(cell);
             }
-
-
             cb.SaveState();
 
-            //create backkground
+            //create background
             PdfContentByte under = writer.DirectContentUnder;
             under.SaveState();
-            under.SetRgbColorFill(0xAD, 0xC7, 0xBE); //crocodile tears
-            //under.SetRgbColorFill(0xDB, 0xE3, 0xDE); //popielaty
-            //under.SetRgbColorFill(0xFF, 0xEF, 0xD5);
-            //under.SetRgbColorFill(0xC6, 0xCE, 0xCE); //golebi
-            //under.SetRgbColorFill(0xDE, 0xD5, 0xD0); //siwy
-            //under.SetRgbColorFill(0xE3, 0xE7, 0xE6); //mysi
-            //under.SetRgbColorFill(0xF0, 0xF0, 0xF0); //ebonic
-            //under.SetRgbColorFill(0xF2, 0xF2, 0xF2); //ZLAMANA BIEL
-            //under.SetRgbColorFill(0xF5, 0xF1, 0xED); //ISABELLINE
+            under.SetRgbColorFill(0xAD, 0xC7, 0xBE);
             under.Rectangle(5, 5,
               PageSize.A4.Width - 10,
               PageSize.A4.Height - 10
@@ -216,8 +200,6 @@ namespace CampingApp_Server.Services
 
             return bytes;
         }
-
-
 
         private string GetFacilities(Place place)
         {
