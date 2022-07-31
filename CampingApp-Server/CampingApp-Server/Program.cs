@@ -65,6 +65,7 @@ builder.Services.AddScoped<IUserService, UserService>(); //mowi o tym ze do syst
 builder.Services.AddScoped<IPlaceService, PlaceService>();
 builder.Services.AddScoped<IReservtionService, ReservtionService>();
 builder.Services.AddScoped<IPdfCreatorService, PdfCreatorService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

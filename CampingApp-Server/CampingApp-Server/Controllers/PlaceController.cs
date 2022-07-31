@@ -15,6 +15,7 @@ namespace CampingApp_Server.Controllers
             string description,
             string imagePath,
             double pricePerDay,
+            int maxPeople,
             bool animalsAllowed,
             bool restaurantExist,
             bool receptionExist,
@@ -56,6 +57,7 @@ namespace CampingApp_Server.Controllers
                     dto.description,
                     dto.imagePath,
                     dto.pricePerDay,
+                    dto.maxPeople,
                     dto.animalsAllowed,
                     dto.restaurantExist,
                     dto.receptionExist,
@@ -103,7 +105,7 @@ namespace CampingApp_Server.Controllers
 
         [AllowAnonymous]
         [HttpGet("{placeId}")]
-        public async Task<IActionResult> GetPlaceById(int placeId)
+        public async Task<IActionResult> GetPlaceById(int placeId) //zwracam obiekt place  z dostepnym area i to bedzie wywietlane na ekranie szczegolow pola
         {
             try
             {
@@ -114,7 +116,7 @@ namespace CampingApp_Server.Controllers
                     throw new Exception("Brak obiektu o podanym id");
                 }
 
-                return Ok(place);
+                return Ok(place); //nie robie tak bo nie bede zwraca obiektu bezposrednio z bazy danych, potzrebuje utworzyc nowa klae (obiekt) ktory bedzie przetwarzac dane place i zwracac go bede ten npwo utworzony "placeResponse""
             }
             catch (Exception ex)
             {
@@ -135,6 +137,37 @@ namespace CampingApp_Server.Controllers
                 {
                     return Ok("Brak obiektów");
                 }
+
+                return Ok(places);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Pobranie obiektów nie powiodło się" + ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/place/search")]
+        public async Task<IActionResult> SearchPlaces(string startDate, string endDate, int numberOfPeople, string voivodeship)
+        {
+            try
+            {
+                var start = DateTime.Parse(startDate).ToUniversalTime();
+                var end = DateTime.Parse(endDate).ToUniversalTime();
+
+                if (end <= start) //DateTime to obiekt ktory nie ma zadnej wartosci przypisanej ale instieje i ma wszytskie pola ustawione na konkretna date 01/01/0001
+                {
+                    //minValue to ta data 01/01/0001
+                    throw new Exception("Musisz wybrać minimum 1 dobę na wyjazd");
+                }
+
+                if (numberOfPeople <= 0) //DateTime to obiekt ktory nie ma zadnej wartosci przypisanej ale instieje i ma wszytskie pola ustawione na konkretna date 01/01/0001
+                {
+                    //minValue to ta data 01/01/0001
+                    throw new Exception("Liczba osób na wyjazd musi wynosić minimum 1");
+                }
+
+                List<Place> places = await _placeService.Search(start, end, numberOfPeople, voivodeship);                
 
                 return Ok(places);
             }

@@ -8,6 +8,7 @@ namespace CampingApp_Server.Database
         public User User { get; set; }
         public int AddressId { get; set; }
         public Address Address { get; set; }
+        public int MaxPeople { get; set; } //maksymlana liczba osob na polu kempingowym
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using CampingApp.Domain;
 @using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.WebUtilities;
 @inject NavigationManager NavigationManager;
 
 <PageTitle>CampApp - be wild</PageTitle>
@@ -108,27 +109,6 @@
             </form>-->
         </div>
     </div>
-    <div class="space-own">
-        <p>Sprawdź oferty</p>
-    </div>
-    <div class="container">
-        <div class="row">
-            @foreach (var place in Places)
-            {
-                var imagePath = "/images/tent.jpeg";
-
-                <div class="col-4 mb-5">
-                    <a class="pizza-img" asp-area="" asp-page="Detail">
-                        <img src="@imagePath" class="w-100" asp-append-version="true" />
-                    </a>
-                    <br />
-                    <p class="nameText">@place.Name</p>
-                    <p class="smallTextOwn">@place.Description</p>
-                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                </div>
-            }
-        </div>
-    </div>
     <footer>
     </footer>
 </div>
@@ -139,20 +119,10 @@
 
     private class InputModel
     {
-        public int PlaceId { get; set; }
-        @*public UserModel UserModel { get; set; }*@
-        @*public StatusModel StatusModel { get; set; }*@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int NumberOfPeople { get; set; }
-        //address
-        public string PostalCode { get; set; }
-        public string City { get; set; }
-        public string HouseNumber { get; set; }
-        public string LocalNumber { get; set; }
-        public string Street { get; set; }
-        public string Voivodeship { get; set; }
-        public string Country { get; set; }
+        public int NumberOfPeople { get; set; } = 2;
+        public string Voivodeship { get; set; } = "dolnośląskie";
     }
 
     protected override Task OnInitializedAsync()
@@ -165,8 +135,20 @@
         try
         {
             Console.WriteLine("Ok");
+
+            //tworze slownik z parametrami jakie bede wysylac w linku strony internetowej tzw query params
+            var query = new Dictionary<string, string> {
+                { "startDate", inputmodel.StartDate.ToString() },
+                { "endDate", inputmodel.EndDate.ToString() },
+                { "numberOfPeople", inputmodel.NumberOfPeople.ToString() },
+                { "voivodeship", inputmodel.Voivodeship }
+            };
+
+            var url = QueryHelpers.AddQueryString("/offers", query);
+
+
             //przeladowanie strony z nawigacja:
-            NavigationManager.NavigateTo("/offers");
+            NavigationManager.NavigateTo(url); //znawiguje do ofert z podanymi parametrami szukania tymi query params co są wyżej
         }
         catch (Exception ex)
         {
@@ -174,34 +156,6 @@
 
         }
     }
-
-
-    List<PlaceModel> Places = new List<PlaceModel>
-{
-        new PlaceModel
-        {
-            Id = 1,
-            Name = "Zielony zakątek",
-            Description = "Woj. pomorskie",
-            PricePerDay = 123.00
-        },
-        new PlaceModel
-        {
-            Id = 2,
-            Name = "Gaj u Wacława",
-            Description = "Woj. małopolskie",
-            PricePerDay = 123.00
-
-        },
-        new PlaceModel
-        {
-            Id = 1,
-            Name = "Biedroneczka",
-            Description = "Woj. mazowieckie",
-            PricePerDay = 70.00
-
-        }
-     };
 }
 
 

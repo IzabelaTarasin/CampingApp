@@ -9,11 +9,12 @@ namespace CampingApp.Services
 {
     public interface IPlaceService
     {
-        public Task<bool> AddPlace(
+        Task<bool> AddPlace(
             string Name,
             string Description,
             string ImagePath,
             double PricePerDay,
+            int NumberOfAreas,
             bool AnimalsAllowed,
             bool RestaurantExist,
             bool ReceptionExist,
@@ -28,9 +29,10 @@ namespace CampingApp.Services
             string Street,
             string Voivodeship,
             string Country);
-        public Task<List<PlaceModel>> GetMyPlaces();
-        public Task<List<PlaceModel>> GetPlaces();
-        public Task<PlaceModel> GetPlaceById(int placeId);
+        Task<List<PlaceModel>> GetMyPlaces();
+        Task<List<PlaceModel>> GetPlaces();
+        Task<PlaceModel> GetPlaceById(int placeId);
+        Task<List<PlaceModel>> SearchPlaces(string searchString);
     }
 
     public class PlaceService : IPlaceService
@@ -49,6 +51,7 @@ namespace CampingApp.Services
             string Description,
             string ImagePath,
             double PricePerDay,
+            int MaxPeople,
             bool AnimalsAllowed,
             bool RestaurantExist,
             bool ReceptionExist,
@@ -71,6 +74,7 @@ namespace CampingApp.Services
                 { "Description", Description },
                 { "ImagePath", ImagePath},
                 { "PricePerDay", PricePerDay},
+                { "MaxPeople", MaxPeople},
                 { "AnimalsAllowed", AnimalsAllowed},
                 { "RestaurantExist", RestaurantExist},
                 { "ReceptionExist", ReceptionExist},
@@ -86,11 +90,6 @@ namespace CampingApp.Services
                 { "Voivodeship", Voivodeship},
                 { "Country", Country}
             };
-
-            foreach (var pair in data)
-            {
-                Console.WriteLine($"{pair.Key} {pair.Value}");
-            }
 
             //zamiana na format json:
             var json = JsonSerializer.Serialize(data);
@@ -110,6 +109,7 @@ namespace CampingApp.Services
 
             try
             {
+                //tutaj wysyłane do serwera aby mozna bylo pzretworzyc po stronei serwera i zapisac do bazy danych
                 var result = await _httpClient.SendAsync(request);
 
                 Console.WriteLine("result: " + result);
@@ -167,7 +167,7 @@ namespace CampingApp.Services
 
         public async Task<PlaceModel> GetPlaceById(int placeId)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"/place/{placeId}"); //interpolacja stringow
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/place/{placeId}"); //interpolacja stringow // $"/place/{placeId}" to oznacza ze jest to kontroler i w tym przypadku jest to kontroler na serwerowej aplikacji PlaceController
             var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
@@ -181,6 +181,22 @@ namespace CampingApp.Services
 
         }
 
+        public async Task<List<PlaceModel>> SearchPlaces(string searchString) //metoda do wyszkiwania miejsc w 
+        {
+            //kompletuje zpaytanie do serwera z podanymi parametrami i je wyslać aby dostac dla turysty miejsca jakimi jest zainteresowany
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/place/search?{searchString}");
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Brak obiektów");
+            }
+
+            List<PlaceModel> placeModel = await response.Content.ReadFromJsonAsync<List<PlaceModel>>();
+
+            return placeModel;
+        }
 
     }
 }
