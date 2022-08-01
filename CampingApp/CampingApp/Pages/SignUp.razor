@@ -25,7 +25,7 @@
                     <InputText id="password" @bind-Value="inputmodel.Password" placeholder="Hasło" />
                 </div>
                 <div class="own-space">
-                    <InputCheckbox @bind-Value="inputmodel.AccountType" />
+                    <InputCheckbox @bind-Value="inputmodel.isBusiness" />
                     <label>Konto biznesowe</label>
                 </div>
                 <div class="own-space-2">
@@ -51,13 +51,13 @@
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool AccountType { get; set; }
+        public bool isBusiness { get; set; }
     }
 
     private async Task HandleValidSubmit()
     {
 
-        await CustomUserService.CreateUser(inputmodel.Name, inputmodel.PhoneNumber, inputmodel.Email, inputmodel.Password, inputmodel.AccountType);
+        await CustomUserService.CreateUser(inputmodel.Name, inputmodel.PhoneNumber, inputmodel.Email, inputmodel.Password, inputmodel.isBusiness);
 
         //przeladowanie strony z nawigacja do strony glownej:
         NavigationManager.NavigateTo("/signin");

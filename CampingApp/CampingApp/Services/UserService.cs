@@ -19,7 +19,7 @@ namespace CampingApp.Services
 
     public interface IUserService
     {
-        public Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool AccountType);
+        public Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool isBusiness);
         public Task<bool> SignInUser(string email, string password);
         public Task<User> GetMe();
         public Task Logout();
@@ -38,7 +38,7 @@ namespace CampingApp.Services
             _localStorage = localStorage;
         }
 
-        public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool accountType) // trzeba tez dac do applcati backendowej program.cs odpowiedni kod app.UseCors(x => x
+        public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool isBusiness) // trzeba tez dac do applcati backendowej program.cs odpowiedni kod app.UseCors(x => x
                                                                                                                              //.AllowAnyOrigin()
                                                                                                                              //.AllowAnyMethod()
                                                                                                                              //.AllowAnyHeader());
@@ -51,7 +51,7 @@ namespace CampingApp.Services
                 { "phoneNumber", phoneNumber },
                 { "email", email },
                 { "password", password },
-                { "accountType", accountType}
+                { "isBusiness", isBusiness}
             };
 
             //zamiana na format json:
