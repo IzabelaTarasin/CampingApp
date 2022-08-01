@@ -10,7 +10,7 @@ namespace CampingApp_Server.Services
 {
     public interface IUserService
     {
-        public Task<bool> CreateUser(string name, string phoneNumber, string email, string password);
+        public Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool isBusiness);
         public Task<User> GetUserById(string id);
         public Task<string> SignIn(string email, string password);
         public Task<List<string>> GetRolesForUserId(string id);
@@ -29,7 +29,7 @@ namespace CampingApp_Server.Services
             _configuration = configuration;
         }
 
-        public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password)
+        public async Task<bool> CreateUser(string name, string phoneNumber, string email, string password, bool isBusiness)
         {
             User user = new User
             {
@@ -46,7 +46,7 @@ namespace CampingApp_Server.Services
             }
 
             //przypanie roli
-            var resultRole = await _userManager.AddToRoleAsync(user, "standard");
+            var resultRole = await _userManager.AddToRoleAsync(user, isBusiness ? "business" : "standard");
 
             if (!resultRole.Succeeded)
             {

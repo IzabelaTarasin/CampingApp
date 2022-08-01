@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CampingApp_Server.Controllers
 {
-    public record SignUpDTO(string name, string phoneNumber, string email, string password);
+    public record SignUpDTO(string name, string phoneNumber, string email, string password, bool isBusiness);
 
     [ApiController]
     [Route("[controller]")]
@@ -21,7 +21,7 @@ namespace CampingApp_Server.Controllers
         public async Task<IActionResult> SignUp(SignUpDTO dto)
         {
             //wywolanie metody do tworzenia uzytkownika
-            var result = await _userService.CreateUser(dto.name, dto.phoneNumber, dto.email, dto.password);
+            var result = await _userService.CreateUser(dto.name, dto.phoneNumber, dto.email, dto.password, dto.isBusiness);
             //kkorzystam z usermanager
             if (result)
             {
