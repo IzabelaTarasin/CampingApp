@@ -12,10 +12,14 @@ namespace CampingApp_Server.Controllers
     public class UserController : ControllerBase
     {
         private IUserService _userService;
+        private ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(
+            IUserService userService,
+            ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet("{id}")] //query param do nauki , query sting

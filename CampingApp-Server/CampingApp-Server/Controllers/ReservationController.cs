@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 
 namespace CampingApp_Server.Controllers
 {
-    public record ReservationDTO( //nie przekazujemy usera bo jest przzekazywany "w locie" w metodzie
+    public record ReservationDTO( //nie przekazujemy usera bo jest przekazywany "w locie" w metodzie
         int placeId,
         DateTime startDate,
         DateTime endDate,
@@ -126,10 +126,15 @@ namespace CampingApp_Server.Controllers
                 }
 
                 var bytes = _pdfCreatorService.CreatePdf(resevation);
+
+                _logger.LogInformation("Pozytywne pobranie pdf");
+
                 return File(bytes, "application/pdf");
             }
             catch (Exception ex)
             {
+                _logger.LogInformation($"Nie udało się pobrać pdf. Błąd: {ex.Message}");
+
                 return BadRequest("Pobranie pliku pdf nie powiodło się" + ex.Message);
             }
         }
@@ -149,23 +154,3 @@ namespace CampingApp_Server.Controllers
         }
     }
 }
-
-//public HttpResponseMessage GetFile(string id)
-//{
-//    if (String.IsNullOrEmpty(id))
-//        return Request.CreateResponse(HttpStatusCode.BadRequest);
-
-//    string fileName;
-//    string localFilePath;
-//    int fileSize;
-
-//    localFilePath = getFileFromID(id, out fileName, out fileSize);
-
-//    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-//    response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-//    response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-//    response.Content.Headers.ContentDisposition.FileName = fileName;
-//    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-
-//    return response;
-//}

@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Components.Authorization;
 using CampingApp_Server.Services;
 using CampingApp_Server.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((hostContext, services, configuration) => {
+    configuration.WriteTo.File("log.txt");
+});
 
 var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
