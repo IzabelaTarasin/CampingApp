@@ -3,6 +3,7 @@ using System;
 using CampingApp_Server.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CampingApp_Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220730092558_areas3")]
+    partial class areas3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,6 +65,24 @@ namespace CampingApp_Server.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("CampingApp_Server.Database.Area", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("PlaceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("Area");
+                });
+
             modelBuilder.Entity("CampingApp_Server.Database.Place", b =>
                 {
                     b.Property<int>("Id")
@@ -87,9 +107,6 @@ namespace CampingApp_Server.Migrations
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("MaxPeople")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("MedicExist")
                         .HasColumnType("boolean");
@@ -134,6 +151,9 @@ namespace CampingApp_Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AreaId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -154,6 +174,8 @@ namespace CampingApp_Server.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
 
                     b.HasIndex("PlaceId");
 
@@ -417,6 +439,13 @@ namespace CampingApp_Server.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CampingApp_Server.Database.Area", b =>
+                {
+                    b.HasOne("CampingApp_Server.Database.Place", null)
+                        .WithMany("Areas")
+                        .HasForeignKey("PlaceId");
+                });
+
             modelBuilder.Entity("CampingApp_Server.Database.Place", b =>
                 {
                     b.HasOne("CampingApp_Server.Database.Address", "Address")
@@ -438,6 +467,12 @@ namespace CampingApp_Server.Migrations
 
             modelBuilder.Entity("CampingApp_Server.Database.Reservation", b =>
                 {
+                    b.HasOne("CampingApp_Server.Database.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CampingApp_Server.Database.Place", "Place")
                         .WithMany()
                         .HasForeignKey("PlaceId")
@@ -455,6 +490,8 @@ namespace CampingApp_Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Area");
 
                     b.Navigation("Place");
 
@@ -512,6 +549,11 @@ namespace CampingApp_Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CampingApp_Server.Database.Place", b =>
+                {
+                    b.Navigation("Areas");
                 });
 #pragma warning restore 612, 618
         }

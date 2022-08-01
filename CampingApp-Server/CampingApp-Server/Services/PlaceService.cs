@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using CampingApp_Server.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace CampingApp_Server.Services
             string description,
             string imagePath,
             double pricePerDay,
+            int maxPeople,
             bool animalsAllowed,
             bool restaurantExist,
             bool receptionExist,
@@ -30,6 +32,7 @@ namespace CampingApp_Server.Services
         public Task<List<Place>> GetPlacesByUserId(string userId);
         public Task<Place> GetPlaceById(int placeId);
         public Task<List<Place>> GetAllPlaces();
+        public Task<List<Place>> Search(DateTime start, DateTime end, int numberOfPeople, string voivodenship);
     }
 
     public class PlaceService : IPlaceService
@@ -47,6 +50,7 @@ namespace CampingApp_Server.Services
             string description,
             string imagePath,
             double pricePerDay,
+            int maxPeople,
             bool animalsAllowed,
             bool restaurantExist,
             bool receptionExist,
@@ -79,6 +83,7 @@ namespace CampingApp_Server.Services
                 Name = name,
                 Description = description,
                 ImagePath = imagePath,
+                MaxPeople = maxPeople,
                 PricePerDay = pricePerDay,
                 Address = address,
                 AnimalsAllowed = animalsAllowed,
@@ -142,6 +147,28 @@ namespace CampingApp_Server.Services
             return places;
         }
 
+        public async Task<List<Place>> Search(DateTime start, DateTime end, int numberOfPeople, string voivodenship)
+        {
+            var joinedQuery = from place in _applicationDbContext.Places
+                              where place.Address.Voivodeship == voivodenship
+                              join res in _applicationDbContext.Reservations.Where(r => r.StartDate >= start && r.EndDate <= end)
+                                on place equals res.Place into places
+                              from placeRes in places.DefaultIfEmpty()
+                              select new
+                              {
+                                  Place = place,
+                                  PeopleCount = placeRes == null ? 0 : placeRes.NumberOfPeople,
+                              };
+
+            var x = await joinedQuery.ToListAsync();
+            var y = x.GroupBy(x => x.Place)
+                .ToDictionary(d => d.Key, d => d.Sum(c => c.PeopleCount))
+                .Where(d => d.Key.MaxPeople >= d.Value + numberOfPeople)
+                .Select(d => d.Key)
+                .ToList();
+
+            return y;
+        }
     }
 }
 

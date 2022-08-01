@@ -21,6 +21,10 @@
             <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay />
         </div>
         <div>
+            <label>Liczba przestrzeni na polu kempingowym:</label>
+            <InputNumber id="areas" @bind-Value=inputmodel.MaxPeople />
+        </div>
+        <div>
             <p>Adres:</p>
         </div>
         <div>
@@ -131,6 +135,7 @@
         public string Description { get; set; }
         public string ImagePath { get; set; } = "imgpath";
         public double PricePerDay { get; set; }
+        public int MaxPeople { get; set; }
         public bool AnimalsAllowed { get; set; }
         public bool RestaurantExist { get; set; }
         public bool ReceptionExist { get; set; }
@@ -157,6 +162,7 @@
                 inputmodel.Description,
                 inputmodel.ImagePath,
                 inputmodel.PricePerDay,
+                inputmodel.MaxPeople,
                 inputmodel.AnimalsAllowed,
                 inputmodel.RestaurantExist,
                 inputmodel.ReceptionExist,

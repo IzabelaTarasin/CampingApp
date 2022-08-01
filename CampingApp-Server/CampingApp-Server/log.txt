@@ -1580,3 +1580,289 @@ WHERE u."UserId" = @__userId_0
 2022-07-14 15:14:12.658 +02:00 [INF] Executed action CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server) in 147.2996ms
 2022-07-14 15:14:12.658 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
 2022-07-14 15:14:12.658 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me - - - 200 - application/json;+charset=utf-8 148.2461ms
+2022-08-01 10:16:07.326 +02:00 [INF] User profile is available. Using '/Users/izabelatarasin/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2022-08-01 10:16:07.771 +02:00 [INF] Now listening on: https://localhost:7026
+2022-08-01 10:16:07.771 +02:00 [INF] Now listening on: http://localhost:5013
+2022-08-01 10:16:07.774 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-08-01 10:16:07.774 +02:00 [INF] Hosting environment: Development
+2022-08-01 10:16:07.774 +02:00 [INF] Content root path: /Users/izabelatarasin/Projects/CampingApp/CampingApp-Server/CampingApp-Server/
+2022-08-01 10:16:09.116 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/swagger/index.html - -
+2022-08-01 10:16:09.291 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/swagger/index.html - - - 200 - text/html;charset=utf-8 179.0227ms
+2022-08-01 10:16:09.520 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/swagger/v1/swagger.json - -
+2022-08-01 10:16:09.647 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 127.1173ms
+2022-08-01 10:16:12.191 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - -
+2022-08-01 10:16:12.303 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:12.336 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:16:13.831 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:16:14.928 +02:00 [INF] Executed DbCommand (106ms) [Parameters=[@__start_1='?' (DbType = DateTime), @__end_2='?' (DbType = DateTime), @__voivodenship_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", CASE
+    WHEN (t."Id" IS NULL) THEN 0
+    ELSE t."NumberOfPeople"
+END AS "PeopleCount"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+LEFT JOIN (
+    SELECT r."Id", r."NumberOfPeople", p0."Id" AS "Id0"
+    FROM "Reservations" AS r
+    INNER JOIN "Places" AS p0 ON r."PlaceId" = p0."Id"
+    WHERE (r."StartDate" >= @__start_1) AND (r."EndDate" <= @__end_2)
+) AS t ON p."Id" = t."Id0"
+WHERE a."Voivodeship" = @__voivodenship_0
+2022-08-01 10:16:21.478 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Place, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:16:21.489 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 9146.5326ms
+2022-08-01 10:16:21.491 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:21.508 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - - - 200 - application/json;+charset=utf-8 9316.6744ms
+2022-08-01 10:16:31.458 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - -
+2022-08-01 10:16:31.459 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:31.459 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:16:31.461 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:16:31.496 +02:00 [INF] Executed DbCommand (7ms) [Parameters=[@__start_1='?' (DbType = DateTime), @__end_2='?' (DbType = DateTime), @__voivodenship_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", CASE
+    WHEN (t."Id" IS NULL) THEN 0
+    ELSE t."NumberOfPeople"
+END AS "PeopleCount"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+LEFT JOIN (
+    SELECT r."Id", r."NumberOfPeople", p0."Id" AS "Id0"
+    FROM "Reservations" AS r
+    INNER JOIN "Places" AS p0 ON r."PlaceId" = p0."Id"
+    WHERE (r."StartDate" >= @__start_1) AND (r."EndDate" <= @__end_2)
+) AS t ON p."Id" = t."Id0"
+WHERE a."Voivodeship" = @__voivodenship_0
+2022-08-01 10:16:31.497 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Place, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:16:31.497 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 38.0807ms
+2022-08-01 10:16:31.497 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:31.498 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - - - 200 - application/json;+charset=utf-8 39.0295ms
+2022-08-01 10:16:32.501 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - -
+2022-08-01 10:16:32.504 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:32.504 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:16:32.556 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:16:32.581 +02:00 [INF] Executed DbCommand (23ms) [Parameters=[@__start_1='?' (DbType = DateTime), @__end_2='?' (DbType = DateTime), @__voivodenship_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", CASE
+    WHEN (t."Id" IS NULL) THEN 0
+    ELSE t."NumberOfPeople"
+END AS "PeopleCount"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+LEFT JOIN (
+    SELECT r."Id", r."NumberOfPeople", p0."Id" AS "Id0"
+    FROM "Reservations" AS r
+    INNER JOIN "Places" AS p0 ON r."PlaceId" = p0."Id"
+    WHERE (r."StartDate" >= @__start_1) AND (r."EndDate" <= @__end_2)
+) AS t ON p."Id" = t."Id0"
+WHERE a."Voivodeship" = @__voivodenship_0
+2022-08-01 10:16:32.656 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Place, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:16:32.656 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 152.2117ms
+2022-08-01 10:16:32.656 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:16:32.656 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?voivodeship=dolno%C5%9Bl%C4%85skie&startDate=2021-06-26%2000%3A00%3A00.000000%2B02&endDate=2021-06-30%2000%3A00%3A00.000000%2B02&numberOfPeople=3 - - - 200 - application/json;+charset=utf-8 154.7770ms
+2022-08-01 10:17:03.316 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0
+2022-08-01 10:17:03.320 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:03.321 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0 - 204 - - 5.2729ms
+2022-08-01 10:17:03.323 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/user/me - -
+2022-08-01 10:17:03.323 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:03.569 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:17:03.571 +02:00 [INF] Route matched with {action = "GetMe", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMe() on controller CampingApp_Server.Controllers.UserController (CampingApp-Server).
+2022-08-01 10:17:03.585 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:17:03.606 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."ConcurrencyStamp", u."Email", u."EmailConfirmed", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TwoFactorEnabled", u."UserName"
+FROM "Users" AS u
+WHERE u."Id" = @__p_0
+LIMIT 1
+2022-08-01 10:17:03.664 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Name"
+FROM "UserRoles" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."UserId" = @__userId_0
+2022-08-01 10:17:03.667 +02:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`5[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-01 10:17:03.671 +02:00 [INF] Executed action CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server) in 99.5692ms
+2022-08-01 10:17:03.671 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:17:03.672 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me - - - 200 - application/json;+charset=utf-8 349.3714ms
+2022-08-01 10:17:28.993 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?startDate=12%2F09%2F2022%2000%3A00%3A00&endDate=13%2F09%2F2022%2000%3A00%3A00&numberOfPeople=3&voivodeship=kujawsko-pomorskie - -
+2022-08-01 10:17:28.994 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:28.994 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:17:28.994 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:17:28.995 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:17:29.000 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__start_1='?' (DbType = DateTime), @__end_2='?' (DbType = DateTime), @__voivodenship_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", CASE
+    WHEN (t."Id" IS NULL) THEN 0
+    ELSE t."NumberOfPeople"
+END AS "PeopleCount"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+LEFT JOIN (
+    SELECT r."Id", r."NumberOfPeople", p0."Id" AS "Id0"
+    FROM "Reservations" AS r
+    INNER JOIN "Places" AS p0 ON r."PlaceId" = p0."Id"
+    WHERE (r."StartDate" >= @__start_1) AND (r."EndDate" <= @__end_2)
+) AS t ON p."Id" = t."Id0"
+WHERE a."Voivodeship" = @__voivodenship_0
+2022-08-01 10:17:29.005 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Place, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:17:29.005 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 11.0252ms
+2022-08-01 10:17:29.005 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:17:29.005 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?startDate=12%2F09%2F2022%2000%3A00%3A00&endDate=13%2F09%2F2022%2000%3A00%3A00&numberOfPeople=3&voivodeship=kujawsko-pomorskie - - - 200 - application/json;+charset=utf-8 14.6519ms
+2022-08-01 10:17:33.357 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0
+2022-08-01 10:17:33.357 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:33.358 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0 - 204 - - 0.2370ms
+2022-08-01 10:17:33.359 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/user/me - -
+2022-08-01 10:17:33.359 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:33.360 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:17:33.360 +02:00 [INF] Route matched with {action = "GetMe", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMe() on controller CampingApp_Server.Controllers.UserController (CampingApp-Server).
+2022-08-01 10:17:33.370 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:17:33.373 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."ConcurrencyStamp", u."Email", u."EmailConfirmed", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TwoFactorEnabled", u."UserName"
+FROM "Users" AS u
+WHERE u."Id" = @__p_0
+LIMIT 1
+2022-08-01 10:17:33.441 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Name"
+FROM "UserRoles" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."UserId" = @__userId_0
+2022-08-01 10:17:33.464 +02:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`5[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-01 10:17:33.465 +02:00 [INF] Executed action CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server) in 104.5548ms
+2022-08-01 10:17:33.465 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:17:33.465 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me - - - 200 - application/json;+charset=utf-8 105.6862ms
+2022-08-01 10:17:34.712 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/user/me/reservation - 0
+2022-08-01 10:17:34.712 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:34.713 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/user/me/reservation - 0 - 204 - - 0.5949ms
+2022-08-01 10:17:34.714 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/user/me/reservation - -
+2022-08-01 10:17:34.715 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:34.716 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server)'
+2022-08-01 10:17:34.718 +02:00 [INF] Route matched with {action = "GetMyAllReservations", controller = "Reservation"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMyAllReservations() on controller CampingApp_Server.Controllers.ReservationController (CampingApp-Server).
+2022-08-01 10:17:34.721 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:17:34.765 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Id", r."EndDate", r."NumberOfPeople", r."PlaceId", r."StartDate", r."StatusId", r."UserId", p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", a."Id", a."City", a."Country", a."HouseNumber", a."LocalNumber", a."PostalCode", a."Street", a."Voivodeship", s."Id", s."StatusName"
+FROM "Reservations" AS r
+INNER JOIN "Places" AS p ON r."PlaceId" = p."Id"
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+INNER JOIN "Status" AS s ON r."StatusId" = s."Id"
+WHERE r."UserId" = @__userId_0
+2022-08-01 10:17:34.869 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Reservation, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:17:34.883 +02:00 [INF] Executed action CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server) in 164.2456ms
+2022-08-01 10:17:34.883 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server)'
+2022-08-01 10:17:34.883 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me/reservation - - - 200 - application/json;+charset=utf-8 168.5838ms
+2022-08-01 10:17:36.200 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/reservation/4 - 0
+2022-08-01 10:17:36.200 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:36.200 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/reservation/4 - 0 - 204 - - 0.3164ms
+2022-08-01 10:17:36.202 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/reservation/4 - -
+2022-08-01 10:17:36.202 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:17:36.202 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.ReservationController.GetReservationById (CampingApp-Server)'
+2022-08-01 10:17:36.205 +02:00 [INF] Route matched with {action = "GetReservationById", controller = "Reservation"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetReservationById(Int32) on controller CampingApp_Server.Controllers.ReservationController (CampingApp-Server).
+2022-08-01 10:17:36.208 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:17:36.256 +02:00 [INF] Executed DbCommand (8ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Id", r."EndDate", r."NumberOfPeople", r."PlaceId", r."StartDate", r."StatusId", r."UserId", p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", a."Id", a."City", a."Country", a."HouseNumber", a."LocalNumber", a."PostalCode", a."Street", a."Voivodeship", u."Id", u."AccessFailedCount", u."ConcurrencyStamp", u."Email", u."EmailConfirmed", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TwoFactorEnabled", u."UserName", s."Id", s."StatusName"
+FROM "Reservations" AS r
+INNER JOIN "Places" AS p ON r."PlaceId" = p."Id"
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+INNER JOIN "Users" AS u ON r."UserId" = u."Id"
+INNER JOIN "Status" AS s ON r."StatusId" = s."Id"
+WHERE r."Id" = @__id_0
+LIMIT 1
+2022-08-01 10:17:36.261 +02:00 [INF] Executing OkObjectResult, writing value of type 'CampingApp_Server.Database.Reservation'.
+2022-08-01 10:17:36.269 +02:00 [INF] Executed action CampingApp_Server.Controllers.ReservationController.GetReservationById (CampingApp-Server) in 63.4281ms
+2022-08-01 10:17:36.269 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.ReservationController.GetReservationById (CampingApp-Server)'
+2022-08-01 10:17:36.269 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/reservation/4 - - - 200 - application/json;+charset=utf-8 67.1335ms
+2022-08-01 10:18:12.445 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?startDate=13%2F09%2F2022%2000%3A00%3A00&endDate=14%2F09%2F2022%2000%3A00%3A00&numberOfPeople=3&voivodeship=dolno%C5%9Bl%C4%85skie - -
+2022-08-01 10:18:12.472 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:12.498 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:18:12.523 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:18:12.524 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:18:12.527 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__start_1='?' (DbType = DateTime), @__end_2='?' (DbType = DateTime), @__voivodenship_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", CASE
+    WHEN (t."Id" IS NULL) THEN 0
+    ELSE t."NumberOfPeople"
+END AS "PeopleCount"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+LEFT JOIN (
+    SELECT r."Id", r."NumberOfPeople", p0."Id" AS "Id0"
+    FROM "Reservations" AS r
+    INNER JOIN "Places" AS p0 ON r."PlaceId" = p0."Id"
+    WHERE (r."StartDate" >= @__start_1) AND (r."EndDate" <= @__end_2)
+) AS t ON p."Id" = t."Id0"
+WHERE a."Voivodeship" = @__voivodenship_0
+2022-08-01 10:18:12.554 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Place, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:18:12.555 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 32.3412ms
+2022-08-01 10:18:12.556 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:18:12.556 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?startDate=13%2F09%2F2022%2000%3A00%3A00&endDate=14%2F09%2F2022%2000%3A00%3A00&numberOfPeople=3&voivodeship=dolno%C5%9Bl%C4%85skie - - - 200 - application/json;+charset=utf-8 110.4040ms
+2022-08-01 10:18:13.813 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/1 - -
+2022-08-01 10:18:13.813 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:13.813 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.GetPlaceById (CampingApp-Server)'
+2022-08-01 10:18:13.816 +02:00 [INF] Route matched with {action = "GetPlaceById", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPlaceById(Int32) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:18:13.819 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:18:13.829 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__placeId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", a."Id", a."City", a."Country", a."HouseNumber", a."LocalNumber", a."PostalCode", a."Street", a."Voivodeship"
+FROM "Places" AS p
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+WHERE p."Id" = @__placeId_0
+LIMIT 2
+2022-08-01 10:18:13.903 +02:00 [INF] Executing OkObjectResult, writing value of type 'CampingApp_Server.Database.Place'.
+2022-08-01 10:18:13.903 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.GetPlaceById (CampingApp-Server) in 87.3639ms
+2022-08-01 10:18:13.903 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.GetPlaceById (CampingApp-Server)'
+2022-08-01 10:18:13.903 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/1 - - - 200 - application/json;+charset=utf-8 90.8071ms
+2022-08-01 10:18:28.804 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/reservation - 0
+2022-08-01 10:18:28.804 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:28.805 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/reservation - 0 - 204 - - 0.2888ms
+2022-08-01 10:18:28.807 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7026/reservation application/json;+charset=utf-8 98
+2022-08-01 10:18:28.807 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:28.807 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.ReservationController.AddReservation (CampingApp-Server)'
+2022-08-01 10:18:28.810 +02:00 [INF] Route matched with {action = "AddReservation", controller = "Reservation"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddReservation(CampingApp_Server.Controllers.ReservationDTO) on controller CampingApp_Server.Controllers.ReservationController (CampingApp-Server).
+2022-08-01 10:18:28.852 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:18:29.029 +02:00 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime), @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Reservations" ("EndDate", "NumberOfPeople", "PlaceId", "StartDate", "StatusId", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING "Id";
+2022-08-01 10:18:29.107 +02:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2022-08-01 10:18:29.107 +02:00 [INF] Executed action CampingApp_Server.Controllers.ReservationController.AddReservation (CampingApp-Server) in 296.6415ms
+2022-08-01 10:18:29.107 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.ReservationController.AddReservation (CampingApp-Server)'
+2022-08-01 10:18:29.107 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7026/reservation application/json;+charset=utf-8 98 - 200 0 - 300.1836ms
+2022-08-01 10:18:29.117 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/user/me/reservation - 0
+2022-08-01 10:18:29.117 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:29.117 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/user/me/reservation - 0 - 204 - - 0.2417ms
+2022-08-01 10:18:29.118 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/user/me/reservation - -
+2022-08-01 10:18:29.118 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:29.118 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server)'
+2022-08-01 10:18:29.118 +02:00 [INF] Route matched with {action = "GetMyAllReservations", controller = "Reservation"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMyAllReservations() on controller CampingApp_Server.Controllers.ReservationController (CampingApp-Server).
+2022-08-01 10:18:29.119 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:18:29.145 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Id", r."EndDate", r."NumberOfPeople", r."PlaceId", r."StartDate", r."StatusId", r."UserId", p."Id", p."AddressId", p."AnimalsAllowed", p."Description", p."GrillExist", p."ImagePath", p."MaxPeople", p."MedicExist", p."Name", p."PricePerDay", p."ReceptionExist", p."RestaurantExist", p."SwimmingpoolExist", p."UserId", p."WifiExist", a."Id", a."City", a."Country", a."HouseNumber", a."LocalNumber", a."PostalCode", a."Street", a."Voivodeship", s."Id", s."StatusName"
+FROM "Reservations" AS r
+INNER JOIN "Places" AS p ON r."PlaceId" = p."Id"
+INNER JOIN "Address" AS a ON p."AddressId" = a."Id"
+INNER JOIN "Status" AS s ON r."StatusId" = s."Id"
+WHERE r."UserId" = @__userId_0
+2022-08-01 10:18:29.243 +02:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CampingApp_Server.Database.Reservation, CampingApp-Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-01 10:18:29.243 +02:00 [INF] Executed action CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server) in 124.9674ms
+2022-08-01 10:18:29.244 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.ReservationController.GetMyAllReservations (CampingApp-Server)'
+2022-08-01 10:18:29.244 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me/reservation - - - 200 - application/json;+charset=utf-8 125.7000ms
+2022-08-01 10:18:45.753 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/place/search?https://localhost:7214/offers - -
+2022-08-01 10:18:45.753 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:45.753 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:18:45.753 +02:00 [INF] Route matched with {action = "SearchPlaces", controller = "Place"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchPlaces(System.String, System.String, Int32, System.String) on controller CampingApp_Server.Controllers.PlaceController (CampingApp-Server).
+2022-08-01 10:18:45.757 +02:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2022-08-01 10:18:45.759 +02:00 [INF] Executed action CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server) in 6.015ms
+2022-08-01 10:18:45.759 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.PlaceController.SearchPlaces (CampingApp-Server)'
+2022-08-01 10:18:45.759 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/place/search?https://localhost:7214/offers - - - 400 - application/problem+json;+charset=utf-8 6.6871ms
+2022-08-01 10:18:52.264 +02:00 [INF] Request starting HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0
+2022-08-01 10:18:52.267 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:52.292 +02:00 [INF] Request finished HTTP/1.1 OPTIONS https://localhost:7026/user/me - 0 - 204 - - 28.2191ms
+2022-08-01 10:18:52.294 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7026/user/me - -
+2022-08-01 10:18:52.294 +02:00 [INF] CORS policy execution successful.
+2022-08-01 10:18:52.295 +02:00 [INF] Executing endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:18:52.295 +02:00 [INF] Route matched with {action = "GetMe", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMe() on controller CampingApp_Server.Controllers.UserController (CampingApp-Server).
+2022-08-01 10:18:52.306 +02:00 [INF] Entity Framework Core 6.0.5 initialized 'ApplicationDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.4+6cb649128e3e7aa8eddd77dfa75b34bad51e6e94' with options: None
+2022-08-01 10:18:52.308 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."ConcurrencyStamp", u."Email", u."EmailConfirmed", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TwoFactorEnabled", u."UserName"
+FROM "Users" AS u
+WHERE u."Id" = @__p_0
+LIMIT 1
+2022-08-01 10:18:52.356 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Name"
+FROM "UserRoles" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."UserId" = @__userId_0
+2022-08-01 10:18:52.378 +02:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`5[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-01 10:18:52.378 +02:00 [INF] Executed action CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server) in 83.466ms
+2022-08-01 10:18:52.379 +02:00 [INF] Executed endpoint 'CampingApp_Server.Controllers.UserController.GetMe (CampingApp-Server)'
+2022-08-01 10:18:52.379 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7026/user/me - - - 200 - application/json;+charset=utf-8 84.2431ms

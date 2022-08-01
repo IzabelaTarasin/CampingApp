@@ -1,6 +1,8 @@
 ﻿@page "/offers"
 @using CampingApp.Domain;
 @using CampingApp.Services;
+@using Microsoft.AspNetCore.WebUtilities;
+@using Microsoft.Extensions.Primitives;  
 @inject IPlaceService placeService;
 @inject NavigationManager navigationManager;
 
@@ -14,38 +16,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12 mb-5 mt-5">
-                <div class="w-100 row makeYourOwnDiv">
-                    <div class="col-4">
-                        <img src="/images/camping.jpeg" class="w-100" />
-                    </div>
-                    <div class="col-8 alig-items-center">
-                        <div class="align-middle makeYourOwnText">
-                            <h3 style="text-align:left;">Stwórz własne wspomnienia</h3>
-                            <p style="text-align: left;">Wybierz, potwierdź i ciesz się przygodą</p>
-                            @*<a class="btn btn-primary" style="float: left" asp-area="" asp-page="Detail/drawPlace">Podgląd random pola</a>*@
-                            <button @onclick="NavigateToRandomDetails">
-                                Losowe pole
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @foreach (var place in Places)
+            @if (Places == null)
             {
-                var imagePath = "/images/camping.jpeg";
-                var link = "detail/" + place.Id;
-                <div class="col-4 mb-5">
-                    @*<NavLink class="pizza-img" href=@link>*@
-                    <img src="@imagePath" class="w-100" asp-append-version="true" />
-                    <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
-
-                    <br />
-                    <p class="nameText">@place.Name</p>
-                    <p class="smallTextOwn">@place.Description</p>
-                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                </div>
+                <p>Szukam Twoich wymarzonych wakacji ...</p>
             }
+            else
+            {
+                if (Places.Count() == 0)
+                {
+                    <p>Brak miejsc, wybierz proszę inne parametry wyjazdu</p>
+                }
+                else
+                {
+                    foreach (var place in Places)
+                    {
+                        var imagePath = "/images/camping.jpeg";
+                        var link = "detail/" + place.Id;
+                        <div class="col-4 mb-5">
+                            @*<NavLink class="pizza-img" href=@link>*@
+                            <img src="@imagePath" class="w-100" asp-append-version="true" />
+                            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
+
+                            <br />
+                            <p class="nameText">@place.Name</p>
+                            <p class="smallTextOwn">@place.Description</p>
+                            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+                        </div>
+                    }
+                }
+            }
+
         </div>
     </div>
 </div>
@@ -54,14 +54,18 @@
 @code {
     private string title = "CampApp";
 
-    List<PlaceModel> Places = new List<PlaceModel>();
+    List<PlaceModel> Places;
 
     protected override async Task OnInitializedAsync() //odpali sie gdy pierwszy raz odpali widok
     {
+        //odczytujemy dane z query params czyli z tego co sobie turyta wyklika na szukajce i wysylamy do serwera
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        var searchString = uri.ToString().Split("?");
+
         //chcemy od razu zaladowac z bazy danych liste miec i dzieki temu ze ta metoda oninit uruch sie od razu to tak bedzie
         try
         {
-            Places = await placeService.GetPlaces();
+            Places = await placeService.SearchPlaces(searchString.Last());
 
         }
         catch (Exception ex)
@@ -76,24 +80,26 @@
         navigationManager.NavigateTo($"detail/{placeModel.Id}");
     }
 
-    private void NavigateToRandomDetails()
-    {
-        PlaceModel placeModel = new PlaceModel();
-        var sizePlacesList = Places.Count();
+    @*private void NavigateToRandomDetails()
+        {
+            PlaceModel placeModel = new PlaceModel();
+            var sizePlacesList = Places.Count();
 
-        Console.WriteLine("iza sizeplacelist " + sizePlacesList);
+            Console.WriteLine("iza sizeplacelist " + sizePlacesList);
 
-        Random rd = new Random();
+            Random rd = new Random();
 
-        int rand_num = rd.Next(1, sizePlacesList);
-        var id = Places[rand_num].Id;
-
-
-        Console.WriteLine("iza rand_num " + rand_num);
+            int rand_num = rd.Next(1, sizePlacesList);
+            var id = Places[rand_num].Id;
 
 
-        Console.WriteLine("iza" + id);
-        navigationManager.NavigateTo($"detail/{id}");
-    }
+            Console.WriteLine("iza rand_num " + rand_num);
+
+
+            Console.WriteLine("iza" + id);
+            navigationManager.NavigateTo($"detail/{id}");
+        }*@
+
+
 }
 
