@@ -14,7 +14,7 @@
                     Camping App
                 </NavLink>
             </div>
-            <div class="nav-item px-3">
+            @*<div class="nav-item px-3">
                 <NavLink class="nav-link" href="offers">
                     Oferta
                 </NavLink>
@@ -23,19 +23,14 @@
                 <NavLink class="nav-link" href="detail">
                     Detail
                 </NavLink>
-            </div>
+            </div>*@
             <AuthorizeView>
                 <Authorized>
-                    <div>
-                        <NavLink class="nav-link" href="dashboard">
-                            Dashboard
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3">
+                    @*<div class="nav-item px-3">
                         <NavLink class="nav-link" href="reservation">
                             Twoja rezerwacja
                         </NavLink>
-                    </div>
+                    </div>*@
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="myreservations">
                             Twoje rezerwacje
@@ -62,11 +57,11 @@
                             Dodaj obiekt
                         </NavLink>
                     </div>
-                    <div class="nav-item px-3">
+                    @*<div class="nav-item px-3">
                         <NavLink class="nav-link" href="reservations">
                             Rezerwacje
                         </NavLink>
-                    </div>
+                    </div>*@
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="myplaces">
                             Twoje obiekty
@@ -85,6 +80,11 @@
             </AuthorizeView>
             <AuthorizeView>
                 <Authorized>
+                    <div>
+                        <NavLink class="nav-link" href="dashboard">
+                            Zarządzaj kontem
+                        </NavLink>
+                    </div>
                     <div>
                         <p>Witaj @userEmail</p>
                     </div>
