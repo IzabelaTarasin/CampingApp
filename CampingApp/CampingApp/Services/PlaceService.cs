@@ -12,7 +12,7 @@ namespace CampingApp.Services
         Task<bool> AddPlace(
             string Name,
             string Description,
-            string ImagePath,
+            string Image,
             double PricePerDay,
             int NumberOfAreas,
             bool AnimalsAllowed,
@@ -49,7 +49,7 @@ namespace CampingApp.Services
         public async Task<bool> AddPlace(
             string Name,
             string Description,
-            string ImagePath,
+            string Image,
             double PricePerDay,
             int MaxPeople,
             bool AnimalsAllowed,
@@ -72,7 +72,7 @@ namespace CampingApp.Services
             {
                 { "Name", Name },
                 { "Description", Description },
-                { "ImagePath", ImagePath},
+                { "Image", Image},
                 { "PricePerDay", PricePerDay},
                 { "MaxPeople", MaxPeople},
                 { "AnimalsAllowed", AnimalsAllowed},

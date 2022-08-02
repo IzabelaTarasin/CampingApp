@@ -32,16 +32,18 @@
                     {
                         var imagePath = "/images/camping.jpeg";
                         var link = "detail/" + place.Id;
-                        <div class="col-4 mb-5">
-                            @*<NavLink class="pizza-img" href=@link>*@
-                            <img src="@imagePath" class="w-100" asp-append-version="true" />
-                            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
+        <div class="col-4 mb-5">
+            @*<NavLink class="pizza-img" href=@link>*@
+            @*<img src="@imagePath" class="w-100" asp-append-version="true" />*@
+            <img src="@place.ImageToDisplay()" class="w-100" asp-append-version="true" />
 
-                            <br />
-                            <p class="nameText">@place.Name</p>
-                            <p class="smallTextOwn">@place.Description</p>
-                            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                        </div>
+            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
+
+            <br />
+            <p class="nameText">@place.Name</p>
+            <p class="smallTextOwn">@place.Description</p>
+            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
+        </div>
                     }
                 }
             }
