@@ -15,11 +15,12 @@
         <div class="row">
             @if (myReservation is not null)
             {
-                var imagePath = "/images/camping.jpeg";
                 <div class="col-12 mb-5 mt-5">
                     <div class="w-100 row makeYourOwnDiv">
                         <div class="col-4">
-                            <img src="/images/camping.jpeg" class="w-100" />
+                            @*<img src="/images/camping.jpeg" class="w-100" />*@
+                            <img src="@myReservation.Place.ImageToDisplay()" class="w-100" asp-append-version="true" />
+
                         </div>
                         <div class="col-8 alig-items-center">
                             <div class="align-middle makeYourOwnText">

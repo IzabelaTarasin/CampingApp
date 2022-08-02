@@ -1,5 +1,6 @@
 ﻿@page "/newplace"
 @using CampingApp.Services;
+@using System.Net.Http.Headers;
 @inject IPlaceService PlaceService;
 @inject NavigationManager NavigationManager;
 
@@ -116,8 +117,7 @@
                 <span>Basen</span>
             </div>
         </div>
-        @*<input type="file" name="file">*@
-        <InputText id="photo" @bind-Value="inputmodel.ImagePath" placeholder="dodaj zdjęcie" />
+        <InputFile OnChange="@HandleSelected" />
         <div>
             <button class="btn btn-primary mt-1" type="submit">Add</button>
         </div>
@@ -133,7 +133,7 @@
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ImagePath { get; set; } = "imgpath";
+        public string Image { get; set; }
         public double PricePerDay { get; set; }
         public int MaxPeople { get; set; }
         public bool AnimalsAllowed { get; set; }
@@ -160,7 +160,7 @@
             var result = await PlaceService.AddPlace(
                 inputmodel.Name,
                 inputmodel.Description,
-                inputmodel.ImagePath,
+                inputmodel.Image,
                 inputmodel.PricePerDay,
                 inputmodel.MaxPeople,
                 inputmodel.AnimalsAllowed,
@@ -184,6 +184,26 @@
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandleSelected(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile != null)
+        {
+            var resizedFile = await imageFile.RequestImageFileAsync("image/png", 300, 500); //reskalowanie obrazka pzrez parametry 300 i 500
+
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await ms.CopyToAsync(memoryStream);
+                    var bytes = memoryStream.ToArray();
+                    string s = Convert.ToBase64String(bytes);
+                    inputmodel.Image = s;
+                }
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace CampingApp_Server.Controllers
 {
     public record PlaceDTO(string name,
             string description,
-            string imagePath,
+            string image,
             double pricePerDay,
             int maxPeople,
             bool animalsAllowed,
@@ -55,7 +55,7 @@ namespace CampingApp_Server.Controllers
                     userId, //przypisanie katualnie zalogowanego uzytkownika
                     dto.name,
                     dto.description,
-                    dto.imagePath,
+                    dto.image,
                     dto.pricePerDay,
                     dto.maxPeople,
                     dto.animalsAllowed,
