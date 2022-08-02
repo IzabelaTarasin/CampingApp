@@ -17,13 +17,10 @@
             {
                 foreach (var reservation in myReservations)
                 {
-                    var imagePath = "/images/camping.jpeg";
-
                     <div class="col-4 mb-5">
                         <a class="pizza-img" asp-area="" asp-page="Detail">
                             @*<img src="@imagePath" class="w-100" asp-append-version="true" />*@
                             <img src="@reservation.Place.ImageToDisplay()" class="w-100" asp-append-version="true" />
-
                         </a>
                         <br />
                         <p class="nameText">@reservation.Place.Name</p>

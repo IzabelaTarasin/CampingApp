@@ -62,52 +62,12 @@
                     </div>
                 </div>
             </EditForm>
-
-
-            <!--<form>
-                <div class="test-div">
-                    <div class="test-div-2">
-                        <input class="own-input-where" type="text" placeholder="Dokąd się wybierasz?" />
-                    </div>
-                    <div class="test-div-2">
-                        <label class="own-input-text" for="dateFrom">Data od</label>
-                    </div>
-                    <div class="test-div-2">
-                        <input class="own-input" type="date" />
-                    </div>
-                    <div class="test-div-2">
-                        <label class="own-input-text" for="dateTo">Data do</label>
-                    </div>
-                    <div class="test-div-2">
-                        <input class="own-input" type="date" />
-                    </div>-->
-            @*<div class="test-div-2">
-                    <label class="own-input-text" for="personsSelect">Liczba osób</label>
-                </div>
-                <div class="test-div-2">
-                    <select class="own-input" id="personsSelect">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                </div>*@
-            <!--<div class="test-div-2">
-                        <button class="own-button-search" type="submit">Szukaj</button>
-                    </div>
-                </div>
-            </form>-->
         </div>
     </div>
     <footer>
     </footer>
 </div>
+
 @code {
     private string title = "CampApp";
 
@@ -123,6 +83,10 @@
 
     protected override Task OnInitializedAsync()
     {
+        inputmodel.StartDate = DateTime.Now;
+        var date = DateTime.Now;
+        inputmodel.EndDate = date.AddDays(1);
+
         return base.OnInitializedAsync();
     }
 
@@ -130,8 +94,6 @@
     {
         try
         {
-            Console.WriteLine("Ok");
-
             //tworze slownik z parametrami jakie bede wysylac w linku strony internetowej tzw query params
             var query = new Dictionary<string, string> {
                 { "startDate", inputmodel.StartDate.ToString() },
@@ -141,7 +103,6 @@
             };
 
             var url = QueryHelpers.AddQueryString("/offers", query);
-
 
             //przeladowanie strony z nawigacja:
             NavigationManager.NavigateTo(url); //znawiguje do ofert z podanymi parametrami szukania tymi query params co są wyżej
