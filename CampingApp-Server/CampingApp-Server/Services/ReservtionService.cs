@@ -17,11 +17,13 @@ namespace CampingApp_Server.Services
     }
     public class ReservtionService : IReservtionService
     {
-        ApplicationDbContext _applicationDbContext;
+        private ApplicationDbContext _applicationDbContext;
+        private IPlaceService _placeService;
 
-        public ReservtionService(ApplicationDbContext applicationDbContext)
+        public ReservtionService(ApplicationDbContext applicationDbContext, IPlaceService placeService)
         {
             _applicationDbContext = applicationDbContext;
+            _placeService = placeService;
         }
 
         public async Task<Reservation> AddReservation(
@@ -40,6 +42,21 @@ namespace CampingApp_Server.Services
                 EndDate = endDate.ToUniversalTime(),
                 NumberOfPeople = numberOfPeople
             };
+            //sprawdzenie czy w podanym czasie itp (czyli jak na szukajce) mozna zarezerwowac
+            var existingReservations = await _applicationDbContext.Reservations
+                .Where(r => r.PlaceId == placeId && (r.StartDate >= startDate.ToUniversalTime() && r.EndDate <= endDate.ToUniversalTime()))
+                .ToListAsync(); //zwraca rezerwacje jakie sa w podanym czasie dla tego miejsca
+
+            //ile osob juz jest w tym czasie na polu
+            var currentNumberOfPeople = existingReservations.Select(s => s.NumberOfPeople).Sum(); //select bo interesuje mnie to i tylko to ile jest ludzi
+
+            Place place = await _placeService.GetPlaceById(placeId);
+            var peopleLeft = place.MaxPeople - currentNumberOfPeople;
+
+            if (numberOfPeople > peopleLeft)
+            {
+                throw new Exception("Zbyt duża liczba osób");
+            }
 
             //zapis do bazy danych:
             await _applicationDbContext.Reservations.AddAsync(reservation);
