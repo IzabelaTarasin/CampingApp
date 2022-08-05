@@ -24,9 +24,11 @@
                         </a>
                         <br />
                         <p class="nameText">@reservation.Place.Name</p>
-                        <p class="smallTextOwn">od: @reservation.StartDate</p>
-                        <p class="smallTextOwn">do: @reservation.EndDate</p>
-                        <p class="smallTextOwn">status rezerwacji: @reservation.Status.StatusName</p>
+                        <p class="smallTextOwn">woj. @reservation.Place.Address.Voivodeship</p>
+                        <br />
+                        <p class="smallTextOwn">zameldowanie: @reservation.StartDate.ToShortDateString()</p>
+                        <p class="smallTextOwn">wymeldowanie: @reservation.EndDate.ToShortDateString()</p>
+                        @*<p class="smallTextOwn">status rezerwacji: @reservation.Status.StatusName</p>*@
                         @if (reservation.Status.Id == 1)
                         {
                             @*//rzeba przechwycic id place i w tym celu musimy stworzyc anonimowa funckje ktora bedzie przechwytywac obiekt*@

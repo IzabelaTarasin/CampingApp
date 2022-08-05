@@ -37,9 +37,10 @@
             <img src="@place.ImageToDisplay()" class="w-100" asp-append-version="true" />
             <br />
             <p class="nameText">@place.Name</p>
+            @*<p class="smallTextOwn">@place.Address.Voivodeship</p> //todo*@
             <p class="smallTextOwn">@place.Description</p>
             <br />
-            <p class="smallTextOwn">@place.PricePerDay zł za noc za osobę</p>
+            <p class="smallTextOwn">@place.PricePerDay zł / doba za osobę</p>
             <br />
             <button class="btn btn-primary mt-1" type="submit" @onclick="@(() => NavigateToDetails(place))">Przeglądaj</button>
 
