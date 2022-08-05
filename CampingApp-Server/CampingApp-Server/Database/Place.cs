@@ -20,5 +20,7 @@ namespace CampingApp_Server.Database
         public bool GrillExist { get; set; }
         public bool WifiExist { get; set; }
         public bool SwimmingpoolExist { get; set; }
+        public bool LaundryRoomExist { get; set; }
+        public bool BikesExist { get; set; }
     }
 }

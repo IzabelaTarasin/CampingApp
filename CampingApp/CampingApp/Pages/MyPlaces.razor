@@ -3,7 +3,7 @@
 @using CampingApp.Domain;
 @inject IPlaceService placeService;
 @inject NavigationManager NavigationManager;
-
+@inject NavigationManager navigationManager;
 
 <PageTitle>@title</PageTitle>
 
@@ -22,10 +22,15 @@
                     </a>
                     <br />
                     <p class="nameText">@place.Name</p>
-                    <p class="smallTextOwn">@place.Description</p>
-                    <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                    <button class="own-button" type="submit">Usuń obiekt</button>
-                    <button class="own-button" type="submit">Edytuj obiekt</button>
+                    @*<p class="smallTextOwn">@place.Description</p>*@
+                    <p class="smallTextOwn"> woj. @place.Address.Voivodeship</p>
+                    <p class="smallTextOwn">@place.PricePerDay zł za noc za osobę noc</p>
+                    @*<button class="own-button" type="submit">Usuń obiekt</button>*@
+                    @*<button class="own-button" type="submit">Edytuj obiekt</button>*@
+                    <br />
+                    <div class="space-own-add-new-object">
+                        <button class="btn btn-primary mt-1" type="submit" @onclick="@(() => NavigateToDetails(place))">Przeglądaj</button>
+                    </div>
                 </div>
             }
         </div>
@@ -40,6 +45,8 @@
 
     protected override async Task OnInitializedAsync() //odpali sie gdy pierwszy raz odpali widok
     {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+
         //chcemy od razu zaladowac z bazy danych liste miec i dzieki temu ze ta metoda oninit uruch sie od razu to tak bedzie
         try
         {
@@ -50,6 +57,11 @@
         {
             Console.WriteLine("Error: " + ex);
         }
+    }
+
+    private void NavigateToDetails(PlaceModel placeModel)
+    {
+        navigationManager.NavigateTo($"detail/{placeModel.Id}");
     }
 
 

@@ -31,18 +31,19 @@
                     foreach (var place in Places)
                     {
                         var link = "detail/" + place.Id;
-                        <div class="col-4 mb-5">
-                            @*<NavLink class="pizza-img" href=@link>*@
-                            @*<img src="@imagePath" class="w-100" asp-append-version="true" />*@
-                            <img src="@place.ImageToDisplay()" class="w-100" asp-append-version="true" />
+        <div class="col-4 mb-5">
+            @*<NavLink class="pizza-img" href=@link>*@
+            @*<img src="@imagePath" class="w-100" asp-append-version="true" />*@
+            <img src="@place.ImageToDisplay()" class="w-100" asp-append-version="true" />
+            <br />
+            <p class="nameText">@place.Name</p>
+            <p class="smallTextOwn">@place.Description</p>
+            <br />
+            <p class="smallTextOwn">@place.PricePerDay zł za noc za osobę</p>
+            <br />
+            <button class="btn btn-primary mt-1" type="submit" @onclick="@(() => NavigateToDetails(place))">Przeglądaj</button>
 
-                            <button @onclick="@(() => NavigateToDetails(place))">szczegoly pola</button>
-
-                            <br />
-                            <p class="nameText">@place.Name</p>
-                            <p class="smallTextOwn">@place.Description</p>
-                            <p class="smallTextOwn">od @place.PricePerDay zł / noc</p>
-                        </div>
+        </div>
                     }
                 }
             }
@@ -77,7 +78,6 @@
 
     private void NavigateToDetails(PlaceModel placeModel)
     {
-        Console.WriteLine("iza" + placeModel.Id);
         navigationManager.NavigateTo($"detail/{placeModel.Id}");
     }
 
