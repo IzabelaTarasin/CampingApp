@@ -240,6 +240,16 @@ namespace CampingApp_Server.Services
                 facilities += "WiFi\n";
             }
 
+            if (place.LaundryRoomExist)
+            {
+                facilities += "Pralnia\n";
+            }
+
+            if (place.BikesExist)
+            {
+                facilities += "Rowery\n";
+            }
+
             return facilities;
         }
     }

@@ -10,36 +10,37 @@
     <div class="mainText">
         <h1 class="display-4 text-capitalize text-black">Dodaj obiekt</h1>
     </div>
+</div>
+<div class="main-content-own">
     <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-        <div>
+        <div class="space-own-add-new-object">
             <InputText id="name" @bind-Value="inputmodel.Name" placeholder="nazwa obiektu" />
         </div>
-        <div>
-            <InputTextArea id="description" @bind-Value="inputmodel.Description" rows="5" maxlength="150" placeholder="opis" />
+        <div class="space-own-add-new-object">
+            <InputTextArea id="description" @bind-Value="inputmodel.Description" rows="5" maxlength="150" placeholder="opis obiektu i lokalizacji" />
         </div>
-        <div>
-            <label>Cena za dobę:</label>
-            <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay />
+        <div class="space-own-add-new-object">
+            <label>Cena za dobę za osobę:</label>
+            <div>
+                <InputNumber id="price-per-day" @bind-Value=inputmodel.PricePerDay />
+            </div>
+            <label>Maksymalna ilość osób na polu kempingowym na dobę:</label>
+            <div>
+                <InputNumber id="areas" @bind-Value=inputmodel.MaxPeople />
+            </div>
         </div>
-        <div>
-            <label>Liczba przestrzeni na polu kempingowym:</label>
-            <InputNumber id="areas" @bind-Value=inputmodel.MaxPeople />
-        </div>
-        <div>
+        <div class="space-own-add-new-object">
             <p>Adres:</p>
-        </div>
-        <div>
             <InputText id="street" @bind-Value="inputmodel.Street" placeholder="ulica / osiedle" />
-        </div>
-        <div>
             <InputText id="house-number" @bind-Value="inputmodel.HouseNumber" placeholder="numer domu" />
             <InputText id="local-number" @bind-Value="inputmodel.LocalNumber" placeholder="numer mieszkania" />
+            <div>
+                <InputText id="postal-code" @bind-Value="inputmodel.PostalCode" placeholder="kod poczowy" />
+                <InputText id="city" @bind-Value="inputmodel.City" placeholder="miasto" />
+                <InputText id="country" @bind-Value="inputmodel.Country" placeholder="kraj" />
+            </div>
         </div>
-        <div>
-            <InputText id="postal-code" @bind-Value="inputmodel.PostalCode" placeholder="kod poczowy" />
-            <InputText id="city" @bind-Value="inputmodel.City" placeholder="miasto" />
-        </div>
-        <div>
+        <div class="space-own-add-new-object">
             <label for="voivodeship">województwo:</label>
             <InputSelect @bind-Value=inputmodel.Voivodeship>
                 <option value="dolnośląskie">dolnośląskie</option>
@@ -60,66 +61,67 @@
                 <option value="zachodniopomorskie">zachodniopomorskie</option>
             </InputSelect>
         </div>
-        <div>
-            <InputText id="country" @bind-Value="inputmodel.Country" placeholder="kraj" />
-        </div>
-        <div>
-            <div>
-                <p>Udogodnienia:</p>
-            </div>
-            <div>
+
+        <div class="facilities-main-own">
+            <p>Udogodnienia:</p>
+            <div class="facilities-own">
                 <label class="switch">
                     <InputCheckbox id="animals-allowed-checkbox" @bind-Value="inputmodel.AnimalsAllowed" />
                     <span class="slider round"></span>
                 </label>
                 <span>Przyjazne zwierzętom</span>
-            </div>
-            <div>
                 <label class="switch">
-                    <InputCheckbox id="reception-exists-checkbox" @bind-Value="inputmodel.ReceptionExist" />
+                    <InputCheckbox id="bikes-exists-checkbox" @bind-Value="inputmodel.BikesExist" />
                     <span class="slider round"></span>
                 </label>
-                <span>Całodzienna recepcja</span>
-            </div>
-            <div>
+                <span>Rowery</span>
                 <label class="switch">
                     <InputCheckbox id="medic-exists-checkbox" @bind-Value="inputmodel.MedicExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Usługi medyczne</span>
             </div>
-            <div>
-                <label class="switch">
-                    <InputCheckbox id="restaurant-exists-checkbox" @bind-Value="inputmodel.RestaurantExist" />
-                    <span class="slider round"></span>
-                </label>
-                <span>Restauracja</span>
-            </div>
-            <div>
+            <div class="facilities-own">
                 <label class="switch">
                     <InputCheckbox id="grill-exists-checkbox" @bind-Value="inputmodel.GrillExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Miejsce na ognisko lub grilla</span>
-            </div>
-            <div>
                 <label class="switch">
                     <InputCheckbox id="wifi-exists-checkbox" @bind-Value="inputmodel.WifiExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>WiFi</span>
-            </div>
-            <div>
                 <label class="switch">
                     <InputCheckbox id="swimmingpool-exists-checkbox" @bind-Value="inputmodel.SwimmingpoolExist" />
                     <span class="slider round"></span>
                 </label>
                 <span>Basen</span>
             </div>
+            <div class="facilities-own">
+                <label class="switch">
+                    <InputCheckbox id="restaurant-exists-checkbox" @bind-Value="inputmodel.RestaurantExist" />
+                    <span class="slider round"></span>
+                </label>
+                <span>Restauracja</span>
+                <label class="switch">
+                    <InputCheckbox id="laundry-room-exists-checkbox" @bind-Value="inputmodel.LaundryRoomExist" />
+                    <span class="slider round"></span>
+                </label>
+                <span>Pralnia</span>
+                <label class="switch">
+                    <InputCheckbox id="reception-exists-checkbox" @bind-Value="inputmodel.ReceptionExist" />
+                    <span class="slider round"></span>
+                </label>
+                <span>Całodzienna recepcja</span>
+            </div>
         </div>
-        <InputFile OnChange="@HandleSelected" />
-        <div>
-            <button class="btn btn-primary mt-1" type="submit">Add</button>
+        <div class="space-own-add-new-object">
+            <div>Dodaj zdjęcie:</div>
+            <InputFile OnChange="@HandleSelected" />
+        </div>
+        <div class="text-center container">
+            <button class="btn btn-primary mt-1" type="submit">Dodaj obiekt</button>
         </div>
     </EditForm>
 </div>
@@ -143,6 +145,8 @@
         public bool GrillExist { get; set; }
         public bool WifiExist { get; set; }
         public bool SwimmingpoolExist { get; set; }
+        public bool LaundryRoomExist { get; set; }
+        public bool BikesExist { get; set; }
         //address
         public string PostalCode { get; set; }
         public string City { get; set; }
@@ -170,6 +174,8 @@
                 inputmodel.GrillExist,
                 inputmodel.WifiExist,
                 inputmodel.SwimmingpoolExist,
+                inputmodel.LaundryRoomExist,
+                inputmodel.BikesExist,
                 inputmodel.PostalCode,
                 inputmodel.City,
                 inputmodel.HouseNumber,

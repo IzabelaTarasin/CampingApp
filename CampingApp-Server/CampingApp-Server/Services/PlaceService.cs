@@ -21,6 +21,8 @@ namespace CampingApp_Server.Services
             bool grillExist,
             bool wifiExist,
             bool swimmingpoolExist,
+            bool laundryRoomExist,
+            bool bikesExist,
             string postalCode,
             string city,
             string houseNumber,
@@ -58,6 +60,8 @@ namespace CampingApp_Server.Services
             bool grillExist,
             bool wifiExist,
             bool swimmingpoolExist,
+            bool laundryRoomExist,
+            bool bikesExist,
             string postalCode,
             string city,
             string houseNumber,
@@ -92,7 +96,9 @@ namespace CampingApp_Server.Services
                 MedicExist = medicExist,
                 GrillExist = grillExist,
                 WifiExist = wifiExist,
-                SwimmingpoolExist = swimmingpoolExist
+                SwimmingpoolExist = swimmingpoolExist,
+                LaundryRoomExist = laundryRoomExist,
+                BikesExist = bikesExist
             };
 
             //wstrzyknac do tego placeservice application db context

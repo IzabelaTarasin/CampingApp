@@ -315,3 +315,19 @@ own-input-text {
     justify-content: center;
     width: 170px;
 }
+
+.main-content-own {
+    width: 550px;
+    margin: 0 auto;
+}
+
+.space-own-add-new-object {
+    padding-bottom: 20px;
+}
+.facilities-main-own {
+    padding-bottom: 10px;
+}
+
+.facilities-own {
+    padding-bottom: 5px;
+}
