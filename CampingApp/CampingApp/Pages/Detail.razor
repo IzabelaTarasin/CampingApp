@@ -15,16 +15,26 @@
         </div>
         <div>
             @*<img src="<?= isset($place) ? $place->getImagePath() : '';?>" width="500" height="500">*@
-            <img src="@placeModel.ImageToDisplay()" class="w-100" asp-append-version="true" />
+            <img src="@placeModel.ImageToDisplay()" asp-append-version="true" />
         </div>
         <div>
             <div>
-                <p class="nameText">@placeModel.Description</p>
+                <br />
+                <b>Opis:</b>
+                <div>@placeModel.Description</div>
             </div>
             <div>
-                <p class="nameText"> Cena @placeModel.PricePerDay zł / za dzień</p>
+                <br />
+                <b>Lokalizacja:</b>
+                <div>
+                    ul. @placeModel.Address.Street @placeModel.Address.HouseNumber/@placeModel.Address.LocalNumber
+                    @placeModel.Address.PostalCode @placeModel.Address.City
+                </div>
+                <div>woj. @placeModel.Address.Voivodeship</div>
             </div>
             <div>
+                <br />
+                <b>Udogodnienia w obiekcie:</b>
                 <div>
                     @if (placeModel.AnimalsAllowed)
                     {
@@ -68,11 +78,18 @@
                     }
                 </div>
             </div>
+            <div>
+                <br />
+                <br />
+                <b>@placeModel.PricePerDay zł / doba za osobę</b>
+            </div>
         </div>
         <AuthorizeView>
             <Authorized Context="auth">
                 <EditForm Model="@inputmodel" OnValidSubmit="@HandleValidSubmit">
-                    <p>Rezerwuj obiekt @placeModel.Name</p>
+                    <br />
+                    <br />
+                    <p><b>Rezerwuj obiekt @placeModel.Name</b></p>
 
                     <label for="start">Rezerwacja od:</label>
                     <InputDate @bind-Value="inputmodel.StartDate" id="start-date-input" />
@@ -81,7 +98,7 @@
                     <InputDate @bind-Value="inputmodel.EndDate" id="end-date-input" />
 
                     <label for="numberOfPeople">Liczba osób:</label>
-                    <InputSelect @bind-Value=inputmodel.NumberOfPeople>
+                    <InputSelect ValueExpression="@(()=>inputmodel.NumberOfPeople)" ValueChanged="@((int e)=>OnNumberOfPeopleChanged(e))" Value=inputmodel.NumberOfPeople>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -93,11 +110,9 @@
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </InputSelect>
-
                     <p id="info"></p>
-                    <p>Total price is:</p>
+                    <p>Kwota do zapłaty: @checkedMessage</p>
                     <p class="price" id="total-price"></p>
-
                     <button class="own-button" type="submit">Zarezerwuj</button>
                 </EditForm>
             </Authorized>
@@ -114,6 +129,8 @@
 @code {
     private string title = "CampApp";
 
+    private string checkedMessage = "*uzupełnij dane rezerwacji*";
+
     //to co zwroci getplacebyid tzreba przypisac do pola i pptem wyswietlic bo chcemy wyswietlic detale tego place
     private PlaceModel placeModel;
 
@@ -125,6 +142,9 @@
         try
         {
             placeModel = await PlaceService.GetPlaceById(PlaceId);
+            inputmodel.StartDate = DateTime.Now;
+            var date = DateTime.Now;
+            inputmodel.EndDate = date.AddDays(1);
         }
         catch (Exception ex)
         {
@@ -139,7 +159,7 @@
         public int PlaceId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int NumberOfPeople { get; set; }
+        public int NumberOfPeople { get; set; } = 1;
     }
 
     private async Task HandleValidSubmit()
@@ -160,5 +180,21 @@
             Console.WriteLine(ex.Message);
         }
     }
+
+    private Task OnNumberOfPeopleChanged(int valueOfPeople)
+    {
+        inputmodel.NumberOfPeople = valueOfPeople;
+        CheckAndUpdatePrice();
+        return Task.CompletedTask;
+    }
+
+    private void CheckAndUpdatePrice()
+    {
+        var days = (inputmodel.EndDate - inputmodel.StartDate).Days;
+        var totalPrice = days * placeModel.PricePerDay * inputmodel.NumberOfPeople;
+        checkedMessage = $"{totalPrice} zł";
+    }
+
+
 }
 

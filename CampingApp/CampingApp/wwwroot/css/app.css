@@ -331,3 +331,11 @@ own-input-text {
 .facilities-own {
     padding-bottom: 5px;
 }
+
+span.b {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    background-color: yellow;
+}

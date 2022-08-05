@@ -107,13 +107,13 @@ namespace CampingApp_Server.Services
             Phrase startDateTitle = new Phrase("Zameldowanie: ", fontBold);
             cell = new PdfPCell(startDateTitle) { MinimumHeight = 36f };
             table.AddCell(cell);
-            Phrase startDate = new Phrase($"{reservation.StartDate}", fontRegular);
+            Phrase startDate = new Phrase($"{reservation.StartDate.ToShortDateString()}", fontRegular);
             cell = new PdfPCell(startDate) { MinimumHeight = 36f };
             table.AddCell(cell);
             Phrase endDateTitle = new Phrase("Wymeldowanie: ", fontBold);
             cell = new PdfPCell(endDateTitle) { MinimumHeight = 36f };
             table.AddCell(cell);
-            Phrase endDate = new Phrase($"{reservation.EndDate}", fontRegular);
+            Phrase endDate = new Phrase($"{reservation.EndDate.ToShortDateString()}", fontRegular);
             cell = new PdfPCell(endDate) { MinimumHeight = 36f };
             table.AddCell(cell);
             Phrase numberOfPeopleTitle = new Phrase("Zarezerwowane dla: ", fontBold);
@@ -186,9 +186,9 @@ namespace CampingApp_Server.Services
 
             //create footer
             cb.BeginText();
-            Phrase cancelText = new Phrase("Rezerwację możesz anulować po zalogowaniu na swoje konto", fontSmall);
+            //Phrase cancelText = new Phrase("Rezerwację możesz anulować po zalogowaniu na swoje konto", fontSmall);
             Phrase thankText = new Phrase("Dziękujemy za wybór aplikacji CampApp", fontSmall);
-            ColumnText.ShowTextAligned(cb, Element.ALIGN_LEFT, cancelText, 200, 40, 0);
+            //ColumnText.ShowTextAligned(cb, Element.ALIGN_LEFT, cancelText, 200, 40, 0);
             ColumnText.ShowTextAligned(cb, Element.ALIGN_LEFT, thankText, 230, 20, 0);
             cb.EndText();
 
